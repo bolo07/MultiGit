@@ -19,7 +19,7 @@ namespace Multi
 
      public int id;				//globalny identyfikator
      public int from;			//źródło
-     public int to;			//cel
+     public int to;			    //cel
      public double length;		//długość krawędzi
      public double bandwidth;		//pasmo
      public double delay;			//opóżnienie
@@ -138,7 +138,158 @@ namespace Multi
        
     }
 
+    public  siec sciezka(int start, int koniec,int n, siec[] graf)
+        {
+            const int MAXINT = 2147483647;
+            int i,j,u,x,v,hlen,parent,left,right,dmin,pmin,child;              
+            v=start;
+            siec pw,nw,poczatek;
 
+             // Tworzymy tablice dynamiczne
+
+            int[]d       = new int [n];			  // Tablica kosztów dojścia
+            double[]op   = new double [n];			  // Tablica opuznien
+            int[]p       = new int [n];             // Tablica poprzedników
+            bool[]QS     = new bool [n];            // Zbiory Q i S
+            int[]S       = new int [n];             // Stos
+            int[]h       = new int [n];             // Kopiec
+            int[]hp      = new int [n];             // Pozycje w kopcu
+            int sptr     = 0;                       // Wskaźnik stosu
+  
+
+             // Inicjujemy tablice dynamiczne
+
+            for(i = 0; i < n; i++)
+             {
+                 d[i] = MAXINT;
+           	     op[i]=MAXINT;
+                 p[i] = -1;
+                 QS[i] = false;
+                 h[i] = hp[i] = i;
+	
+                }//for
+
+
+
+            hlen = n;
+            d[v] = 0;                       // Koszt dojścia v jest zerowy
+            op[v]=0;
+            x = h[0]; h[0] = h[v]; h[v] = x; // odtwarzamy własność kopca
+            hp[v] = 0; hp[0] = v;
+
+            // Wyznaczamy ścieżki
+
+            for(i = 0; i < n; i++)
+                {
+                    u = h[0];                     // Korzeń kopca jest zawsze najmniejszy
+
+                    // Usuwamy korzeń z kopca, odtwarzając własność kopca
+                    h[0] = h[--hlen];             // W korzeniu umieszczamy ostatni element
+                    hp[h[0]] = parent = 0;        // Zapamiętujemy pozycję elementu w kopcu
+                    
+                while(true)                   // W pętli idziemy w dół kopca, przywracając go
+                    {
+                        left  = parent + parent + 1; // Pozycja lewego potomka
+                        right = left + 1;           // Pozycja prawego potomka
+                        if(left >= hlen) break;     // Kończymy, jeśli lewy potomek poza kopcem
+                        dmin = d[h[left]];          // Wyznaczamy mniejszego potomka
+                        pmin = left;
+                        if((right < hlen) && (dmin > d[h[right]]))
+                            {
+                                dmin = d[h[right]];
+                                pmin = right;
+                                }
+                        if(d[h[parent]] <= dmin) break; // Jeśli własność kopca zachowana, kończymy
+                        x = h[parent]; h[parent] = h[pmin]; h[pmin] = x; // Przywracamy własność kopca
+                        hp[h[parent]] = parent; hp[h[pmin]] = pmin;      // na danym poziomie
+                        parent = pmin;              // i przechodzimy na poziom niższy kopca
+                     }
+
+             // Znaleziony wierzchołek przenosimy do S
+
+                    QS[u] = true;
+
+             // Modyfikujemy odpowiednio wszystkich sąsiadów u, którzy są w Q
+
+    for(pw = graf[u]; pw!=null; pw = pw.next)
+      if(!QS[pw.to] && (d[pw.to] > d[u] + pw.length))
+      {
+
+          d[pw.to] = d[u] + Convert.ToInt32(pw.length);
+          op[pw.to] = op[u] + pw.delay;
+          p[pw.to] = u;
+
+        // Po zmianie d[v] odtwarzamy własność kopca, idąc w górę		
+        for(child = hp[pw.to]; child !=null; child = parent)
+        {
+          parent = child / 2;
+          if(d[h[parent]] <= d[h[child]]) break;
+          x = h[parent]; h[parent] = h[child]; h[child] = x;
+          hp[h[parent]] = parent; hp[h[child]] = child;
+        }
+      }
+	
+  }
+
+
+  siec kopia;
+  poczatek=null;
+
+  for(j = koniec; j > -1; j = p[j]) 
+    {
+	  if(p[j]>-1){
+		nw=graf[j];
+
+		while(nw !=null){
+	      if(nw.to == p[j] && nw.from ==j){
+			  kopia = new siec(nw);
+			  pw=kopia;
+			  pw.next=poczatek;
+		      poczatek=pw;
+		  
+		  }
+		  nw=nw.next;
+		}
+	  }
+  }
+  
+
+  /*
+    i=koniec;
+    cout << start << "->" <<i<<"  ";
+
+    // Ścieżkę przechodzimy od końca ku początkowi,
+    // Zapisując na stosie kolejne wierzchołki
+	
+	for(j = i; j > -1; j = p[j]) S[sptr++] = j;
+
+    // Wyświetlamy ścieżkę, pobierając wierzchołki ze stosu
+
+    while(sptr) cout << S[--sptr] << " ";
+
+    // Na końcu ścieżki wypisujemy jej koszt
+
+    cout << "  $" << d[i] <<","<<op[i]<< endl;
+	
+	*/
+
+
+return (poczatek);
+
+
+ /* delete [] d;
+  delete [] p;
+  delete [] QS;
+  delete [] S;
+  delete [] h;
+  delete [] hp;
+
+  delete poczatek;*/
+  
+  
+
+}
+  
 	 ~siec() {}
 
     }
