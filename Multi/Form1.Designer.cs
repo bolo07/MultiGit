@@ -85,6 +85,7 @@ namespace Multi
             this.button2 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -652,6 +653,7 @@ namespace Multi
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label12);
             this.tabPage2.Controls.Add(this.button2);
             this.tabPage2.Controls.Add(this.textBox3);
             this.tabPage2.Controls.Add(this.textBox2);
@@ -677,15 +679,25 @@ namespace Multi
             // 
             this.textBox3.Location = new System.Drawing.Point(47, 83);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(389, 20);
+            this.textBox3.Size = new System.Drawing.Size(54, 20);
             this.textBox3.TabIndex = 1;
             // 
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(47, 36);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(389, 20);
+            this.textBox2.Size = new System.Drawing.Size(54, 20);
             this.textBox2.TabIndex = 0;
+            this.textBox2.Text = "10";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(44, 20);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(30, 13);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "delta";
             // 
             // Form1
             // 
@@ -709,61 +721,62 @@ namespace Multi
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.Button button1;
         public System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        public System.Windows.Forms.TabControl tabControl1;
+        public System.Windows.Forms.TabPage tabPage1;
+        public System.Windows.Forms.TabPage tabPage2;
+        public System.Windows.Forms.TextBox textBox2;
+        public System.Windows.Forms.TextBox textBox3;
         public System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        public System.Windows.Forms.Label label1;
+        public System.Windows.Forms.Label label3;
+        public System.Windows.Forms.Label label2;
         public System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Button button2;
+        public System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox14;
-        private System.Windows.Forms.TextBox textBox13;
-        private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox15;
-        private System.Windows.Forms.TextBox textBox16;
-        private System.Windows.Forms.TextBox textBox17;
-        private System.Windows.Forms.TextBox textBox18;
-        private System.Windows.Forms.TextBox textBox19;
-        private System.Windows.Forms.TextBox textBox20;
+        public System.Windows.Forms.TextBox textBox14;
+        public System.Windows.Forms.TextBox textBox13;
+        public System.Windows.Forms.TextBox textBox12;
+        public System.Windows.Forms.TextBox textBox11;
+        public System.Windows.Forms.TextBox textBox10;
+        public System.Windows.Forms.TextBox textBox9;
+        public System.Windows.Forms.TextBox textBox8;
+        public System.Windows.Forms.TextBox textBox7;
+        public System.Windows.Forms.TextBox textBox6;
+        public System.Windows.Forms.TextBox textBox5;
+        public System.Windows.Forms.TextBox textBox15;
+        public System.Windows.Forms.TextBox textBox16;
+        public System.Windows.Forms.TextBox textBox17;
+        public System.Windows.Forms.TextBox textBox18;
+        public System.Windows.Forms.TextBox textBox19;
+        public System.Windows.Forms.TextBox textBox20;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox21;
-        private System.Windows.Forms.TextBox textBox22;
+        public System.Windows.Forms.TextBox textBox21;
+        public System.Windows.Forms.TextBox textBox22;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox23;
+        public System.Windows.Forms.TextBox textBox23;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox24;
+        public System.Windows.Forms.TextBox textBox24;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox25;
+        public System.Windows.Forms.TextBox textBox25;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox26;
-        private System.Windows.Forms.TextBox textBox27;
-        private System.Windows.Forms.TextBox textBox28;
-        private System.Windows.Forms.TextBox textBox29;
-        private System.Windows.Forms.TextBox textBox30;
-        private System.Windows.Forms.TextBox textBox31;
-        private System.Windows.Forms.TextBox textBox32;
-        private System.Windows.Forms.TextBox textBox33;
-        private System.Windows.Forms.TextBox textBox34;
-        private System.Windows.Forms.TextBox textBox35;
-        private System.Windows.Forms.TextBox textBox36;
+        public System.Windows.Forms.TextBox textBox26;
+        public System.Windows.Forms.TextBox textBox27;
+        public System.Windows.Forms.TextBox textBox28;
+        public System.Windows.Forms.TextBox textBox29;
+        public System.Windows.Forms.TextBox textBox30;
+        public System.Windows.Forms.TextBox textBox31;
+        public System.Windows.Forms.TextBox textBox32;
+        public System.Windows.Forms.TextBox textBox33;
+        public System.Windows.Forms.TextBox textBox34;
+        public System.Windows.Forms.TextBox textBox35;
+        public System.Windows.Forms.TextBox textBox36;
         public System.Windows.Forms.CheckBox checkBox1;
+        public System.Windows.Forms.Label label12;
     }
 }
 

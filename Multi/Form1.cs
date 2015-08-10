@@ -23,6 +23,7 @@ namespace Multi
         public int nadawca; // węzeł nadawczy
         public siec[] graf; //tablica sąsiadów przechowująca model sieci
         public bool check = false;
+        int ile_node; //ilość węzłów w grafie
 
           
         /////////////////////////////////////////////////////////////////
@@ -47,7 +48,7 @@ namespace Multi
              }
             //odczytanie ilości węzłów z pliku
              System.IO.StreamReader file = new System.IO.StreamReader(textBox1.Text);
-             int ile_node = Convert.ToInt32(file.ReadLine());
+             ile_node = Convert.ToInt32(file.ReadLine());
             //utworzenie grafu z modelem sieci i inicjalizacja obiektu
               graf = new siec[ile_node];
              for (int i = 0; i < ile_node; i++)
@@ -125,7 +126,11 @@ namespace Multi
         
         public void button2_Click(object sender, EventArgs e)
         {
-            
+
+
+
+            heurystyki kpp = new heurystyki();
+            kpp.KPP(Convert.ToInt16(textBox4.Text), odbiorcy, odbiorcy.Length, graf, ile_node, Convert.ToInt16(textBox2.Text));
         }
 
         public void checkBox1_CheckedChanged(object sender, EventArgs e)

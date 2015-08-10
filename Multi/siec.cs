@@ -252,11 +252,12 @@ namespace Multi
 		}
 	  }
   }
-  
 
-  /*
+
+    Debug.WriteLine("");
     i=koniec;
-    cout << start << "->" <<i<<"  ";
+    Debug.Write(start+"->"+i+" ");
+    
 
     // Ścieżkę przechodzimy od końca ku początkowi,
     // Zapisując na stosie kolejne wierzchołki
@@ -265,13 +266,13 @@ namespace Multi
 
     // Wyświetlamy ścieżkę, pobierając wierzchołki ze stosu
 
-    while(sptr) cout << S[--sptr] << " ";
+    while(sptr != null) Debug.Write(S[--sptr]+" ");
 
     // Na końcu ścieżki wypisujemy jej koszt
-
-    cout << "  $" << d[i] <<","<<op[i]<< endl;
+    Debug.Write(" $"+d[i]+","+op[i]);
+  
 	
-	*/
+	
 
 
 return (poczatek);

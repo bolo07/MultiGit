@@ -10,11 +10,11 @@ namespace Multi
     {
 
         
-        public void KPP(int nadawca, int[] odbiorcy, int ile_PC, siec []graf)  //metoda - wywołanie algorytmu KPP
+        public void KPP(int nadawca, int[] odbiorcy, int ile_PC, siec []graf, int n, int delta)  //metoda - wywołanie algorytmu KPP
         {
             int licz = (ile_PC * (ile_PC - 1)) / 2, sc = 0;
             siec[] lista_sciezek = new siec[licz];
-            siec pomoc;
+            siec pomoc = new siec();
 
             //////////////// STEP 1 - konstrukcja spujnego nieskierowanego grafu N' /////////////////////////////////////////
             //skladajacego sie z wszystkich odbiorcow i nadawcowi sciezek o najnizszym koszczie 
@@ -22,12 +22,12 @@ namespace Multi
 		        {										
 			        for(int j=i+1; j<ile_PC; j++)		
 			            {					
-				         lista_sciezek[sc]=pomoc.sciezka(odbiorcy[i], odbiorcy[j], n, graf );		//obliczam sciezki 
+				         lista_sciezek[sc]=pomoc.sciezka (odbiorcy[i], odbiorcy[j], n, graf );		//obliczam sciezki 
 				         sc++;
 			            }
 		        }
        
-     
+        
     
         }
 
