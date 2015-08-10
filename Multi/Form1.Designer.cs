@@ -82,10 +82,10 @@ namespace Multi
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label12 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -147,11 +147,17 @@ namespace Multi
             this.panel1.Controls.Add(this.textBox32);
             this.panel1.Controls.Add(this.textBox34);
             this.panel1.Controls.Add(this.textBox33);
+            this.panel1.Controls.Add(this.textBox20);
             this.panel1.Controls.Add(this.textBox36);
+            this.panel1.Controls.Add(this.textBox19);
             this.panel1.Controls.Add(this.textBox29);
+            this.panel1.Controls.Add(this.textBox18);
             this.panel1.Controls.Add(this.textBox35);
+            this.panel1.Controls.Add(this.textBox17);
             this.panel1.Controls.Add(this.textBox22);
+            this.panel1.Controls.Add(this.textBox16);
             this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.textBox15);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.textBox23);
@@ -160,19 +166,13 @@ namespace Multi
             this.panel1.Controls.Add(this.textBox27);
             this.panel1.Controls.Add(this.textBox14);
             this.panel1.Controls.Add(this.textBox26);
-            this.panel1.Controls.Add(this.textBox15);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.textBox28);
-            this.panel1.Controls.Add(this.textBox16);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.textBox17);
             this.panel1.Controls.Add(this.textBox24);
             this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.textBox18);
             this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.textBox19);
             this.panel1.Controls.Add(this.textBox5);
-            this.panel1.Controls.Add(this.textBox20);
             this.panel1.Controls.Add(this.textBox25);
             this.panel1.Controls.Add(this.textBox6);
             this.panel1.Controls.Add(this.textBox7);
@@ -379,7 +379,7 @@ namespace Multi
             // 
             // textBox14
             // 
-            this.textBox14.Location = new System.Drawing.Point(222, 54);
+            this.textBox14.Location = new System.Drawing.Point(92, 54);
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(20, 20);
             this.textBox14.TabIndex = 22;
@@ -399,7 +399,7 @@ namespace Multi
             // 
             // textBox15
             // 
-            this.textBox15.Location = new System.Drawing.Point(196, 54);
+            this.textBox15.Location = new System.Drawing.Point(118, 54);
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(20, 20);
             this.textBox15.TabIndex = 28;
@@ -428,7 +428,7 @@ namespace Multi
             // 
             // textBox16
             // 
-            this.textBox16.Location = new System.Drawing.Point(170, 54);
+            this.textBox16.Location = new System.Drawing.Point(144, 54);
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new System.Drawing.Size(20, 20);
             this.textBox16.TabIndex = 27;
@@ -448,7 +448,7 @@ namespace Multi
             // 
             // textBox17
             // 
-            this.textBox17.Location = new System.Drawing.Point(144, 54);
+            this.textBox17.Location = new System.Drawing.Point(170, 54);
             this.textBox17.Name = "textBox17";
             this.textBox17.Size = new System.Drawing.Size(20, 20);
             this.textBox17.TabIndex = 26;
@@ -478,7 +478,7 @@ namespace Multi
             // 
             // textBox18
             // 
-            this.textBox18.Location = new System.Drawing.Point(118, 54);
+            this.textBox18.Location = new System.Drawing.Point(196, 54);
             this.textBox18.Name = "textBox18";
             this.textBox18.Size = new System.Drawing.Size(20, 20);
             this.textBox18.TabIndex = 25;
@@ -497,7 +497,7 @@ namespace Multi
             // 
             // textBox19
             // 
-            this.textBox19.Location = new System.Drawing.Point(92, 54);
+            this.textBox19.Location = new System.Drawing.Point(222, 54);
             this.textBox19.Name = "textBox19";
             this.textBox19.Size = new System.Drawing.Size(20, 20);
             this.textBox19.TabIndex = 24;
@@ -517,7 +517,7 @@ namespace Multi
             // 
             // textBox20
             // 
-            this.textBox20.Location = new System.Drawing.Point(66, 54);
+            this.textBox20.Location = new System.Drawing.Point(248, 54);
             this.textBox20.Name = "textBox20";
             this.textBox20.Size = new System.Drawing.Size(20, 20);
             this.textBox20.TabIndex = 23;
@@ -557,7 +557,7 @@ namespace Multi
             // 
             // textBox13
             // 
-            this.textBox13.Location = new System.Drawing.Point(248, 54);
+            this.textBox13.Location = new System.Drawing.Point(66, 54);
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(20, 20);
             this.textBox13.TabIndex = 21;
@@ -665,6 +665,15 @@ namespace Multi
             this.tabPage2.Text = "AH";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(44, 20);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(30, 13);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "delta";
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(47, 139);
@@ -689,15 +698,6 @@ namespace Multi
             this.textBox2.Size = new System.Drawing.Size(54, 20);
             this.textBox2.TabIndex = 0;
             this.textBox2.Text = "10";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(44, 20);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(30, 13);
-            this.label12.TabIndex = 3;
-            this.label12.Text = "delta";
             // 
             // Form1
             // 

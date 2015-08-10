@@ -24,18 +24,21 @@ namespace Multi
         public siec[] graf; //tablica sąsiadów przechowująca model sieci
         public bool check = false;
         int ile_node; //ilość węzłów w grafie
-
+        
           
         /////////////////////////////////////////////////////////////////
         public Form1() 
         {
             InitializeComponent();
             nadawca =Convert.ToInt16(textBox4.Text);
-            odbiorcy = new int[Convert.ToInt16(numericUpDown1.Value)];
-
+            odbiorcy = new int[Convert.ToInt16(numericUpDown1.Value)+1];
+                     
+           
         }
 
+        //inicjalizacja odbiorców
         
+       
         public void button1_Click(object sender, EventArgs e)
         {
             //wczytanie pliku 
@@ -73,7 +76,17 @@ namespace Multi
                      temp3 = temp3.next;
                  }
                  Debug.WriteLine("");
-             }
+             }//////////////////////////////////koniec wyswietla 
+
+            odbiorcy[0] = nadawca;
+            for (int i = 1; i <= Convert.ToInt16(numericUpDown1.Value); i++)
+            {
+                
+                var txtBox = this.Controls.Find("textBox" + (i + 4), true);
+
+                odbiorcy[i] = Convert.ToInt16(txtBox[0].Text);
+            }
+            
 
           }//wczytywanie modelu sieci z pliku *.brite
 
@@ -97,14 +110,14 @@ namespace Multi
                 if (numericUpDown1.Value > 5 && check == false) { textBox10.Visible = true; } else { textBox10.Visible = false; }
                 if (numericUpDown1.Value > 6 && check == false) { textBox11.Visible = true; } else { textBox11.Visible = false; }
                 if (numericUpDown1.Value > 7 && check == false) { textBox12.Visible = true; } else { textBox12.Visible = false; }
-                if (numericUpDown1.Value > 8 && check == false) { textBox20.Visible = true; label6.Visible = true; } else { textBox20.Visible = false; label6.Visible = false; }
-                if (numericUpDown1.Value > 9 && check == false) { textBox19.Visible = true; label5.Visible = true; } else { textBox19.Visible = false; label5.Visible = false; }
-                if (numericUpDown1.Value > 10 && check == false) { textBox18.Visible = true; } else { textBox18.Visible = false; }
-                if (numericUpDown1.Value > 11 && check == false) { textBox17.Visible = true; } else { textBox17.Visible = false; }
-                if (numericUpDown1.Value > 12 && check == false) { textBox16.Visible = true; } else { textBox16.Visible = false; }
-                if (numericUpDown1.Value > 13 && check == false) { textBox15.Visible = true; } else { textBox15.Visible = false; }
-                if (numericUpDown1.Value > 14 && check == false) { textBox14.Visible = true; } else { textBox14.Visible = false; }
-                if (numericUpDown1.Value > 15 && check == false) { textBox13.Visible = true; } else { textBox13.Visible = false; }
+                if (numericUpDown1.Value > 8 && check == false) { textBox13.Visible = true; label6.Visible = true; } else { textBox13.Visible = false; label6.Visible = false; }
+                if (numericUpDown1.Value > 9 && check == false) { textBox14.Visible = true; label5.Visible = true; } else { textBox14.Visible = false; label5.Visible = false; }
+                if (numericUpDown1.Value > 10 && check == false) { textBox15.Visible = true; } else { textBox15.Visible = false; }
+                if (numericUpDown1.Value > 11 && check == false) { textBox16.Visible = true; } else { textBox16.Visible = false; }
+                if (numericUpDown1.Value > 12 && check == false) { textBox17.Visible = true; } else { textBox17.Visible = false; }
+                if (numericUpDown1.Value > 13 && check == false) { textBox18.Visible = true; } else { textBox18.Visible = false; }
+                if (numericUpDown1.Value > 14 && check == false) { textBox19.Visible = true; } else { textBox19.Visible = false; }
+                if (numericUpDown1.Value > 15 && check == false) { textBox20.Visible = true; } else { textBox20.Visible = false; }
                 if (numericUpDown1.Value > 16 && check == false) { textBox21.Visible = true; label8.Visible = true; } else { textBox21.Visible = false; label8.Visible = false; }
                 if (numericUpDown1.Value > 17 && check == false) { textBox22.Visible = true; label9.Visible = true; } else { textBox22.Visible = false; label9.Visible = false; }
                 if (numericUpDown1.Value > 18 && check == false) { textBox23.Visible = true; } else { textBox23.Visible = false; }
@@ -127,10 +140,9 @@ namespace Multi
         public void button2_Click(object sender, EventArgs e)
         {
 
-
-
             heurystyki kpp = new heurystyki();
             kpp.KPP(Convert.ToInt16(textBox4.Text), odbiorcy, odbiorcy.Length, graf, ile_node, Convert.ToInt16(textBox2.Text));
+       
         }
 
         public void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -148,14 +160,14 @@ namespace Multi
                 textBox10.Visible = false;
                 textBox11.Visible = false;
                 textBox12.Visible = false;
-                textBox20.Visible = false; label6.Visible = false;
-                textBox19.Visible = false; label5.Visible = false;
-                textBox18.Visible = false;
-                textBox17.Visible = false;
-                textBox16.Visible = false;
+                textBox13.Visible = false; label6.Visible = false;
+                textBox14.Visible = false; label5.Visible = false;
                 textBox15.Visible = false;
-                textBox14.Visible = false;
-                textBox13.Visible = false;
+                textBox16.Visible = false;
+                textBox17.Visible = false;
+                textBox18.Visible = false;
+                textBox19.Visible = false;
+                textBox20.Visible = false;
                 textBox21.Visible = false; label8.Visible = false;
                 textBox22.Visible = false; label9.Visible = false;
                 textBox23.Visible = false;
@@ -173,6 +185,13 @@ namespace Multi
                 textBox35.Visible = false;
                 textBox36.Visible = false;
 
+                for (int i = 0; i < Convert.ToInt16(numericUpDown1.Value); i++)
+                {
+
+                    var txtBox = this.Controls.Find("textBox" + (i + 5), true);
+
+                    odbiorcy[i] = Convert.ToInt16(txtBox[0].Text);
+                }
         }//losowanie odbiorców do zrobienia w kolejnej kontrolce
 
         //obsługa kontrolek wprowadzania odbiorców
@@ -410,7 +429,7 @@ namespace Multi
         {
             if (textBox20.Text != "")
             {
-                odbiorcy[8] = Convert.ToInt16(textBox20.Text);
+                odbiorcy[8] = Convert.ToInt16(textBox13.Text);
             }
         }
 
@@ -418,7 +437,7 @@ namespace Multi
         {
             if (textBox19.Text != "")
             {
-                odbiorcy[9] = Convert.ToInt16(textBox19.Text);
+                odbiorcy[9] = Convert.ToInt16(textBox14.Text);
             }
         }
 
@@ -426,7 +445,7 @@ namespace Multi
         {
             if (textBox18.Text != "")
             {
-                odbiorcy[10] = Convert.ToInt16(textBox18.Text);
+                odbiorcy[10] = Convert.ToInt16(textBox15.Text);
             }
         }
 
@@ -434,7 +453,7 @@ namespace Multi
         {
             if (textBox17.Text != "")
             {
-                odbiorcy[11] = Convert.ToInt16(textBox17.Text);
+                odbiorcy[11] = Convert.ToInt16(textBox16.Text);
             }
         }
 
@@ -442,7 +461,7 @@ namespace Multi
         {
             if (textBox16.Text != "")
             {
-                odbiorcy[12] = Convert.ToInt16(textBox16.Text);
+                odbiorcy[12] = Convert.ToInt16(textBox17.Text);
             }
         }
 
@@ -450,7 +469,7 @@ namespace Multi
         {
             if (textBox15.Text != "")
             {
-                odbiorcy[13] = Convert.ToInt16(textBox15.Text);
+                odbiorcy[13] = Convert.ToInt16(textBox18.Text);
             }
         }
 
@@ -458,7 +477,7 @@ namespace Multi
         {
             if (textBox14.Text != "")
             {
-                odbiorcy[14] = Convert.ToInt16(textBox14.Text);
+                odbiorcy[14] = Convert.ToInt16(textBox19.Text);
             }
         }
 
@@ -466,7 +485,7 @@ namespace Multi
         {
             if (textBox13.Text != "")
             {
-                odbiorcy[15] = Convert.ToInt16(textBox13.Text);
+                odbiorcy[15] = Convert.ToInt16(textBox20.Text);
             }
         }
 
