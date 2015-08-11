@@ -31,7 +31,7 @@ namespace Multi
         {
             InitializeComponent();
             nadawca =Convert.ToInt16(textBox4.Text);
-            odbiorcy = new int[Convert.ToInt16(numericUpDown1.Value)+1];
+            odbiorcy = new int[Convert.ToInt16(numericUpDown1.Value) + 1];
                      
            
         }
@@ -90,17 +90,26 @@ namespace Multi
 
           }//wczytywanie modelu sieci z pliku *.brite
 
+        private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar); 
+        }
         public void textBox4_TextChanged(object sender, EventArgs e) //wprowadzanie węzła nadawczego
         {
-            nadawca = Convert.ToInt16( textBox4.Text);
+            if (textBox4.Text != "")
+            {
+                nadawca = Convert.ToInt16(textBox4.Text);
+                odbiorcy[0] = nadawca;
+            }
+            
         }
 
        
         public void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             
-            odbiorcy = new int[Convert.ToInt16(numericUpDown1.Value)];
-           
+            odbiorcy = new int[Convert.ToInt16(numericUpDown1.Value)+1];
+         
                    
                 if (numericUpDown1.Value > 0 && check ==false) { textBox5.Visible = true; label4.Visible = true; label7.Visible = true;} else { textBox5.Visible = false; label4.Visible = false; label7.Visible = false;}
                 if (numericUpDown1.Value > 1 && check == false) { textBox6.Visible = true; } else { textBox6.Visible = false; }
@@ -139,6 +148,13 @@ namespace Multi
         
         public void button2_Click(object sender, EventArgs e)
         {
+            for (int i = 1; i <= Convert.ToInt16(numericUpDown1.Value); i++)
+            {
+
+                var txtBox = this.Controls.Find("textBox" + (i + 4), true);
+                odbiorcy[i] = Convert.ToInt16(txtBox[0].Text);
+            }
+            odbiorcy[0] = nadawca;
 
             heurystyki kpp = new heurystyki();
             kpp.KPP(Convert.ToInt16(textBox4.Text), odbiorcy, odbiorcy.Length, graf, ile_node, Convert.ToInt16(textBox2.Text));
@@ -617,6 +633,8 @@ namespace Multi
             }
         }
         #endregion 
+
+       
         ////
 
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
 using System.Diagnostics;
-using System.Collections.Generic;
+using System.IO;
 namespace Multi
 {
     class heurystyki
@@ -18,9 +18,11 @@ namespace Multi
             double koszt, opuzn;
             siec[] lista_sciezek = new siec[licz];
             siec pomoc = new siec();
+            siec nowy2;
             odbiorcy[0] = nadawca;
 
             //////////////////////////////////////// Krok 1///////////////////////////////////////////
+            #region
             /////////////////konstrukcja spujnego nieskierowanego grafu N' //////////////////////////
             ///skladajacego sie z wszystkich odbiorcow i nadawcowi sciezek o najnizszym koszczie////
 
@@ -60,18 +62,20 @@ namespace Multi
                 siec nowy1 = new siec(koszt, opuzn, c, b, i, graf_kpp[b]);
                 graf_kpp[b] = nowy1;
             }
-        ///////////////////////////////////////////KROK 1 koniec/////////////////////////////////////////
+            ///////////////////////////////////////////KROK 1 koniec/////////////////////////////////////////
+            #endregion
 
-
-        ///////////////////////////////////////////KROK 2///////////////////////////////////////////////
+            ///////////////////////////////////////////KROK 2///////////////////////////////////////////////
+            #region
             //////////////////////obliczenie minimalnego drzewa spinajacego z grafu kpp 
             //////////////////////metryka jest delay
 
             bool[] vis = new bool [n] ;	     //wierzcholek odwiedzony							
             double[] waga = new double[n];  //delay polaczenia									
             double[] waga_k = new double[n];      //koszt 
-
-            Dictionary<siec, siec> kopiec = new Dictionary<siec,siec>(n);
+           
+            HashSet<siec>kopiec = new HashSet<siec>();
+            //Dictionary<siec, siec> kopiec = new Dictionary<siec,siec>(n);
 
             for(int i=0; i<n; i++)
                 {
@@ -80,7 +84,8 @@ namespace Multi
                  vis[i]= false;
                 }
 
-            int v = 0, waga_mst = 0;
+            int v = 0;
+            double waga_mst = 0;
 
             siec[] mst = new siec[n];
 
@@ -93,48 +98,221 @@ namespace Multi
             waga_k[odbiorcy[0]] = 0;
 
             kopiec.Clear();
-    
-            if(!vis[pomoc.to] )
-		        {	
-			if( waga[pomoc.to]+ pomoc.delay < delta  )
-			{
-				vis[pomoc.to]=true;				//dodaje nowa krawedz do drzewa
-				waga[pomoc.to]= pomoc.delay;
-				waga_k[pomoc.to]= waga_k[pomoc.to]+pomoc.cost;
 
-				//nowy2 = new wezel(pomoc->koszt, pomoc->delay, pomoc->pi, pomoc->v, pomoc->id, mst[pomoc->v] );
-				//mst[pomoc->v]=nowy2;
-				siec nowy2 = new siec(pomoc.cost, pomoc.delay, pomoc.to, pomoc.to, pomoc.id, mst[pomoc.from] );
-				mst[pomoc.from]=nowy2;
-				v=pomoc.to;
-			}//else 
-				//{
-				//kopiec.erase(kopiec.begin()); //usowam 1 element kopca
-			   // warunek = false;
-				//}
-		}
-		//if(warunek){
-            kopiec.Remove()
-			kopiec.erase(kopiec.begin()); //usowam 1 element kopca
-			for(pomoc = graf_kpp[v]; pomoc; pomoc = pomoc->next)	//dodaje nie odwiedzonych sasiadow do kopca
-				if(!vis[pomoc->v])	
-				{
-					nowy2 = new wezel(*pomoc);
-					kopiec.insert(*nowy2);
-				}
-		//}
-		//warunek=true;
-	}
-           
-       
+            for (pomoc = graf_kpp[odbiorcy[0]]; pomoc != null; pomoc = pomoc.next) //dodanie nie odwiedzonych sasiadow do kopca
+            {
+                nowy2 = new siec(pomoc);
+                kopiec.Add(nowy2);
+            }
+
+            while (kopiec.Count >0) //glowna petla mst
+            {
+
+                pomoc = kopiec.FirstOrDefault().ja;
+                                
+                if (vis[pomoc.to]==false)
+                {
+                    if (waga[pomoc.to] + pomoc.delay < delta)
+                    {
+                        vis[pomoc.to] = true;				//dodaje nowa krawedz do drzewa
+                        waga[pomoc.to] = pomoc.delay;
+                        waga_k[pomoc.to] = waga_k[pomoc.to] + pomoc.cost;
+
+                        //nowy2 = new wezel(pomoc->koszt, pomoc->delay, pomoc->pi, pomoc->v, pomoc->id, mst[pomoc->v] );
+                        //mst[pomoc->v]=nowy2;
+                        nowy2 = new siec(pomoc.cost, pomoc.delay, pomoc.to, pomoc.from, pomoc.id, mst[pomoc.from]);
+                        mst[pomoc.from] = nowy2;
+                        v = pomoc.to;
+                    }//else 
+                    //{
+                    //kopiec.erase(kopiec.begin()); //usowam 1 element kopca
+                    // warunek = false;
+                    //}
+                }
 
 
-         
-        }
+                //if(warunek){
+
+                kopiec.Remove(kopiec.FirstOrDefault());
+                //kopiec.erase(kopiec.begin()); //usowam 1 element kopca
+                for (pomoc = graf_kpp[v]; pomoc != null; pomoc = pomoc.next)	//dodaje nie odwiedzonych sasiadow do kopca
+                {
+                    if (vis[pomoc.to]==false)
+                    {
+                        nowy2 = new siec(pomoc);
+
+                        kopiec.Add(nowy2);
+                    }
+                }
+                //}
+                //warunek=true;
+            }
+            ///////////////////////////////////////////KROK 2 KONIEC///////////////////////////////////////////////////////
+#endregion
+
+
+            //////////////////////////////////////////KROK 3///////////////////////////////////////////////////////////////
+
+            #region
+            ///////////////Zastąp krawędzie powstałego drzewa oryginalnymi z grafu z modelem sieci/////////////////////////
+            bool [][] kontrolka = new bool[n][];
+            for (int i = 0; i < n; i++)
+            {
+                kontrolka[i] = new bool[n];
+            }
+
+            //zerowanie kontrolki
+            for(int f=0; f<n; f++)
+                {	
+			        for(int h=0; h<n; h++)
+                    {
+				        kontrolka[f][h]=false;
+			        }   
+		        }
+	
+            siec pomoc2=new siec();
+            siec[] mst2 = new siec[n];
+            int iterator;
+	        
+            for(int i=0; i<n; i++)
+            {
+		        mst2[i]= null;
+            }
+
+            for (int i = 0; i < n; i++)	//odtwarzam pierwotne mst
+            {
+                for (pomoc = mst[i]; pomoc != null; pomoc = pomoc.next)	//dla kazdego graf_mst
+                {
+                    iterator = 0;
+                    b = pomoc.from;
+                    c = -1;
+
+                    while (lista_sciezek[iterator].to != b || pomoc.to != c)
+                    {
+                        if (lista_sciezek[iterator].to != b)
+                        {
+                            iterator++;
+                        }
+                        else
+                        {
+                            for (pomoc2 = lista_sciezek[iterator]; pomoc2 != null; pomoc2 = pomoc2.next)	//wyszukiwanie krawedzi w liscie sciezek
+                            {
+                                if (pomoc2.next == null && pomoc2.from == pomoc.to) c = pomoc2.from;
+
+                            }
+                            if (c == -1)
+                            {
+                                iterator++;
+                            }
+                        }
+                    }
+
+                    for (pomoc2 = lista_sciezek[iterator]; pomoc2 != null; pomoc2 = pomoc2.next)
+                    {
+                        if (kontrolka[pomoc2.from][pomoc2.to] != true && kontrolka[pomoc2.to][pomoc2.from] != true)
+                        {
+
+                            nowy2 = new siec(pomoc2.cost, pomoc2.delay, pomoc2.from, pomoc2.to, pomoc2.id, mst2[pomoc2.to]); //tworzenie nowej krawedzi
+                            mst2[pomoc2.to] = nowy2;
+                            nowy2 = new siec(pomoc2.cost, pomoc2.delay, pomoc2.to, pomoc2.from, pomoc2.id, mst2[pomoc2.from]);
+                            mst2[pomoc2.from] = nowy2;
+                            kontrolka[pomoc2.to][pomoc2.from] = true;
+                            kontrolka[pomoc2.from][pomoc2.to] = true;
+
+                        }
+                    }
+
+                }
+            }
+            //////////////////////////////////////////////////KROK 3 KONIEC//////////////////////////////////////////////////////////////
+            #endregion
+
+            //////////////Zapis wyniku do pliku/////////////////////////////////////////
+            #region
+            
+            System.IO.StreamWriter plik = new System.IO.StreamWriter(@"KPP.txt");
+
+	        for (int f = 0; f < n; f++)
+	            { //zerowanie kontrolki
+				    for (int h = 0; h < n; h++)
+				        {
+					        kontrolka[f][h] = false;
+				        }
+            	}
+
+	        for (int i = 0; i < n; i++) //wyswietla Lsonsiadow graf_kpp
+	            {
+		            pomoc = mst2[i];
+		            if (pomoc!=null)
+		                {
+		                while (pomoc !=null)
+		                    {
+			                    if (kontrolka[pomoc.from][pomoc.to] != true && kontrolka[pomoc.to][pomoc.from] != true)
+			                        {
+			                        waga_mst = waga_mst + pomoc.cost;
+			                        kontrolka[pomoc.to][pomoc.from] = true;
+			                        kontrolka[pomoc.from][pomoc.to] = true;
+			                        }
+		                       pomoc = pomoc.next;
+		                    }
+                    }
+	            }
+
+	        Debug.Write("\n");
+	        Debug.Write("Koszt drzewa multicast wynosi = ");
+	        Debug.Write(waga_mst);
+	        Debug.Write("\n");
+	        Debug.Write("\n");
+
+	        Debug.Write("\n");
+	        Debug.Write("DRZEWO MULTICAST ");
+	        Debug.Write("\n");
+	        Debug.Write("\n");
+
+            plik.WriteLine( "\n" + "Koszt drzewa multicast wynosi = "+waga_mst + "\n");
+	        plik.WriteLine("\n" + "DRZEWO MULTICAST " +"\n");
+
+
+	
+
+		    for (int i = 0; i < n; i++) //wyswietla Lsonsiadow graf_kpp
+		        {
+		            pomoc = mst2[i];
+		            if (pomoc!=null)
+		                {
+		                Debug.Write("graf_mst2[");
+		                Debug.Write(i);
+		                Debug.Write("] =");
+
+                        plik.Write("graf_mst2[" + i + "] =");
+		
+		                while (pomoc!=null)
+		                    {
+			                    Debug.Write(" "+ pomoc.to+" ");
+                                plik.Write(" "+pomoc.to+" ");
+			
+		                        pomoc = pomoc.next;
+		                    }
+		
+                        Debug.Write( "\n");
+		                plik.WriteLine("");
+                        }
+		        }
+
+	        Debug.Write("\n");
+
+	        plik.Close();
+            #endregion
+
+
+
+        }//kpp koniec
 
         
         public void CSPT() //metoda - wywołanie algorytmu CSPT
         {
+            
+
 
         }
     }

@@ -46,7 +46,7 @@ namespace Multi
 	    this.delay = obiekt.delay;
     }
 
-    public siec(double cost_c, double delay_c, int from_c, int to_c, int id_c, siec next_c)
+    public siec(double cost_c, double delay_c, int to_c, int from_c, int id_c, siec next_c)
     {
         this.ja = this;
         this.before = null;
@@ -115,7 +115,7 @@ namespace Multi
             }
 
 
-           // MessageBox.Show("Wczytano graf z " + Convert.ToString(ile_node) + " wierzchołków i " + counter + " krawędzi");
+            MessageBox.Show("Wczytano graf z " + Convert.ToString(ile_node) + " wierzchołków i " + counter + " krawędzi");
             file.Close();
           
         

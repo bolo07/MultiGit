@@ -42,11 +42,17 @@ namespace Multi
             this.textBox32 = new System.Windows.Forms.TextBox();
             this.textBox34 = new System.Windows.Forms.TextBox();
             this.textBox33 = new System.Windows.Forms.TextBox();
+            this.textBox20 = new System.Windows.Forms.TextBox();
             this.textBox36 = new System.Windows.Forms.TextBox();
+            this.textBox19 = new System.Windows.Forms.TextBox();
             this.textBox29 = new System.Windows.Forms.TextBox();
+            this.textBox18 = new System.Windows.Forms.TextBox();
             this.textBox35 = new System.Windows.Forms.TextBox();
+            this.textBox17 = new System.Windows.Forms.TextBox();
             this.textBox22 = new System.Windows.Forms.TextBox();
+            this.textBox16 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.textBox15 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox23 = new System.Windows.Forms.TextBox();
@@ -55,19 +61,13 @@ namespace Multi
             this.textBox27 = new System.Windows.Forms.TextBox();
             this.textBox14 = new System.Windows.Forms.TextBox();
             this.textBox26 = new System.Windows.Forms.TextBox();
-            this.textBox15 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox28 = new System.Windows.Forms.TextBox();
-            this.textBox16 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox17 = new System.Windows.Forms.TextBox();
             this.textBox24 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox18 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox19 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox20 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
@@ -86,11 +86,15 @@ namespace Multi
             this.button2 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -267,6 +271,16 @@ namespace Multi
             this.textBox33.TextChanged += new System.EventHandler(this.textBox33_TextChanged);
             this.textBox33.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox33_KeyPress);
             // 
+            // textBox20
+            // 
+            this.textBox20.Location = new System.Drawing.Point(248, 54);
+            this.textBox20.Name = "textBox20";
+            this.textBox20.Size = new System.Drawing.Size(20, 20);
+            this.textBox20.TabIndex = 23;
+            this.textBox20.Visible = false;
+            this.textBox20.TextChanged += new System.EventHandler(this.textBox20_TextChanged);
+            this.textBox20.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox20_KeyPress);
+            // 
             // textBox36
             // 
             this.textBox36.Location = new System.Drawing.Point(248, 100);
@@ -276,6 +290,16 @@ namespace Multi
             this.textBox36.Visible = false;
             this.textBox36.TextChanged += new System.EventHandler(this.textBox36_TextChanged);
             this.textBox36.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox36_KeyPress);
+            // 
+            // textBox19
+            // 
+            this.textBox19.Location = new System.Drawing.Point(222, 54);
+            this.textBox19.Name = "textBox19";
+            this.textBox19.Size = new System.Drawing.Size(20, 20);
+            this.textBox19.TabIndex = 24;
+            this.textBox19.Visible = false;
+            this.textBox19.TextChanged += new System.EventHandler(this.textBox19_TextChanged);
+            this.textBox19.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox19_KeyPress);
             // 
             // textBox29
             // 
@@ -287,6 +311,16 @@ namespace Multi
             this.textBox29.TextChanged += new System.EventHandler(this.textBox29_TextChanged);
             this.textBox29.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox29_KeyPress);
             // 
+            // textBox18
+            // 
+            this.textBox18.Location = new System.Drawing.Point(196, 54);
+            this.textBox18.Name = "textBox18";
+            this.textBox18.Size = new System.Drawing.Size(20, 20);
+            this.textBox18.TabIndex = 25;
+            this.textBox18.Visible = false;
+            this.textBox18.TextChanged += new System.EventHandler(this.textBox18_TextChanged);
+            this.textBox18.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox18_KeyPress);
+            // 
             // textBox35
             // 
             this.textBox35.Location = new System.Drawing.Point(222, 100);
@@ -296,6 +330,16 @@ namespace Multi
             this.textBox35.Visible = false;
             this.textBox35.TextChanged += new System.EventHandler(this.textBox35_TextChanged);
             this.textBox35.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox35_KeyPress);
+            // 
+            // textBox17
+            // 
+            this.textBox17.Location = new System.Drawing.Point(170, 54);
+            this.textBox17.Name = "textBox17";
+            this.textBox17.Size = new System.Drawing.Size(20, 20);
+            this.textBox17.TabIndex = 26;
+            this.textBox17.Visible = false;
+            this.textBox17.TextChanged += new System.EventHandler(this.textBox17_TextChanged);
+            this.textBox17.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox17_KeyPress);
             // 
             // textBox22
             // 
@@ -307,6 +351,16 @@ namespace Multi
             this.textBox22.TextChanged += new System.EventHandler(this.textBox22_TextChanged);
             this.textBox22.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox22_KeyPress);
             // 
+            // textBox16
+            // 
+            this.textBox16.Location = new System.Drawing.Point(144, 54);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new System.Drawing.Size(20, 20);
+            this.textBox16.TabIndex = 27;
+            this.textBox16.Visible = false;
+            this.textBox16.TextChanged += new System.EventHandler(this.textBox16_TextChanged);
+            this.textBox16.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox16_KeyPress);
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -316,6 +370,16 @@ namespace Multi
             this.label8.TabIndex = 29;
             this.label8.Text = "odbiorca 17";
             this.label8.Visible = false;
+            // 
+            // textBox15
+            // 
+            this.textBox15.Location = new System.Drawing.Point(118, 54);
+            this.textBox15.Name = "textBox15";
+            this.textBox15.Size = new System.Drawing.Size(20, 20);
+            this.textBox15.TabIndex = 28;
+            this.textBox15.Visible = false;
+            this.textBox15.TextChanged += new System.EventHandler(this.textBox15_TextChanged);
+            this.textBox15.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox15_KeyPress);
             // 
             // label9
             // 
@@ -397,16 +461,6 @@ namespace Multi
             this.textBox26.TextChanged += new System.EventHandler(this.textBox26_TextChanged);
             this.textBox26.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox26_KeyPress);
             // 
-            // textBox15
-            // 
-            this.textBox15.Location = new System.Drawing.Point(118, 54);
-            this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(20, 20);
-            this.textBox15.TabIndex = 28;
-            this.textBox15.Visible = false;
-            this.textBox15.TextChanged += new System.EventHandler(this.textBox15_TextChanged);
-            this.textBox15.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox15_KeyPress);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -426,16 +480,6 @@ namespace Multi
             this.textBox28.TextChanged += new System.EventHandler(this.textBox28_TextChanged);
             this.textBox28.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox28_KeyPress);
             // 
-            // textBox16
-            // 
-            this.textBox16.Location = new System.Drawing.Point(144, 54);
-            this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(20, 20);
-            this.textBox16.TabIndex = 27;
-            this.textBox16.Visible = false;
-            this.textBox16.TextChanged += new System.EventHandler(this.textBox16_TextChanged);
-            this.textBox16.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox16_KeyPress);
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -445,16 +489,6 @@ namespace Multi
             this.label5.TabIndex = 10;
             this.label5.Text = "odbiorca 16";
             this.label5.Visible = false;
-            // 
-            // textBox17
-            // 
-            this.textBox17.Location = new System.Drawing.Point(170, 54);
-            this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(20, 20);
-            this.textBox17.TabIndex = 26;
-            this.textBox17.Visible = false;
-            this.textBox17.TextChanged += new System.EventHandler(this.textBox17_TextChanged);
-            this.textBox17.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox17_KeyPress);
             // 
             // textBox24
             // 
@@ -476,16 +510,6 @@ namespace Multi
             this.label6.Text = "odbiorca 9";
             this.label6.Visible = false;
             // 
-            // textBox18
-            // 
-            this.textBox18.Location = new System.Drawing.Point(196, 54);
-            this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(20, 20);
-            this.textBox18.TabIndex = 25;
-            this.textBox18.Visible = false;
-            this.textBox18.TextChanged += new System.EventHandler(this.textBox18_TextChanged);
-            this.textBox18.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox18_KeyPress);
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -494,16 +518,6 @@ namespace Multi
             this.label7.Size = new System.Drawing.Size(57, 13);
             this.label7.TabIndex = 12;
             this.label7.Text = "odbiorca 8";
-            // 
-            // textBox19
-            // 
-            this.textBox19.Location = new System.Drawing.Point(222, 54);
-            this.textBox19.Name = "textBox19";
-            this.textBox19.Size = new System.Drawing.Size(20, 20);
-            this.textBox19.TabIndex = 24;
-            this.textBox19.Visible = false;
-            this.textBox19.TextChanged += new System.EventHandler(this.textBox19_TextChanged);
-            this.textBox19.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox19_KeyPress);
             // 
             // textBox5
             // 
@@ -514,16 +528,6 @@ namespace Multi
             this.textBox5.Text = "1";
             this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             this.textBox5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox5_KeyPress);
-            // 
-            // textBox20
-            // 
-            this.textBox20.Location = new System.Drawing.Point(248, 54);
-            this.textBox20.Name = "textBox20";
-            this.textBox20.Size = new System.Drawing.Size(20, 20);
-            this.textBox20.TabIndex = 23;
-            this.textBox20.Visible = false;
-            this.textBox20.TextChanged += new System.EventHandler(this.textBox20_TextChanged);
-            this.textBox20.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox20_KeyPress);
             // 
             // textBox25
             // 
@@ -641,6 +645,7 @@ namespace Multi
             this.textBox4.TabIndex = 3;
             this.textBox4.Text = "0";
             this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
+            this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox4_KeyPress);
             // 
             // label1
             // 
@@ -653,10 +658,10 @@ namespace Multi
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.label12);
-            this.tabPage2.Controls.Add(this.button2);
+            this.tabPage2.Controls.Add(this.button3);
+            this.tabPage2.Controls.Add(this.label13);
+            this.tabPage2.Controls.Add(this.panel2);
             this.tabPage2.Controls.Add(this.textBox3);
-            this.tabPage2.Controls.Add(this.textBox2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -668,36 +673,66 @@ namespace Multi
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(44, 20);
+            this.label12.Location = new System.Drawing.Point(17, 11);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(30, 13);
+            this.label12.Size = new System.Drawing.Size(32, 13);
             this.label12.TabIndex = 3;
-            this.label12.Text = "delta";
+            this.label12.Text = "Delta";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(47, 139);
+            this.button2.Location = new System.Drawing.Point(20, 80);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
-            this.button2.Text = "KPP";
+            this.button2.Text = "Start";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(47, 83);
+            this.textBox3.Location = new System.Drawing.Point(219, 64);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(54, 20);
             this.textBox3.TabIndex = 1;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(47, 36);
+            this.textBox2.Location = new System.Drawing.Point(20, 27);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(54, 20);
+            this.textBox2.Size = new System.Drawing.Size(75, 20);
             this.textBox2.TabIndex = 0;
             this.textBox2.Text = "10";
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.label12);
+            this.panel2.Controls.Add(this.button2);
+            this.panel2.Controls.Add(this.textBox2);
+            this.panel2.Location = new System.Drawing.Point(8, 35);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(114, 131);
+            this.panel2.TabIndex = 4;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label13.Location = new System.Drawing.Point(39, 15);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(38, 17);
+            this.label13.TabIndex = 5;
+            this.label13.Text = "KPP";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(209, 117);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "CSPT";
+            this.button3.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -715,6 +750,8 @@ namespace Multi
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -777,6 +814,9 @@ namespace Multi
         public System.Windows.Forms.TextBox textBox36;
         public System.Windows.Forms.CheckBox checkBox1;
         public System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 
