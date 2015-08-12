@@ -82,18 +82,22 @@ namespace Multi
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label14 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label13 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -121,7 +125,7 @@ namespace Multi
             this.tabControl1.Location = new System.Drawing.Point(0, 1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(546, 319);
+            this.tabControl1.Size = new System.Drawing.Size(389, 308);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -136,7 +140,7 @@ namespace Multi
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(538, 293);
+            this.tabPage1.Size = new System.Drawing.Size(381, 282);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Sieć";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -658,17 +662,78 @@ namespace Multi
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.button3);
+            this.tabPage2.Controls.Add(this.label14);
+            this.tabPage2.Controls.Add(this.panel3);
             this.tabPage2.Controls.Add(this.label13);
             this.tabPage2.Controls.Add(this.panel2);
-            this.tabPage2.Controls.Add(this.textBox3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(538, 293);
+            this.tabPage2.Size = new System.Drawing.Size(381, 282);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "AH";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label14.Location = new System.Drawing.Point(220, 15);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(48, 17);
+            this.label14.TabIndex = 8;
+            this.label14.Text = "CSPT";
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.label15);
+            this.panel3.Controls.Add(this.textBox3);
+            this.panel3.Controls.Add(this.button3);
+            this.panel3.Location = new System.Drawing.Point(221, 35);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(118, 131);
+            this.panel3.TabIndex = 7;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(20, 27);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(75, 20);
+            this.textBox3.TabIndex = 1;
+            this.textBox3.Text = "3";
+            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(20, 80);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Start";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label13.Location = new System.Drawing.Point(39, 15);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(38, 17);
+            this.label13.TabIndex = 5;
+            this.label13.Text = "KPP";
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.label12);
+            this.panel2.Controls.Add(this.button2);
+            this.panel2.Controls.Add(this.textBox2);
+            this.panel2.Location = new System.Drawing.Point(42, 35);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(118, 131);
+            this.panel2.TabIndex = 4;
             // 
             // label12
             // 
@@ -689,13 +754,6 @@ namespace Multi
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(219, 64);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(54, 20);
-            this.textBox3.TabIndex = 1;
-            // 
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(20, 27);
@@ -704,41 +762,20 @@ namespace Multi
             this.textBox2.TabIndex = 0;
             this.textBox2.Text = "10";
             // 
-            // panel2
+            // label15
             // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.label12);
-            this.panel2.Controls.Add(this.button2);
-            this.panel2.Controls.Add(this.textBox2);
-            this.panel2.Location = new System.Drawing.Point(8, 35);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(114, 131);
-            this.panel2.TabIndex = 4;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label13.Location = new System.Drawing.Point(39, 15);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(38, 17);
-            this.label13.TabIndex = 5;
-            this.label13.Text = "KPP";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(209, 117);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "CSPT";
-            this.button3.UseVisualStyleBackColor = true;
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(17, 11);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(32, 13);
+            this.label15.TabIndex = 7;
+            this.label15.Text = "Delta";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(542, 317);
+            this.ClientSize = new System.Drawing.Size(388, 309);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -750,6 +787,8 @@ namespace Multi
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -817,6 +856,9 @@ namespace Multi
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label15;
     }
 }
 

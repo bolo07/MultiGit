@@ -445,7 +445,7 @@ namespace Multi
         {
             if (textBox20.Text != "")
             {
-                odbiorcy[8] = Convert.ToInt16(textBox13.Text);
+                odbiorcy[15] = Convert.ToInt16(textBox20.Text);
             }
         }
 
@@ -453,7 +453,7 @@ namespace Multi
         {
             if (textBox19.Text != "")
             {
-                odbiorcy[9] = Convert.ToInt16(textBox14.Text);
+                odbiorcy[14] = Convert.ToInt16(textBox19.Text);
             }
         }
 
@@ -461,7 +461,7 @@ namespace Multi
         {
             if (textBox18.Text != "")
             {
-                odbiorcy[10] = Convert.ToInt16(textBox15.Text);
+                odbiorcy[13] = Convert.ToInt16(textBox18.Text);
             }
         }
 
@@ -469,7 +469,7 @@ namespace Multi
         {
             if (textBox17.Text != "")
             {
-                odbiorcy[11] = Convert.ToInt16(textBox16.Text);
+                odbiorcy[12] = Convert.ToInt16(textBox17.Text);
             }
         }
 
@@ -477,7 +477,7 @@ namespace Multi
         {
             if (textBox16.Text != "")
             {
-                odbiorcy[12] = Convert.ToInt16(textBox17.Text);
+                odbiorcy[11] = Convert.ToInt16(textBox16.Text);
             }
         }
 
@@ -485,7 +485,7 @@ namespace Multi
         {
             if (textBox15.Text != "")
             {
-                odbiorcy[13] = Convert.ToInt16(textBox18.Text);
+                odbiorcy[10] = Convert.ToInt16(textBox15.Text);
             }
         }
 
@@ -493,7 +493,7 @@ namespace Multi
         {
             if (textBox14.Text != "")
             {
-                odbiorcy[14] = Convert.ToInt16(textBox19.Text);
+                odbiorcy[9] = Convert.ToInt16(textBox14.Text);
             }
         }
 
@@ -501,7 +501,7 @@ namespace Multi
         {
             if (textBox13.Text != "")
             {
-                odbiorcy[15] = Convert.ToInt16(textBox20.Text);
+                odbiorcy[8] = Convert.ToInt16(textBox13.Text);
             }
         }
 
@@ -634,8 +634,25 @@ namespace Multi
         }
         #endregion 
 
-       
-        ////
+      
+        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar); 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            for (int i = 1; i <= Convert.ToInt16(numericUpDown1.Value); i++)
+            {
+
+                var txtBox = this.Controls.Find("textBox" + (i + 4), true);
+                odbiorcy[i] = Convert.ToInt16(txtBox[0].Text);
+            }
+            odbiorcy[0] = nadawca;
+
+            heurystyki cspt = new heurystyki();
+            cspt.CSPT(Convert.ToInt16(textBox4.Text), odbiorcy, odbiorcy.Length, graf, ile_node, Convert.ToInt16(textBox3.Text));
+        }
 
 
     }

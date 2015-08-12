@@ -124,7 +124,7 @@ namespace Multi
        
     }
 
-    public  siec sciezka(int start, int koniec,int n, siec[] graf)
+    public  siec sciezka(int start, int koniec,int n, siec[] graf, string metryka)
         {
             const int MAXINT = 2147483647;
             int i,j,u,x,v,hlen,parent,left,right,dmin,pmin,child;              
@@ -133,8 +133,8 @@ namespace Multi
 
              // Tworzymy tablice dynamiczne
 
-            int[]d       = new int [n];			  // Tablica kosztów dojścia
-            double[]op   = new double [n];			  // Tablica opuznien
+            double[]d       = new double [n];			    // Tablica kosztów dojścia
+            double[]op   = new double [n];			// Tablica opuznien
             int[]p       = new int [n];             // Tablica poprzedników
             bool[]QS     = new bool [n];            // Zbiory Q i S
             int[]S       = new int [n];             // Stos
@@ -178,11 +178,11 @@ namespace Multi
                         left  = parent + parent + 1; // Pozycja lewego potomka
                         right = left + 1;           // Pozycja prawego potomka
                         if(left >= hlen) break;     // Kończymy, jeśli lewy potomek poza kopcem
-                        dmin = d[h[left]];          // Wyznaczamy mniejszego potomka
+                        dmin = Convert.ToInt32( d[h[left]]);          // Wyznaczamy mniejszego potomka
                         pmin = left;
                         if((right < hlen) && (dmin > d[h[right]]))
                             {
-                                dmin = d[h[right]];
+                                dmin = Convert.ToInt32(d[h[right]]);
                                 pmin = right;
                                 }
                         if(d[h[parent]] <= dmin) break; // Jeśli własność kopca zachowana, kończymy
@@ -196,25 +196,46 @@ namespace Multi
                     QS[u] = true;
 
              // Modyfikujemy odpowiednio wszystkich sąsiadów u, którzy są w Q
+                    if (metryka == "cost")
+                    {
+                        for (pw = graf[u]; pw != null; pw = pw.next)
+                            if (!QS[pw.to] && (d[pw.to] > d[u] + pw.cost))
+                            {
 
-    for(pw = graf[u]; pw!=null; pw = pw.next)
-      if(!QS[pw.to] && (d[pw.to] > d[u] + pw.cost))
-      {
+                                d[pw.to] = d[u] + pw.cost;
+                                op[pw.to] = op[u] + pw.delay;
+                                p[pw.to] = u;
 
-          d[pw.to] = d[u] + Convert.ToInt32(pw.cost);
-          op[pw.to] = op[u] + pw.delay;
-          p[pw.to] = u;
+                                // Po zmianie d[v] odtwarzamy własność kopca, idąc w górę		
+                                for (child = hp[pw.to]; child != null; child = parent)
+                                {
+                                    parent = child / 2;
+                                    if (d[h[parent]] <= d[h[child]]) break;
+                                    x = h[parent]; h[parent] = h[child]; h[child] = x;
+                                    hp[h[parent]] = parent; hp[h[child]] = child;
+                                }
+                            }
+                    }
+                    if (metryka == "delay")
+                    {
+                        for (pw = graf[u]; pw != null; pw = pw.next)
+                            if (!QS[pw.to] && (d[pw.to] > d[u] + pw.delay))
+                            {
 
-        // Po zmianie d[v] odtwarzamy własność kopca, idąc w górę		
-        for(child = hp[pw.to]; child!=null; child = parent)
-        {
-          parent = child / 2;
-          if(d[h[parent]] <= d[h[child]]) break;
-          x = h[parent]; h[parent] = h[child]; h[child] = x;
-          hp[h[parent]] = parent; hp[h[child]] = child;
-        }
-      }
-	
+                                d[pw.to] = d[u] + pw.delay;
+                                op[pw.to] = op[u] + pw.cost;
+                                p[pw.to] = u;
+
+                                // Po zmianie d[v] odtwarzamy własność kopca, idąc w górę		
+                                for (child = hp[pw.to]; child != null; child = parent)
+                                {
+                                    parent = child / 2;
+                                    if (d[h[parent]] <= d[h[child]]) break;
+                                    x = h[parent]; h[parent] = h[child]; h[child] = x;
+                                    hp[h[parent]] = parent; hp[h[child]] = child;
+                                }
+                            }
+                    }
   }
 
 
@@ -255,9 +276,10 @@ namespace Multi
     while(sptr >0) Debug.Write(S[--sptr]+" ");
 
     // Na końcu ścieżki wypisujemy jej koszt
-    Debug.Write(" $"+d[i]+","+op[i]);
-  
-	
+    
+        Debug.Write(" $" + d[i] + "," + op[i]);
+    
+   
 	
 
 
@@ -276,8 +298,8 @@ return (poczatek);
   
 
 } //algorytm dijkstry 
-  
-	 ~siec() {}
+
+    ~siec() {}
 
     }
 }
