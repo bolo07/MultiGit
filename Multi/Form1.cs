@@ -654,6 +654,18 @@ namespace Multi
             cspt.CSPT(Convert.ToInt16(textBox4.Text), odbiorcy, odbiorcy.Length, graf, ile_node, Convert.ToInt16(textBox3.Text));
         }
 
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.radioButton3.Checked == false) { this.numericUpDown3.Enabled = false; } else { this.numericUpDown3.Enabled = true; }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.radioButton1.Checked ==true) { this.numericUpDown5.Enabled = false; } else { this.numericUpDown5.Enabled = true; }
+        }
+
+       
+    
 
     }
     }

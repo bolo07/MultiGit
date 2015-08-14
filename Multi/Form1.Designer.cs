@@ -84,6 +84,7 @@ namespace Multi
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label14 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label15 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
@@ -91,7 +92,36 @@ namespace Multi
             this.label12 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label23 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.radioButton6 = new System.Windows.Forms.RadioButton();
+            this.radioButton5 = new System.Windows.Forms.RadioButton();
+            this.radioButton7 = new System.Windows.Forms.RadioButton();
+            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.radioButton10 = new System.Windows.Forms.RadioButton();
+            this.radioButton9 = new System.Windows.Forms.RadioButton();
+            this.radioButton8 = new System.Windows.Forms.RadioButton();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label17 = new System.Windows.Forms.Label();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -99,6 +129,17 @@ namespace Multi
             this.tabPage2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.panel8.SuspendLayout();
+            this.panel9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+            this.panel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            this.panel6.SuspendLayout();
+            this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -122,10 +163,11 @@ namespace Multi
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(0, 1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(389, 308);
+            this.tabControl1.Size = new System.Drawing.Size(525, 339);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -140,7 +182,7 @@ namespace Multi
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(381, 282);
+            this.tabPage1.Size = new System.Drawing.Size(517, 313);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Sieć";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -669,7 +711,7 @@ namespace Multi
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(381, 282);
+            this.tabPage2.Size = new System.Drawing.Size(517, 313);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "AH";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -694,6 +736,15 @@ namespace Multi
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(118, 131);
             this.panel3.TabIndex = 7;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(17, 11);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(32, 13);
+            this.label15.TabIndex = 7;
+            this.label15.Text = "Delta";
             // 
             // textBox3
             // 
@@ -762,20 +813,366 @@ namespace Multi
             this.textBox2.TabIndex = 0;
             this.textBox2.Text = "10";
             // 
-            // label15
+            // tabPage3
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(17, 11);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(32, 13);
-            this.label15.TabIndex = 7;
-            this.label15.Text = "Delta";
+            this.tabPage3.Controls.Add(this.label23);
+            this.tabPage3.Controls.Add(this.button4);
+            this.tabPage3.Controls.Add(this.panel8);
+            this.tabPage3.Controls.Add(this.panel7);
+            this.tabPage3.Controls.Add(this.panel6);
+            this.tabPage3.Controls.Add(this.panel4);
+            this.tabPage3.Controls.Add(this.label21);
+            this.tabPage3.Controls.Add(this.label19);
+            this.tabPage3.Controls.Add(this.label16);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(517, 313);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "AG";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(270, 95);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(66, 13);
+            this.label23.TabIndex = 27;
+            this.label23.Text = "Krzyżowanie";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(340, 269);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 26;
+            this.button4.Text = "START";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // panel8
+            // 
+            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel8.Controls.Add(this.panel9);
+            this.panel8.Controls.Add(this.numericUpDown4);
+            this.panel8.Controls.Add(this.label22);
+            this.panel8.Controls.Add(this.label20);
+            this.panel8.Location = new System.Drawing.Point(273, 111);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(213, 143);
+            this.panel8.TabIndex = 25;
+            // 
+            // panel9
+            // 
+            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel9.Controls.Add(this.radioButton6);
+            this.panel9.Controls.Add(this.radioButton5);
+            this.panel9.Controls.Add(this.radioButton7);
+            this.panel9.Location = new System.Drawing.Point(3, 23);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(205, 78);
+            this.panel9.TabIndex = 21;
+            // 
+            // radioButton6
+            // 
+            this.radioButton6.AutoSize = true;
+            this.radioButton6.Location = new System.Drawing.Point(3, 29);
+            this.radioButton6.Name = "radioButton6";
+            this.radioButton6.Size = new System.Drawing.Size(94, 17);
+            this.radioButton6.TabIndex = 12;
+            this.radioButton6.Text = "Dwupunktowe";
+            this.radioButton6.UseVisualStyleBackColor = true;
+            // 
+            // radioButton5
+            // 
+            this.radioButton5.AutoSize = true;
+            this.radioButton5.Checked = true;
+            this.radioButton5.Location = new System.Drawing.Point(3, 6);
+            this.radioButton5.Name = "radioButton5";
+            this.radioButton5.Size = new System.Drawing.Size(101, 17);
+            this.radioButton5.TabIndex = 11;
+            this.radioButton5.TabStop = true;
+            this.radioButton5.Text = "Jednopunktowe";
+            this.radioButton5.UseVisualStyleBackColor = true;
+            // 
+            // radioButton7
+            // 
+            this.radioButton7.AutoSize = true;
+            this.radioButton7.Location = new System.Drawing.Point(3, 52);
+            this.radioButton7.Name = "radioButton7";
+            this.radioButton7.Size = new System.Drawing.Size(171, 17);
+            this.radioButton7.TabIndex = 13;
+            this.radioButton7.Text = "Z częściowym odwzorowaniem";
+            this.radioButton7.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDown4
+            // 
+            this.numericUpDown4.DecimalPlaces = 2;
+            this.numericUpDown4.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.numericUpDown4.Location = new System.Drawing.Point(136, 112);
+            this.numericUpDown4.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown4.Name = "numericUpDown4";
+            this.numericUpDown4.Size = new System.Drawing.Size(54, 20);
+            this.numericUpDown4.TabIndex = 20;
+            this.numericUpDown4.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(19, 114);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(111, 13);
+            this.label22.TabIndex = 18;
+            this.label22.Text = "Wspułczynnik mutacji";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(2, 7);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(109, 13);
+            this.label20.TabIndex = 10;
+            this.label20.Text = "Operator krzyżowania";
+            // 
+            // panel7
+            // 
+            this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel7.Controls.Add(this.numericUpDown3);
+            this.panel7.Controls.Add(this.radioButton4);
+            this.panel7.Controls.Add(this.radioButton3);
+            this.panel7.Location = new System.Drawing.Point(273, 29);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(214, 53);
+            this.panel7.TabIndex = 24;
+            // 
+            // numericUpDown3
+            // 
+            this.numericUpDown3.Location = new System.Drawing.Point(110, 6);
+            this.numericUpDown3.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDown3.Name = "numericUpDown3";
+            this.numericUpDown3.Size = new System.Drawing.Size(68, 20);
+            this.numericUpDown3.TabIndex = 19;
+            this.numericUpDown3.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Location = new System.Drawing.Point(7, 29);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(100, 17);
+            this.radioButton4.TabIndex = 9;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.Text = "Najlepszy wynik";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Checked = true;
+            this.radioButton3.Location = new System.Drawing.Point(7, 6);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(97, 17);
+            this.radioButton3.TabIndex = 7;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "Liczba pokoleń";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // panel6
+            // 
+            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel6.Controls.Add(this.radioButton10);
+            this.panel6.Controls.Add(this.radioButton9);
+            this.panel6.Controls.Add(this.radioButton8);
+            this.panel6.Location = new System.Drawing.Point(16, 216);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(217, 76);
+            this.panel6.TabIndex = 23;
+            // 
+            // radioButton10
+            // 
+            this.radioButton10.AutoSize = true;
+            this.radioButton10.Location = new System.Drawing.Point(3, 49);
+            this.radioButton10.Name = "radioButton10";
+            this.radioButton10.Size = new System.Drawing.Size(119, 17);
+            this.radioButton10.TabIndex = 17;
+            this.radioButton10.Text = "Zasada rankingowa";
+            this.radioButton10.UseVisualStyleBackColor = true;
+            // 
+            // radioButton9
+            // 
+            this.radioButton9.AutoSize = true;
+            this.radioButton9.Location = new System.Drawing.Point(3, 26);
+            this.radioButton9.Name = "radioButton9";
+            this.radioButton9.Size = new System.Drawing.Size(112, 17);
+            this.radioButton9.TabIndex = 16;
+            this.radioButton9.Text = "Zasada turniejowa";
+            this.radioButton9.UseVisualStyleBackColor = true;
+            // 
+            // radioButton8
+            // 
+            this.radioButton8.AutoSize = true;
+            this.radioButton8.Checked = true;
+            this.radioButton8.Location = new System.Drawing.Point(3, 6);
+            this.radioButton8.Name = "radioButton8";
+            this.radioButton8.Size = new System.Drawing.Size(92, 17);
+            this.radioButton8.TabIndex = 15;
+            this.radioButton8.TabStop = true;
+            this.radioButton8.Text = "Zasada ruletki";
+            this.radioButton8.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.label17);
+            this.panel4.Controls.Add(this.numericUpDown2);
+            this.panel4.Controls.Add(this.panel5);
+            this.panel4.Controls.Add(this.label18);
+            this.panel4.Location = new System.Drawing.Point(11, 29);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(217, 160);
+            this.panel4.TabIndex = 21;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(1, 8);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(83, 13);
+            this.label17.TabIndex = 2;
+            this.label17.Text = "Ilość osobników";
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(9, 26);
+            this.numericUpDown2.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(49, 20);
+            this.numericUpDown2.TabIndex = 0;
+            this.numericUpDown2.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // panel5
+            // 
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.numericUpDown5);
+            this.panel5.Controls.Add(this.radioButton2);
+            this.panel5.Controls.Add(this.radioButton1);
+            this.panel5.Location = new System.Drawing.Point(4, 81);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(208, 74);
+            this.panel5.TabIndex = 22;
+            // 
+            // numericUpDown5
+            // 
+            this.numericUpDown5.Enabled = false;
+            this.numericUpDown5.Location = new System.Drawing.Point(138, 30);
+            this.numericUpDown5.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Name = "numericUpDown5";
+            this.numericUpDown5.Size = new System.Drawing.Size(51, 20);
+            this.numericUpDown5.TabIndex = 6;
+            this.numericUpDown5.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(4, 30);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(133, 17);
+            this.radioButton2.TabIndex = 5;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "K-najkrutszych ścieżek";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(4, 7);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(45, 17);
+            this.radioButton1.TabIndex = 4;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "BFS";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(1, 65);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(161, 13);
+            this.label18.TabIndex = 3;
+            this.label18.Text = "Metoda generowania osobników";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(13, 200);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(81, 13);
+            this.label21.TabIndex = 14;
+            this.label21.Text = "Metoda selekcji";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(270, 13);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(109, 13);
+            this.label19.TabIndex = 6;
+            this.label19.Text = "Warunek zatrzymania";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(8, 13);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(115, 13);
+            this.label16.TabIndex = 1;
+            this.label16.Text = "Populacja początkowa";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(388, 309);
+            this.ClientSize = new System.Drawing.Size(521, 338);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -791,6 +1188,24 @@ namespace Multi
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -859,6 +1274,36 @@ namespace Multi
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.NumericUpDown numericUpDown4;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.RadioButton radioButton10;
+        private System.Windows.Forms.RadioButton radioButton9;
+        private System.Windows.Forms.RadioButton radioButton8;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.RadioButton radioButton7;
+        private System.Windows.Forms.RadioButton radioButton6;
+        private System.Windows.Forms.RadioButton radioButton5;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.RadioButton radioButton4;
+        public System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panel4;
+        public System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown numericUpDown5;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Panel panel9;
     }
 }
 
