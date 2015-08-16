@@ -849,6 +849,7 @@ namespace Multi
             this.button4.TabIndex = 26;
             this.button4.Text = "START";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // panel8
             // 
@@ -882,6 +883,7 @@ namespace Multi
             this.radioButton6.TabIndex = 12;
             this.radioButton6.Text = "Dwupunktowe";
             this.radioButton6.UseVisualStyleBackColor = true;
+            this.radioButton6.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
             // 
             // radioButton5
             // 
@@ -894,6 +896,7 @@ namespace Multi
             this.radioButton5.TabStop = true;
             this.radioButton5.Text = "Jednopunktowe";
             this.radioButton5.UseVisualStyleBackColor = true;
+            this.radioButton5.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
             // 
             // radioButton7
             // 
@@ -904,6 +907,7 @@ namespace Multi
             this.radioButton7.TabIndex = 13;
             this.radioButton7.Text = "Z częściowym odwzorowaniem";
             this.radioButton7.UseVisualStyleBackColor = true;
+            this.radioButton7.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged);
             // 
             // numericUpDown4
             // 
@@ -1018,6 +1022,7 @@ namespace Multi
             this.radioButton10.TabIndex = 17;
             this.radioButton10.Text = "Zasada rankingowa";
             this.radioButton10.UseVisualStyleBackColor = true;
+            this.radioButton10.CheckedChanged += new System.EventHandler(this.radioButton10_CheckedChanged);
             // 
             // radioButton9
             // 
@@ -1028,6 +1033,7 @@ namespace Multi
             this.radioButton9.TabIndex = 16;
             this.radioButton9.Text = "Zasada turniejowa";
             this.radioButton9.UseVisualStyleBackColor = true;
+            this.radioButton9.CheckedChanged += new System.EventHandler(this.radioButton9_CheckedChanged);
             // 
             // radioButton8
             // 
@@ -1040,6 +1046,7 @@ namespace Multi
             this.radioButton8.TabStop = true;
             this.radioButton8.Text = "Zasada ruletki";
             this.radioButton8.UseVisualStyleBackColor = true;
+            this.radioButton8.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
             // 
             // panel4
             // 
@@ -1092,8 +1099,8 @@ namespace Multi
             // 
             // numericUpDown5
             // 
-            this.numericUpDown5.Enabled = false;
-            this.numericUpDown5.Location = new System.Drawing.Point(138, 30);
+            this.numericUpDown5.Enabled = true;
+            this.numericUpDown5.Location = new System.Drawing.Point(64, 49);
             this.numericUpDown5.Minimum = new decimal(new int[] {
             1,
             0,
@@ -1113,11 +1120,12 @@ namespace Multi
             this.radioButton2.AutoSize = true;
             this.radioButton2.Location = new System.Drawing.Point(4, 30);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(133, 17);
+            this.radioButton2.Size = new System.Drawing.Size(173, 17);
             this.radioButton2.TabIndex = 5;
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "K-najkrutszych ścieżek";
+            this.radioButton2.Text = "Dijkstra- k najkrutszych ścieżek";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -1125,10 +1133,10 @@ namespace Multi
             this.radioButton1.Checked = true;
             this.radioButton1.Location = new System.Drawing.Point(4, 7);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(45, 17);
+            this.radioButton1.Size = new System.Drawing.Size(161, 17);
             this.radioButton1.TabIndex = 4;
             this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "BFS";
+            this.radioButton1.Text = "BFS - k najkrutszych ścieżek";
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -1275,7 +1283,7 @@ namespace Multi
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.NumericUpDown numericUpDown4;
+        public System.Windows.Forms.NumericUpDown numericUpDown4;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.RadioButton radioButton10;
         private System.Windows.Forms.RadioButton radioButton9;
