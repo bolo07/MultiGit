@@ -290,8 +290,8 @@ namespace Multi
             List<siec> removed_node = new List<siec>();       //usuniete krawędzie
             siec dijkastra = new siec();
             siec pomoc, pomoc2;
-            siec root_path;
-            siec total_path;                                //suma root_path i spur_path
+            List<int> root_path;
+            siec total_path =null, spur_path;                                //suma root_path i spur_path
             siec spur_node;
             int dlugosc_sciezki;
 
@@ -305,9 +305,9 @@ namespace Multi
                 {
                     dlugosc_sciezki = 0;
                     for (pomoc = tab_r[k-1]; pomoc != null; pomoc = pomoc.next){dlugosc_sciezki++;}//liczy ilość węzłów w ścieżce
-                    root_path = new siec(tab_r[k - 1]);     //sciezka                   
+                    root_path = new List<int>();    //sciezka                   
                     spur_node = tab_r[k - 1];              //nowy wiezchołek startowy  
-                    root_path.next=null;
+                    root_path.Add(spur_node.to);
 
                     for(int i =0; i<dlugosc_sciezki; i++)//
                     {
@@ -397,26 +397,38 @@ namespace Multi
                          }//koniec for usuwa
 
 
-                        total_path = new siec(root_path);
+                        
                         if (i == 0)
                         {
                             stos.Add(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"));
                         }
                         else
                         {
-                           
-                            stos.Add(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"));
+                            
+                            total_path = siec.DeepCopy(tab_r[k - 1]);
+                            for (spur_path=total_path; spur_path.from != spur_node.to; spur_path = spur_path.next)
+                            {
+ 
+                            }
+                            spur_path.next = dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost");
+                            if (total_path.next == null)
+                            {
+                                break;
+                            }
+                            stos.Add(total_path);
+
+                                                        
                         }
 
-                        
-                        //kopia_graf[spur_node.to] = new siec(graf[spur_node.to]);
-                        //kopia_graf[spur_node.from] = new siec(graf[spur_node.from]);
 
                         
 
-                        root_path.next = spur_node.next;
                         spur_node = spur_node.next;
+                        if(spur_node!=null)
+                        root_path.Add(spur_node.to);
                     }
+                    
+                    kopia_graf = siec.DeepCopy(graf); //przywrucenie własności grafu
                     if (stos.Count() == 0)
                     {
                         break;

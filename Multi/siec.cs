@@ -158,7 +158,6 @@ namespace Multi
                 temp.length = Convert.ToDouble(tab[3]);             
                 temp.next = graf[temp.from];
                 if (temp.next != null) temp.next.before = temp;
-                
                 graf[temp.from] = temp;
                 
 
@@ -179,7 +178,7 @@ namespace Multi
             }
 
 
-            MessageBox.Show("Wczytano graf z " + Convert.ToString(ile_node) + " wierzchołków i " + counter + " krawędzi");
+           // MessageBox.Show("Wczytano graf z " + Convert.ToString(ile_node) + " wierzchołków i " + counter + " krawędzi");
             file.Close();
           
         
@@ -316,7 +315,10 @@ namespace Multi
 			  kopia = new siec(nw);
 			  pw=kopia;
 			  pw.next=poczatek;
+              if (pw.next != null) pw.next.before = kopia;
 		      poczatek=pw;
+
+              
 		  
 		  }
 		  nw=nw.next;
@@ -340,9 +342,14 @@ namespace Multi
     while(sptr >0) Debug.Write(S[--sptr]+" ");
 
     // Na końcu ścieżki wypisujemy jej koszt
-    
+    if (poczatek == null)
+    {
+        Debug.Write("Nie można odnaleść scieżki");
+    }
+    else
+    {
         Debug.Write(" $" + d[i] + "," + op[i]);
-    
+    }
    
 	
 
@@ -363,7 +370,7 @@ return (poczatek);
 
 } //algorytm dijkstry 
 
-    ~siec() {}
+   
 
     }
 }
