@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Windows.Forms;
+using System.Globalization;
+using System.Diagnostics;
 namespace Multi
 {
     class AG 
@@ -68,12 +71,16 @@ namespace Multi
                     break;
                 
                 case 2:
+
+                    l_tab_r.Add(Generowanie_Dijkstra(graf,ile_sciezek, odbiorcy[0], odbiorcy[1]));
+                    
+
                     break;
    
 
             }//Gen_populacji
 
-          ////ocena
+         /////ocena
          
          ////selekcja
 #region
@@ -276,7 +283,151 @@ namespace Multi
 
         }
 
+        public List<siec> Generowanie_Dijkstra(siec[] graf, int ile_sciezek, int nadawca, int odbiorca)
+        {
+            List<siec> tab_r = new List<siec>();               //tablica routingu
+            List<siec> stos = new List<siec>();                  // stos z potencjalnymi najkrutszymi ściezkami
+            List<siec> removed_node = new List<siec>();       //usuniete krawędzie
+            siec dijkastra = new siec();
+            siec pomoc, pomoc2;
+            siec root_path;
+            siec total_path;                                //suma root_path i spur_path
+            siec spur_node;
+            int dlugosc_sciezki;
 
+            siec[] kopia_graf = siec.DeepCopy(graf);
+      
+
+         
+            tab_r.Add(dijkastra.sciezka(nadawca, odbiorca, graf.Count(), graf, "cost")); //obliczenie najkrutszej ścieżki 
+              
+            for (int k = 1; k < ile_sciezek; k++)//główny for ile sciezek trzeba wyznaczyć
+                {
+                    dlugosc_sciezki = 0;
+                    for (pomoc = tab_r[k-1]; pomoc != null; pomoc = pomoc.next){dlugosc_sciezki++;}//liczy ilość węzłów w ścieżce
+                    root_path = new siec(tab_r[k - 1]);     //sciezka                   
+                    spur_node = tab_r[k - 1];              //nowy wiezchołek startowy  
+                    root_path.next=null;
+
+                    for(int i =0; i<dlugosc_sciezki; i++)//
+                    {
+
+
+                        
+                        for (int c = 0; c < tab_r.Count(); c++) //usuwa wszystkie krawędzie należące do tab_r z węzłem startowym spur_node z graf
+                        {
+                            
+                            for (pomoc2 = tab_r[c]; pomoc2 != null; pomoc2 = pomoc2.next)
+                            {
+                                
+
+                                if (spur_node.to == pomoc2.to)
+                                {
+
+                                    for (pomoc = kopia_graf[spur_node.from]; pomoc != null; pomoc = pomoc.next)
+                                    {
+
+                                        if (spur_node.to == pomoc.to && spur_node.from == pomoc.from)
+                                        {
+                                            if (pomoc.before == null)
+                                            {
+                                                pomoc = pomoc.next;
+                                            }
+                                            else
+                                            {
+                                                removed_node.Add(pomoc);
+                                                pomoc.before.next = pomoc.next;
+                                            }
+
+                                        }
+
+
+                                    } //for
+                                    for (pomoc = kopia_graf[spur_node.to]; pomoc != null; pomoc = pomoc.next)
+                                    {
+
+                                        if (spur_node.to == pomoc.from && spur_node.from == pomoc.to)
+                                        {
+                                            if (pomoc.before == null) 
+                                            {
+                                                pomoc = pomoc.next;
+                                            }
+                                            else
+                                            {
+                                                removed_node.Add(pomoc);
+                                                pomoc.before.next = pomoc.next;
+                                            }
+                                        }
+
+                                    } //for
+
+                                }
+                                if (i == 1)
+                                {
+                                    int kontrolka = 0;
+                                    kopia_graf[nadawca] = null;
+                                    while (kontrolka < kopia_graf.Count())
+                                    {
+                                        
+
+                                        for (pomoc = kopia_graf[kontrolka]; pomoc != null; pomoc = pomoc.next)
+                                        {
+
+                                            if (nadawca == pomoc.to)
+                                            {
+                                                if (pomoc.before == null)
+                                                {
+                                                    kopia_graf[kontrolka] = pomoc.next;
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    removed_node.Add(pomoc);
+                                                    pomoc.before.next = pomoc.next;
+                                                    break;
+
+                                                }
+                                            }
+
+                                        }
+                                        kontrolka++;
+                                    }
+                                }
+                            }
+                         }//koniec for usuwa
+
+
+                        total_path = new siec(root_path);
+                        if (i == 0)
+                        {
+                            stos.Add(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"));
+                        }
+                        else
+                        {
+                           
+                            stos.Add(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"));
+                        }
+
+                        
+                        //kopia_graf[spur_node.to] = new siec(graf[spur_node.to]);
+                        //kopia_graf[spur_node.from] = new siec(graf[spur_node.from]);
+
+                        
+
+                        root_path.next = spur_node.next;
+                        spur_node = spur_node.next;
+                    }
+                    if (stos.Count() == 0)
+                    {
+                        break;
+                    }
+                    
+                    
+
+                }//for główny
+
+                return tab_r;
+        }
     }
 
 

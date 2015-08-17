@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace Multi
 {
@@ -21,7 +22,7 @@ namespace Multi
      public int from;			//źródło
      public int to;			    //cel
      public double cost;		//koszt
-     public double bandwidth;		//pasmo
+     public double length;		//długość lini
      public double delay;			//opóżnienie
    
    
@@ -30,8 +31,64 @@ namespace Multi
 	public  siec(){
             ja = this;
             next = null;
+            before = null;
     }
-        
+    public static T DeepCopy<T>(T obj)
+    {
+        if (obj == null)
+            throw new ArgumentNullException("Object cannot be null");
+        return (T)Process(obj, new Dictionary<object, object>() { });
+    }
+
+    static object Process(object obj, Dictionary<object, object> circular)
+    {
+        if (obj == null)
+            return null;
+        Type type = obj.GetType();
+        if (type.IsValueType || type == typeof(string))
+        {
+            return obj;
+        }
+        if (circular.ContainsKey(obj))
+            return circular[obj];
+        if (type.IsArray)
+        {
+            string typeNoArray = type.FullName.Replace("[]", string.Empty);
+            Type elementType = Type.GetType(string.Format("{0}, {1}", typeNoArray, type.Assembly.FullName));
+            var array = obj as Array;
+            Array copied = Array.CreateInstance(elementType, array.Length);
+            circular[obj] = copied;
+            for (int i = 0; i < array.Length; i++)
+            {
+                object element = array.GetValue(i);
+                object copy = null;
+                if (element != null && circular.ContainsKey(element))
+                    copy = circular[element];
+                else
+                    copy = Process(element, circular);
+                copied.SetValue(copy, i);
+            }
+            return Convert.ChangeType(copied, obj.GetType());
+        }
+        if (type.IsClass)
+        {
+            object toret = Activator.CreateInstance(obj.GetType());
+            circular[obj] = toret;
+            FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            foreach (FieldInfo field in fields)
+            {
+                object fieldValue = field.GetValue(obj);
+                if (fieldValue == null)
+                    continue;
+                object copy = circular.ContainsKey(fieldValue) ? circular[fieldValue] : Process(fieldValue, circular);
+                field.SetValue(toret, copy);
+            }
+            return toret;
+        }
+        else
+            throw new ArgumentException("Unknown type");
+    }
+    
 	public siec(siec obiekt)
     {
         this.ja=this;
@@ -42,7 +99,7 @@ namespace Multi
 	    this.from = obiekt.from;
 	    this.to = obiekt.to;
 	    this.cost = obiekt.cost;
-	    this.bandwidth = obiekt.bandwidth;
+	    this.length = obiekt.length;
 	    this.delay = obiekt.delay;
     }
 
@@ -91,26 +148,33 @@ namespace Multi
                 tab = line.Split("\t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
                 //utworzenie nowej gałęzi
+                
                 siec temp = new siec();
                 temp.id = Convert.ToInt16(tab[0]);
                 temp.from = Convert.ToInt16(tab[1]);
                 temp.to = Convert.ToInt16(tab[2]);
-                temp.cost = Convert.ToDouble(tab[3]);
+                temp.cost = Convert.ToDouble(tab[5]);
                 temp.delay = Convert.ToDouble(tab[4]);
-                temp.bandwidth = Convert.ToDouble(tab[5]);
+                temp.length = Convert.ToDouble(tab[3]);             
                 temp.next = graf[temp.from];
+                if (temp.next != null) temp.next.before = temp;
+                
                 graf[temp.from] = temp;
+                
 
                 siec temp1 = new siec();
                 temp1.id = Convert.ToInt16(tab[0]);
                 temp1.from = Convert.ToInt16(tab[2]);
                 temp1.to = Convert.ToInt16(tab[1]);
-                temp1.cost = Convert.ToDouble(tab[3]);
+                temp1.cost = Convert.ToDouble(tab[5]);
                 temp1.delay = Convert.ToDouble(tab[4]);
-                temp1.bandwidth = Convert.ToDouble(tab[5]);
+                temp1.length = Convert.ToDouble(tab[3]);                
                 temp1.next = graf[temp1.from];
+                if (temp1.next != null) temp1.next.before = temp1;
+                
                 graf[temp1.from] = temp1;
                 
+
                 counter++;
             }
 
@@ -124,7 +188,7 @@ namespace Multi
        
     }
 
-    public  siec sciezka(int start, int koniec,int n, siec[] graf, string metryka)
+    public  siec sciezka(int start, int koniec, int n, siec[] graf, string metryka)
         {
             const int MAXINT = 2147483647;
             int i,j,u,x,v,hlen,parent,left,right,dmin,pmin,child;              
