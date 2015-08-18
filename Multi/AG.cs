@@ -12,6 +12,14 @@ namespace Multi
     class AG 
 
     {
+        siec sciezka;
+        double waga;
+        public AG() { }
+        public AG(siec sciezka, double waga)
+        {
+            this.sciezka = sciezka;
+            this.waga = waga;
+        }
         
         public static int seed = Environment.TickCount;
         System.Random x = new Random(seed);
@@ -286,14 +294,16 @@ namespace Multi
         public List<siec> Generowanie_Dijkstra(siec[] graf, int ile_sciezek, int nadawca, int odbiorca)
         {
             List<siec> tab_r = new List<siec>();               //tablica routingu
-            List<siec> stos = new List<siec>();                  // stos z potencjalnymi najkrutszymi ściezkami
+            List<AG> stos = new List<AG>();                  // stos z potencjalnymi najkrutszymi ściezkami
             List<siec> removed_node = new List<siec>();       //usuniete krawędzie
             siec dijkastra = new siec();
-            siec pomoc, pomoc2;
+            siec pomoc, pomoc2, pomoc3;
             List<int> root_path;
             siec total_path =null, spur_path;                                //suma root_path i spur_path
             siec spur_node;
-            int dlugosc_sciezki;
+            int dlugosc_sciezki, usuwanie_nadawcy;
+            double koszt;
+            AG sciezka;
 
             siec[] kopia_graf = siec.DeepCopy(graf);
       
@@ -308,6 +318,7 @@ namespace Multi
                     root_path = new List<int>();    //sciezka                   
                     spur_node = tab_r[k - 1];              //nowy wiezchołek startowy  
                     root_path.Add(spur_node.to);
+                    usuwanie_nadawcy = 0;
 
                     for(int i =0; i<dlugosc_sciezki; i++)//
                     {
@@ -324,10 +335,10 @@ namespace Multi
                                 if (spur_node.to == pomoc2.to)
                                 {
 
-                                    for (pomoc = kopia_graf[spur_node.from]; pomoc != null; pomoc = pomoc.next)
+                                    for (pomoc = kopia_graf[pomoc2.from]; pomoc != null; pomoc = pomoc.next) /////tu skończyłem
                                     {
 
-                                        if (spur_node.to == pomoc.to && spur_node.from == pomoc.from)
+                                        if (spur_node.to == pomoc.to && pomoc.from == pomoc2.from)
                                         {
                                             if (pomoc.before == null)
                                             {
@@ -343,7 +354,8 @@ namespace Multi
 
 
                                     } //for
-                                    for (pomoc = kopia_graf[spur_node.to]; pomoc != null; pomoc = pomoc.next)
+
+                                    for (pomoc = kopia_graf[spur_node.to]; pomoc != null; pomoc = pomoc.next)///////tu sprawdzic
                                     {
 
                                         if (spur_node.to == pomoc.from && spur_node.from == pomoc.to)
@@ -362,10 +374,12 @@ namespace Multi
                                     } //for
 
                                 }
-                                if (i == 1)
+
+                                if (i == 1&& usuwanie_nadawcy ==0)
                                 {
                                     int kontrolka = 0;
                                     kopia_graf[nadawca] = null;
+                                    usuwanie_nadawcy = 1;
                                     while (kontrolka < kopia_graf.Count())
                                     {
                                         
@@ -397,10 +411,20 @@ namespace Multi
                          }//koniec for usuwa
 
 
-                        
+                        koszt = 0;
                         if (i == 0)
                         {
-                            stos.Add(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"));
+                            sciezka = new AG(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"), 0);   
+                            for (pomoc3= sciezka.sciezka; pomoc3 !=null; pomoc3 = pomoc3.next)
+                            {
+                                koszt = koszt + pomoc3.cost;
+                            }
+                            sciezka.waga = koszt;
+
+                            stos.Add(sciezka);
+                           
+                           
+                            
                         }
                         else
                         {
@@ -411,12 +435,22 @@ namespace Multi
  
                             }
                             spur_path.next = dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost");
-                            if (total_path.next == null)
+
+
+
+                            if (spur_node.next == null)
                             {
                                 break;
                             }
-                            stos.Add(total_path);
-
+                            else
+                            {
+                                for (pomoc3 = total_path; pomoc3 != null; pomoc3 = pomoc3.next)
+                                {
+                                    koszt = koszt + pomoc3.cost;
+                                }
+                                sciezka = new AG(total_path, koszt);
+                                stos.Add(sciezka);
+                            }
                                                         
                         }
 
@@ -433,9 +467,14 @@ namespace Multi
                     {
                         break;
                     }
-                    
-                    
 
+                    var lengths = from element in stos
+                                  orderby element.waga
+                                  select element;
+
+                    Debug.WriteLine(stos.LastOrDefault().waga);
+                    tab_r.Add(stos.LastOrDefault().sciezka);
+                    stos.Remove(stos.LastOrDefault());
                 }//for główny
 
                 return tab_r;
