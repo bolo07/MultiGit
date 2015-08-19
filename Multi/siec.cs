@@ -326,7 +326,7 @@ namespace Multi
 	  }
   }
 
-
+/*
     Debug.WriteLine("");
     i=koniec;
     Debug.Write(start+"->"+i+" ");
@@ -351,23 +351,11 @@ namespace Multi
         Debug.Write(" $" + d[i] + "," + op[i]);
     }
    
-	
+	*/
 
 
 return (poczatek);
-
-
- /* delete [] d;
-  delete [] p;
-  delete [] QS;
-  delete [] S;
-  delete [] h;
-  delete [] hp;
-
-  delete poczatek;*/
   
-  
-
 } //algorytm dijkstry 
 
    

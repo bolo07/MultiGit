@@ -25,18 +25,19 @@ namespace Multi
         System.Random x = new Random(seed);
         public void algorytm_genetyczny(int p_pocz, Int16 m_generowania, Int16 m_selekcji, Int16 m_krzyzowania, double wsp_mutacji, siec[] graf, int[] odbiorcy, int ile_sciezek )
         {
-            List<List<siec>> l_tab_r = new List<List<siec>>(); //lista tablic routingu (baza genów)
-            List<siec> chromosom ;        //chromosom (drzewo transmisji multicast)
-            List<List<siec>> populacja_pocz = new List<List<siec>>();
+            List<List<AG>> l_tab_r = new List<List<AG>>(); //lista tablic routingu (baza genów)
+            List<AG> chromosom ;        //chromosom (drzewo transmisji multicast)
+            List<List<AG>> populacja_pocz = new List<List<AG>>();
             
 
             /// Generowanie populacji poczatkowej
             switch(m_generowania)
             {
+                
                 case 1://generuje tablice routingu przeszukując grf w szerz
-                    int rand=0;
+                    int rand1 = 0;
                   
-
+                    
                     for (int i = 1; i < odbiorcy.Count(); i++)
                     {
 
@@ -45,19 +46,19 @@ namespace Multi
                     }
                     for (int j = 0; j < p_pocz; j++)
                     {
-                        chromosom = new List<siec>(odbiorcy.Count()-1);
+                        chromosom = new List<AG>(odbiorcy.Count()-1);
 
                         for (int i = 0; i < odbiorcy.Count() - 1; i++)
                         {
-                            rand = x.Next(0, l_tab_r[i].Count());
-                            chromosom.Add(l_tab_r[i][rand]);
+                            rand1 = x.Next(0, l_tab_r[i].Count());
+                            chromosom.Add(l_tab_r[i][rand1]);
                         }
 
                         populacja_pocz.Add(chromosom);
                     }
-
-
-                  /*  siec node;
+                    
+                    
+                    siec node;
 
                     for (int k = 0; k < populacja_pocz.Count(); k++)
                     {
@@ -66,7 +67,7 @@ namespace Multi
                         for (int i = 0; i < populacja_pocz[k].Count(); i++)
 
                         {
-                            for (node = populacja_pocz[k][i]; node != null; node = node.next)
+                            for (node = populacja_pocz[k][i].sciezka; node != null; node = node.next)
                             {
                                 Debug.Write(node.from + " -> ");
 
@@ -74,14 +75,53 @@ namespace Multi
                             Debug.Write(odbiorcy[0]);
                             Debug.WriteLine("");
                         }
-                    }*/  
+                    }  
                         Debug.Write("pause");
                     break;
                 
                 case 2:
 
-                    l_tab_r.Add(Generowanie_Dijkstra(graf,ile_sciezek, odbiorcy[0], odbiorcy[1]));
-                    
+
+                    int rand2 = 0;
+               
+                    for (int i = 1; i < odbiorcy.Count(); i++)
+                    {
+
+                        l_tab_r.Add(Generowanie_Dijkstra(graf, ile_sciezek, odbiorcy[0], odbiorcy[i]));
+                        
+                    }
+                    for (int j = 0; j < p_pocz; j++)
+                    {
+                        chromosom = new List<AG>(odbiorcy.Count()-1);
+
+                        for (int i = 0; i < odbiorcy.Count() - 1; i++)
+                        {
+                            rand2 = x.Next(0, l_tab_r[i].Count());
+                            chromosom.Add(l_tab_r[i][rand2]);
+                        }
+
+                        populacja_pocz.Add(chromosom);
+                    }
+
+                      siec node1;
+
+                    for (int k = 0; k < populacja_pocz.Count(); k++)
+                    {
+                        Debug.WriteLine("");
+                        Debug.WriteLine("Osobnik ("+k+")");
+                        for (int i = 0; i < populacja_pocz[k].Count(); i++)
+
+                        {
+                            for (node1 = populacja_pocz[k][i].sciezka; node1 != null; node1 = node1.next)
+                            {
+                                Debug.Write(node1.from + " -> ");
+
+                            }
+                            Debug.Write(odbiorcy[0]);
+                            Debug.WriteLine("");
+                        }
+                    }  
+                        Debug.Write("pause");
 
                     break;
    
@@ -127,9 +167,10 @@ namespace Multi
         }//algorytm_genetyczny
 
         
-        public List<siec> Generowanie_BFS(siec[] graf, int ile_sciezek, int nadawca, int odbiorca)
+        public List<AG> Generowanie_BFS(siec[] graf, int ile_sciezek, int nadawca, int odbiorca)
         {
-            List<siec> tab_r = new List<siec>();               //tablica routingu
+            List<siec> tab = new List<siec>();               
+            List<AG> tab_r = new List<AG>();               //tablica routingu
             bool[] vis = new bool[graf.Count()];              //kontrolka
             List<int> kolejka = new List<int>();             //kolejka
             List<int> gen = new List<int>();                //scieżka
@@ -138,7 +179,7 @@ namespace Multi
             int random = 0;
             int koniec = nadawca;
             int wczesniej = nadawca;
-
+            siec kopia;
 
             
 
@@ -146,7 +187,7 @@ namespace Multi
             while(licz2 <ile_sciezek)
             {
                 kolejka.Clear();
-                tab_r.Add(null);
+                tab.Add(null);
 
                 gen.Clear();
                 gen.Add(0);
@@ -209,7 +250,7 @@ namespace Multi
                 
                
 
-                siec kopia;
+                
 
                 int j = 0;
                 for (j = 1; j < gen.Count();j++ )
@@ -223,8 +264,8 @@ namespace Multi
                         {
                             kopia = new siec(nw);
                             node = kopia;
-                            node.next = tab_r[licz];
-                            tab_r[licz] = node;
+                            node.next = tab[licz];
+                            tab[licz] = node;
                         }
                     }
                  }
@@ -234,13 +275,13 @@ namespace Multi
                 {
                    
                     
-                    for (int i = 0; i < tab_r.Count(); i++)
+                    for (int i = 0; i < tab.Count(); i++)
                     {
-                        nw = tab_r[licz];
+                        nw = tab[licz];
                         
                         if (i != licz && nw !=null )
                         {
-                            kopia = tab_r[i];
+                            kopia = tab[i];
                             if (kopia != null)
                             {
 
@@ -251,7 +292,7 @@ namespace Multi
                                     
                                     if (nw == null && kopia == null)
                                     {
-                                        tab_r.RemoveAt(licz);
+                                        tab.RemoveAt(licz);
                                         licz--;
                                        
                                         break;
@@ -285,15 +326,33 @@ namespace Multi
                 Debug.WriteLine("");
             }
 
-         */   
-            
-            return tab_r;
+         */
+            double koszt;
+            siec pomoc;
+            AG sciezka;
+
+            for (int k = 0; k < tab.Count();k++ )
+            {
+                koszt = 0;
+                kopia = siec.DeepCopy(tab[k]);
+                for (pomoc = kopia; pomoc != null; pomoc = pomoc.next)
+                {
+                    koszt = koszt + pomoc.cost;
+                }
+
+                sciezka = new AG(kopia, koszt);
+                tab_r.Add(sciezka);
+
+            }
+
+
+                return tab_r;
 
         }
 
-        public List<siec> Generowanie_Dijkstra(siec[] graf, int ile_sciezek, int nadawca, int odbiorca)
+        public List<AG> Generowanie_Dijkstra(siec[] graf, int ile_sciezek, int nadawca, int odbiorca) //////////////zmienić typ zwracany na taki żeby zawierał sciezke i wage dla BFS też
         {
-            List<siec> tab_r = new List<siec>();               //tablica routingu
+            List<AG> tab_r = new List<AG>();               //tablica routingu
             List<AG> stos = new List<AG>();                  // stos z potencjalnymi najkrutszymi ściezkami
             List<siec> removed_node = new List<siec>();       //usuniete krawędzie
             siec dijkastra = new siec();
@@ -307,21 +366,28 @@ namespace Multi
             int sprawdzenie;
 
             siec[] kopia_graf = siec.DeepCopy(graf);
-      
+            koszt = 0;
 
-         
-            tab_r.Add(dijkastra.sciezka(nadawca, odbiorca, graf.Count(), graf, "cost")); //obliczenie najkrutszej ścieżki 
-              
+            pomoc4=dijkastra.sciezka(nadawca, odbiorca, graf.Count(), graf, "cost"); //obliczenie najkrutszej ścieżki
+
+            for (pomoc3 = pomoc4; pomoc3 != null; pomoc3 = pomoc3.next)
+            {
+                koszt = koszt + pomoc3.cost;
+            }
+            
+            sciezka = new AG(pomoc4, koszt);
+            tab_r.Add(sciezka);
+
             for (int k = 1; k < ile_sciezek; k++)//główny for ile sciezek trzeba wyznaczyć
                 {
                     dlugosc_sciezki = 0;
                     root_path = new List<int>();            //sciezka                   
-                    spur_node = tab_r[k - 1];              //nowy wiezchołek startowy  
+                    spur_node = tab_r[k - 1].sciezka;              //nowy wiezchołek startowy  
                     root_path.Add(spur_node.to);
                     usuwanie_nadawcy = 0;
                     removed_node.Clear();
 
-                    for (pomoc = tab_r[k - 1]; pomoc != null; pomoc = pomoc.next)//liczy ilość węzłów w ścieżce 
+                    for (pomoc = tab_r[k - 1].sciezka; pomoc != null; pomoc = pomoc.next)//liczy ilość węzłów w ścieżce 
                     {
                         dlugosc_sciezki++; 
                     }
@@ -333,8 +399,8 @@ namespace Multi
                         
                         for (int c = 0; c < tab_r.Count(); c++) //usuwa wszystkie krawędzie należące do tab_r z węzłem startowym spur_node z graf
                         {
-                            
-                            for (pomoc2 = tab_r[c]; pomoc2 != null; pomoc2 = pomoc2.next)
+
+                            for (pomoc2 = tab_r[c].sciezka; pomoc2 != null; pomoc2 = pomoc2.next)
                             {
                                 
 
@@ -465,7 +531,7 @@ namespace Multi
                         else
                         {
                             
-                            total_path = siec.DeepCopy(tab_r[k - 1]);
+                            total_path = siec.DeepCopy(tab_r[k - 1].sciezka);
 
                             for (spur_path=total_path; spur_path.from != spur_node.to; spur_path = spur_path.next)
                             {
@@ -517,7 +583,7 @@ namespace Multi
                       sprawdzenie = 0;
                       for (int spr = 0; spr < tab_r.Count(); spr++)
                       {
-                          pomoc = tab_r[spr];
+                          pomoc = tab_r[spr].sciezka;
                           if (stos.Count() != 0)
                           {
                               for (pomoc2 = stos.FirstOrDefault().sciezka; pomoc2 != null; pomoc2 = pomoc2.next)
@@ -562,9 +628,7 @@ namespace Multi
                   {
                       break;
                   }
-                    tab_r.Add(stos.FirstOrDefault().sciezka);
-                    Debug.WriteLine("");
-                    Debug.WriteLine(stos.FirstOrDefault().waga);
+                    tab_r.Add(stos.FirstOrDefault());
                     stos.Remove(stos.FirstOrDefault());
                 }//for główny
 
