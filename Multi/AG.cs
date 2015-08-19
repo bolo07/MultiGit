@@ -297,13 +297,14 @@ namespace Multi
             List<AG> stos = new List<AG>();                  // stos z potencjalnymi najkrutszymi ściezkami
             List<siec> removed_node = new List<siec>();       //usuniete krawędzie
             siec dijkastra = new siec();
-            siec pomoc, pomoc2, pomoc3;
+            siec pomoc, pomoc2, pomoc3,pomoc4;
             List<int> root_path;
             siec total_path =null, spur_path;                                //suma root_path i spur_path
             siec spur_node;
             int dlugosc_sciezki, usuwanie_nadawcy;
             double koszt;
             AG sciezka;
+            int sprawdzenie;
 
             siec[] kopia_graf = siec.DeepCopy(graf);
       
@@ -314,11 +315,16 @@ namespace Multi
             for (int k = 1; k < ile_sciezek; k++)//główny for ile sciezek trzeba wyznaczyć
                 {
                     dlugosc_sciezki = 0;
-                    for (pomoc = tab_r[k-1]; pomoc != null; pomoc = pomoc.next){dlugosc_sciezki++;}//liczy ilość węzłów w ścieżce
-                    root_path = new List<int>();    //sciezka                   
+                    root_path = new List<int>();            //sciezka                   
                     spur_node = tab_r[k - 1];              //nowy wiezchołek startowy  
                     root_path.Add(spur_node.to);
                     usuwanie_nadawcy = 0;
+                    removed_node.Clear();
+
+                    for (pomoc = tab_r[k - 1]; pomoc != null; pomoc = pomoc.next)//liczy ilość węzłów w ścieżce 
+                    {
+                        dlugosc_sciezki++; 
+                    }
 
                     for(int i =0; i<dlugosc_sciezki; i++)//
                     {
@@ -332,22 +338,31 @@ namespace Multi
                             {
                                 
 
-                                if (spur_node.to == pomoc2.to)
+                                if (spur_node.to == pomoc2.to) // && pour_node.from !=pomoc2.from 
                                 {
 
-                                    for (pomoc = kopia_graf[pomoc2.from]; pomoc != null; pomoc = pomoc.next) /////tu skończyłem
+                                    for (pomoc = kopia_graf[pomoc2.from]; pomoc != null; pomoc = pomoc.next) 
                                     {
 
                                         if (spur_node.to == pomoc.to && pomoc.from == pomoc2.from)
                                         {
                                             if (pomoc.before == null)
                                             {
-                                                pomoc = pomoc.next;
+                                                kopia_graf[pomoc2.from] = pomoc.next;
+                                                if (kopia_graf[pomoc2.from] != null && kopia_graf[pomoc2.from].before != null)
+                                                {
+                                                    kopia_graf[pomoc2.from].before = null;
+                                                }
+                                                break;
                                             }
                                             else
                                             {
-                                                removed_node.Add(pomoc);
                                                 pomoc.before.next = pomoc.next;
+                                                if (pomoc.next != null)
+                                                {
+                                                    pomoc.next.before = pomoc.before;
+                                                }
+                                                break;
                                             }
 
                                         }
@@ -355,19 +370,28 @@ namespace Multi
 
                                     } //for
 
-                                    for (pomoc = kopia_graf[spur_node.to]; pomoc != null; pomoc = pomoc.next)///////tu sprawdzic
+                                    for (pomoc = kopia_graf[pomoc2.to]; pomoc != null; pomoc = pomoc.next)
                                     {
 
-                                        if (spur_node.to == pomoc.from && spur_node.from == pomoc.to)
+                                        if (pomoc2.to == pomoc.from && pomoc2.from == pomoc.to)
                                         {
                                             if (pomoc.before == null) 
                                             {
-                                                pomoc = pomoc.next;
+                                                kopia_graf[pomoc2.to] = pomoc.next;
+                                                if (kopia_graf[pomoc2.to] != null && kopia_graf[pomoc2.to].before != null)
+                                                {
+                                                    kopia_graf[pomoc2.to].before = null;
+                                                }
+                                                break;
                                             }
                                             else
                                             {
-                                                removed_node.Add(pomoc);
                                                 pomoc.before.next = pomoc.next;
+                                                if (pomoc.next != null)
+                                                {
+                                                    pomoc.next.before = pomoc.before;
+                                                }
+                                                break;
                                             }
                                         }
 
@@ -392,12 +416,21 @@ namespace Multi
                                                 if (pomoc.before == null)
                                                 {
                                                     kopia_graf[kontrolka] = pomoc.next;
+                                                    if ( kopia_graf[kontrolka]!= null && kopia_graf[kontrolka].before != null)
+                                                    {
+                                                        kopia_graf[kontrolka].before = null;
+                                                    }
                                                     break;
                                                 }
                                                 else
                                                 {
-                                                    removed_node.Add(pomoc);
+                                                    
+
                                                     pomoc.before.next = pomoc.next;
+                                                    if (pomoc.next != null)
+                                                    {
+                                                        pomoc.next.before = pomoc.before;
+                                                    }
                                                     break;
 
                                                 }
@@ -414,15 +447,18 @@ namespace Multi
                         koszt = 0;
                         if (i == 0)
                         {
-                            sciezka = new AG(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"), 0);   
-                            for (pomoc3= sciezka.sciezka; pomoc3 !=null; pomoc3 = pomoc3.next)
-                            {
-                                koszt = koszt + pomoc3.cost;
-                            }
-                            sciezka.waga = koszt;
+                            sciezka = new AG(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"), 0);
 
-                            stos.Add(sciezka);
-                           
+                            if (sciezka.sciezka != null)
+                            {
+                                for (pomoc3 = sciezka.sciezka; pomoc3 != null; pomoc3 = pomoc3.next)
+                                {
+                                    koszt = koszt + pomoc3.cost;
+                                }
+                                sciezka.waga = koszt;
+
+                                stos.Add(sciezka);
+                            }
                            
                             
                         }
@@ -430,15 +466,17 @@ namespace Multi
                         {
                             
                             total_path = siec.DeepCopy(tab_r[k - 1]);
+
                             for (spur_path=total_path; spur_path.from != spur_node.to; spur_path = spur_path.next)
                             {
  
                             }
-                            spur_path.next = dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost");
+                            pomoc4=dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost");
+                            spur_path.next = pomoc4;
 
 
 
-                            if (spur_node.next == null)
+                            if (spur_path.next == null)
                             {
                                 break;
                             }
@@ -460,21 +498,74 @@ namespace Multi
                         spur_node = spur_node.next;
                         if(spur_node!=null)
                         root_path.Add(spur_node.to);
+                       // kopia_graf = siec.DeepCopy(kopia_graf);
+                        
                     }
-                    
+
                     kopia_graf = siec.DeepCopy(graf); //przywrucenie własności grafu
                     if (stos.Count() == 0)
                     {
                         break;
                     }
+                    
+                    
+                    stos = stos.OrderBy(o => o.waga).ToList();
 
-                    var lengths = from element in stos
-                                  orderby element.waga
-                                  select element;
+                  
+                  do
+                  {
+                      sprawdzenie = 0;
+                      for (int spr = 0; spr < tab_r.Count(); spr++)
+                      {
+                          pomoc = tab_r[spr];
+                          if (stos.Count() != 0)
+                          {
+                              for (pomoc2 = stos.FirstOrDefault().sciezka; pomoc2 != null; pomoc2 = pomoc2.next)
+                              {
+                                  if (pomoc.to == pomoc2.to && pomoc.from == pomoc2.from)
+                                  {
+                                      if (pomoc.next == pomoc2.next && pomoc.next == null && pomoc2.next == null)
+                                      {
+                                          stos.Remove(stos.FirstOrDefault());
+                                          sprawdzenie = 1;
+                                          
+                                          break;
+                                      }
 
-                    Debug.WriteLine(stos.LastOrDefault().waga);
-                    tab_r.Add(stos.LastOrDefault().sciezka);
-                    stos.Remove(stos.LastOrDefault());
+                                  }else
+                                  {
+                                      break;
+                                  }
+
+                                  pomoc = pomoc.next;
+                                  if (pomoc == null)
+                                  {
+                                      break;
+                                  }
+                              }
+                          }
+                          else
+                          {
+                              break;
+                          }
+                          if(sprawdzenie == 1)
+                          {
+                              
+                              break;
+                          }
+
+                      }
+
+                  } while (sprawdzenie == 1);
+
+                  if (stos.Count() == 0)
+                  {
+                      break;
+                  }
+                    tab_r.Add(stos.FirstOrDefault().sciezka);
+                    Debug.WriteLine("");
+                    Debug.WriteLine(stos.FirstOrDefault().waga);
+                    stos.Remove(stos.FirstOrDefault());
                 }//for główny
 
                 return tab_r;
