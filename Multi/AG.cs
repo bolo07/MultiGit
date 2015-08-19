@@ -6,19 +6,21 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Globalization;
-using System.Diagnostics;
+
 namespace Multi
 {
     class AG 
 
     {
         siec sciezka;
-        double waga;
+        double koszt;
+        double delay;
         public AG() { }
-        public AG(siec sciezka, double waga)
+        public AG(siec sciezka, double koszt, double opoznienie )
         {
             this.sciezka = sciezka;
-            this.waga = waga;
+            this.koszt = koszt;
+            this.delay = opoznienie;
         }
         
         public static int seed = Environment.TickCount;
@@ -72,11 +74,11 @@ namespace Multi
                                 Debug.Write(node.from + " -> ");
 
                             }
-                            Debug.Write(odbiorcy[0]);
+                            Debug.Write(odbiorcy[0] + "  " + populacja_pocz[k][i].koszt + "  " + populacja_pocz[k][i].delay);
                             Debug.WriteLine("");
                         }
-                    }  
-                        Debug.Write("pause");
+                    }
+                    Debug.WriteLine("Koniec_inicjacji");
                     break;
                 
                 case 2:
@@ -114,14 +116,15 @@ namespace Multi
                         {
                             for (node1 = populacja_pocz[k][i].sciezka; node1 != null; node1 = node1.next)
                             {
-                                Debug.Write(node1.from + " -> ");
+                                Debug.Write(node1.to + " -> ");
+                                if (node1.next == null) { Debug.Write(node1.from); }
 
                             }
-                            Debug.Write(odbiorcy[0]);
+                            Debug.Write("  " + populacja_pocz[k][i].koszt + "  " + populacja_pocz[k][i].delay);
                             Debug.WriteLine("");
                         }
                     }  
-                        Debug.Write("pause");
+                        Debug.WriteLine("Koniec_inicjacji");
 
                     break;
    
@@ -190,7 +193,7 @@ namespace Multi
                 tab.Add(null);
 
                 gen.Clear();
-                gen.Add(0);
+                gen.Add(nadawca);
                 
                 for (int i = 0; i < graf.Count(); i++) { vis[i] = false; } //zerowanie kontrolki
 
@@ -285,7 +288,7 @@ namespace Multi
                             if (kopia != null)
                             {
 
-                                while (kopia.to == nw.to)
+                                while (kopia != null && nw !=null && kopia.to == nw.to )
                                 {
                                     nw = nw.next;
                                     kopia = kopia.next;
@@ -327,20 +330,23 @@ namespace Multi
             }
 
          */
-            double koszt;
+            double koszt, opoznienie ;
+            
             siec pomoc;
             AG sciezka;
 
             for (int k = 0; k < tab.Count();k++ )
             {
                 koszt = 0;
+                opoznienie = 0;
                 kopia = siec.DeepCopy(tab[k]);
                 for (pomoc = kopia; pomoc != null; pomoc = pomoc.next)
                 {
                     koszt = koszt + pomoc.cost;
+                    opoznienie = opoznienie + pomoc.delay;
                 }
 
-                sciezka = new AG(kopia, koszt);
+                sciezka = new AG(kopia, koszt, opoznienie);
                 tab_r.Add(sciezka);
 
             }
@@ -350,7 +356,7 @@ namespace Multi
 
         }
 
-        public List<AG> Generowanie_Dijkstra(siec[] graf, int ile_sciezek, int nadawca, int odbiorca) //////////////zmienić typ zwracany na taki żeby zawierał sciezke i wage dla BFS też
+        public List<AG> Generowanie_Dijkstra(siec[] graf, int ile_sciezek, int nadawca, int odbiorca) 
         {
             List<AG> tab_r = new List<AG>();               //tablica routingu
             List<AG> stos = new List<AG>();                  // stos z potencjalnymi najkrutszymi ściezkami
@@ -361,21 +367,23 @@ namespace Multi
             siec total_path =null, spur_path;                                //suma root_path i spur_path
             siec spur_node;
             int dlugosc_sciezki, usuwanie_nadawcy;
-            double koszt;
+            double koszt, opoznienie;
             AG sciezka;
             int sprawdzenie;
 
             siec[] kopia_graf = siec.DeepCopy(graf);
             koszt = 0;
+            opoznienie = 0;
 
             pomoc4=dijkastra.sciezka(nadawca, odbiorca, graf.Count(), graf, "cost"); //obliczenie najkrutszej ścieżki
 
             for (pomoc3 = pomoc4; pomoc3 != null; pomoc3 = pomoc3.next)
             {
                 koszt = koszt + pomoc3.cost;
+                opoznienie = opoznienie + pomoc3.delay;
             }
             
-            sciezka = new AG(pomoc4, koszt);
+            sciezka = new AG(pomoc4, koszt, opoznienie);
             tab_r.Add(sciezka);
 
             for (int k = 1; k < ile_sciezek; k++)//główny for ile sciezek trzeba wyznaczyć
@@ -511,17 +519,20 @@ namespace Multi
 
 
                         koszt = 0;
+                        opoznienie = 0;
                         if (i == 0)
                         {
-                            sciezka = new AG(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"), 0);
+                            sciezka = new AG(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"), 0, 0);
 
                             if (sciezka.sciezka != null)
                             {
                                 for (pomoc3 = sciezka.sciezka; pomoc3 != null; pomoc3 = pomoc3.next)
                                 {
                                     koszt = koszt + pomoc3.cost;
+                                    opoznienie = opoznienie + pomoc3.delay;
                                 }
-                                sciezka.waga = koszt;
+                                sciezka.koszt = koszt;
+                                sciezka.delay = opoznienie;
 
                                 stos.Add(sciezka);
                             }
@@ -551,8 +562,9 @@ namespace Multi
                                 for (pomoc3 = total_path; pomoc3 != null; pomoc3 = pomoc3.next)
                                 {
                                     koszt = koszt + pomoc3.cost;
+                                    opoznienie = opoznienie + pomoc3.delay;
                                 }
-                                sciezka = new AG(total_path, koszt);
+                                sciezka = new AG(total_path, koszt, opoznienie);
                                 stos.Add(sciezka);
                             }
                                                         
@@ -575,7 +587,7 @@ namespace Multi
                     }
                     
                     
-                    stos = stos.OrderBy(o => o.waga).ToList();
+                    stos = stos.OrderBy(o => o.koszt).ToList();
 
                   
                   do
@@ -634,7 +646,12 @@ namespace Multi
 
                 return tab_r;
         }
+    
+        public void ocena_przyst()
+        {
+
+        }
+
     }
-
-
+    
 }
