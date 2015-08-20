@@ -25,7 +25,9 @@ namespace Multi
         public bool check = false;
         int ile_node; //ilość węzłów w grafie
         Int16 m_generowania = 1, m_selekcji =1, m_krzyzowania =1;
-        
+
+        public static int seed = Environment.TickCount;
+        public static System.Random x = new Random(seed);
         /////////////////////////////////////////////////////////////////
         public Form1() 
         {
@@ -668,6 +670,7 @@ namespace Multi
 
        public void button4_Click(object sender, EventArgs e) ////Algorytm genetyczny
         {
+           
             for (int i = 1; i <= Convert.ToInt16(numericUpDown1.Value); i++)
             {
 

@@ -9,29 +9,89 @@ using System.Globalization;
 
 namespace Multi
 {
+    class osobniki //klasa wykozystana do przechowywania osobników w liście populacja
+    {
+        public List<AG> chromosom;
+        public double przystosowanie;
+        public double delay;
+
+        public osobniki(List<AG> chromosom, double koszt, double opoznienie)
+        {
+            this.chromosom = chromosom;
+            this.przystosowanie = koszt;
+            this.delay = opoznienie;
+        }
+    }
+    #region
+    /*  class Rand
+    {
+        private static ulong m=16807;
+        private static ulong a=127773;
+        private static ulong c=2836;
+        public ulong x;
+        private static ulong w;
+        public Rand(ulong xi)
+        {
+            this.x = xi;
+        }
+      
+        private static ulong mult(ulong a, ulong x, ulong m)
+        {
+            ulong b, n, r;
+
+            r = 0;
+            n = 1;
+            b = 1;
+            while (n <= 64)
+            {
+                if ((a & b) != 0)
+                    r = (r + x) % m;
+                x = (x + x) % m;
+                b *= 2;
+                n++;
+            }
+
+            return r;
+        }
+
+        public ulong Rand_gen()
+        {
+            x = (mult(a, x, m) + c) % m;
+            return x;
+        }
+
+        public ulong Random(ulong low, ulong high)
+        {
+            w = (low + (Rand_gen() %(high - low +1)));
+
+            return w;
+        }
+    }*/
+    #endregion
     class AG 
 
     {
-        siec sciezka;
-        double koszt;
-        double delay;
+        public siec sciezka;    //sciezka od nadawcy do odbiorcy
+        public double cost;     //koszt sciezki
+        public double delay;    //opóźnienie
         public AG() { }
         public AG(siec sciezka, double koszt, double opoznienie )
         {
             this.sciezka = sciezka;
-            this.koszt = koszt;
+            this.cost = koszt;
             this.delay = opoznienie;
         }
         
-        public static int seed = Environment.TickCount;
-        System.Random x = new Random(seed);
+        
         public void algorytm_genetyczny(int p_pocz, Int16 m_generowania, Int16 m_selekcji, Int16 m_krzyzowania, double wsp_mutacji, siec[] graf, int[] odbiorcy, int ile_sciezek )
         {
-            List<List<AG>> l_tab_r = new List<List<AG>>(); //lista tablic routingu (baza genów)
-            List<AG> chromosom ;        //chromosom (drzewo transmisji multicast)
-            List<List<AG>> populacja_pocz = new List<List<AG>>();
             
-
+            
+            List<List<AG>> l_tab_r = new List<List<AG>>(); //lista tablic routingu (baza genów)
+            List<AG> drzewo ;        //chromosom (drzewo transmisji multicast)
+            //List<List<AG>> populacja_pocz = new List<List<AG>>();
+            List<osobniki> populacja_pocz = new List<osobniki>();
+            osobniki chromosom;
             /// Generowanie populacji poczatkowej
             switch(m_generowania)
             {
@@ -48,14 +108,15 @@ namespace Multi
                     }
                     for (int j = 0; j < p_pocz; j++)
                     {
-                        chromosom = new List<AG>(odbiorcy.Count()-1);
+                        drzewo = new List<AG>(odbiorcy.Count()-1);
 
                         for (int i = 0; i < odbiorcy.Count() - 1; i++)
                         {
-                            rand1 = x.Next(0, l_tab_r[i].Count());
-                            chromosom.Add(l_tab_r[i][rand1]);
-                        }
 
+                            rand1 = Multi.Form1.x.Next(0, l_tab_r[i].Count());
+                            drzewo.Add(l_tab_r[i][rand1]);
+                        }
+                        chromosom = new osobniki(drzewo, -1, -1);
                         populacja_pocz.Add(chromosom);
                     }
                     
@@ -66,15 +127,15 @@ namespace Multi
                     {
                         Debug.WriteLine("");
                         Debug.WriteLine("Osobnik ("+k+")");
-                        for (int i = 0; i < populacja_pocz[k].Count(); i++)
+                        for (int i = 0; i < populacja_pocz[k].chromosom.Count(); i++)
 
                         {
-                            for (node = populacja_pocz[k][i].sciezka; node != null; node = node.next)
+                            for (node = populacja_pocz[k].chromosom[i].sciezka; node != null; node = node.next)
                             {
                                 Debug.Write(node.from + " -> ");
 
                             }
-                            Debug.Write(odbiorcy[0] + "  " + populacja_pocz[k][i].koszt + "  " + populacja_pocz[k][i].delay);
+                            Debug.Write(odbiorcy[0] + "  " + populacja_pocz[k].chromosom[i].cost + "  " + populacja_pocz[k].chromosom[i].delay);
                             Debug.WriteLine("");
                         }
                     }
@@ -89,19 +150,19 @@ namespace Multi
                     for (int i = 1; i < odbiorcy.Count(); i++)
                     {
 
-                        l_tab_r.Add(Generowanie_Dijkstra(graf, ile_sciezek, odbiorcy[0], odbiorcy[i]));
+                        l_tab_r.Add(Generowanie_YEN(graf, ile_sciezek, odbiorcy[0], odbiorcy[i]));
                         
                     }
                     for (int j = 0; j < p_pocz; j++)
                     {
-                        chromosom = new List<AG>(odbiorcy.Count()-1);
+                        drzewo = new List<AG>(odbiorcy.Count()-1);
 
                         for (int i = 0; i < odbiorcy.Count() - 1; i++)
                         {
-                            rand2 = x.Next(0, l_tab_r[i].Count());
-                            chromosom.Add(l_tab_r[i][rand2]);
+                            rand2 = Multi.Form1.x.Next(0, l_tab_r[i].Count());
+                            drzewo.Add(l_tab_r[i][rand2]);
                         }
-
+                        chromosom = new osobniki(drzewo, -1, -1);
                         populacja_pocz.Add(chromosom);
                     }
 
@@ -111,16 +172,16 @@ namespace Multi
                     {
                         Debug.WriteLine("");
                         Debug.WriteLine("Osobnik ("+k+")");
-                        for (int i = 0; i < populacja_pocz[k].Count(); i++)
+                        for (int i = 0; i < populacja_pocz[k].chromosom.Count(); i++)
 
                         {
-                            for (node1 = populacja_pocz[k][i].sciezka; node1 != null; node1 = node1.next)
+                            for (node1 = populacja_pocz[k].chromosom[i].sciezka; node1 != null; node1 = node1.next)
                             {
                                 Debug.Write(node1.to + " -> ");
                                 if (node1.next == null) { Debug.Write(node1.from); }
 
                             }
-                            Debug.Write("  " + populacja_pocz[k][i].koszt + "  " + populacja_pocz[k][i].delay);
+                            Debug.Write("  " + populacja_pocz[k].chromosom[i].cost + "  " + populacja_pocz[k].chromosom[i].delay);
                             Debug.WriteLine("");
                         }
                     }  
@@ -132,23 +193,27 @@ namespace Multi
             }//Gen_populacji
 
          /////ocena
-         
-         ////selekcja
-#region
-            switch (m_selekcji)
-            {
-                case 1:
+            ocena_przyst(populacja_pocz);
 
-                    break;
+            for (int i = 0; i < populacja_pocz.Count(); i++) { Debug.WriteLine(populacja_pocz[i].przystosowanie); }
 
-                case 2:
+                ////selekcja
+                #region
+                switch (m_selekcji)
+                {
+                    case 1:
+                        selekcja_ruletka(populacja_pocz);
 
-                    break;
+                        break;
 
-                case 3:
+                    case 2:
 
-                    break;
-            }//selekcja
+                        break;
+
+                    case 3:
+
+                        break;
+                }//selekcja
 #endregion
             //krzyżowanie
 #region
@@ -231,7 +296,7 @@ namespace Multi
 
                     }
 
-                    random = x.Next(0, kolejka.Count); //wylosowanie kolejnego genu
+                    random = Multi.Form1.x.Next(0, kolejka.Count); //wylosowanie kolejnego genu
                     node = graf[kolejka[random]];
                     koniec = kolejka[random];
 
@@ -356,7 +421,7 @@ namespace Multi
 
         }
 
-        public List<AG> Generowanie_Dijkstra(siec[] graf, int ile_sciezek, int nadawca, int odbiorca) 
+        public List<AG> Generowanie_YEN(siec[] graf, int ile_sciezek, int nadawca, int odbiorca) 
         {
             List<AG> tab_r = new List<AG>();               //tablica routingu
             List<AG> stos = new List<AG>();                  // stos z potencjalnymi najkrutszymi ściezkami
@@ -531,7 +596,7 @@ namespace Multi
                                     koszt = koszt + pomoc3.cost;
                                     opoznienie = opoznienie + pomoc3.delay;
                                 }
-                                sciezka.koszt = koszt;
+                                sciezka.cost = koszt;
                                 sciezka.delay = opoznienie;
 
                                 stos.Add(sciezka);
@@ -587,7 +652,7 @@ namespace Multi
                     }
                     
                     
-                    stos = stos.OrderBy(o => o.koszt).ToList();
+                    stos = stos.OrderBy(o => o.cost).ToList();
 
                   
                   do
@@ -647,11 +712,80 @@ namespace Multi
                 return tab_r;
         }
     
-        public void ocena_przyst()
+        public void ocena_przyst(List<osobniki> populacja) //oblicza przystosowanie i sume opóźnień ścieżek drzewa transmisii multicast
         {
+            double przystos, opoznienie;
+
+            for(int k=0; k<populacja.Count(); k++)
+            {
+                przystos = 0;
+                opoznienie = 0;
+                for(int i=0; i<populacja[k].chromosom.Count();i++)
+                {
+                    przystos = przystos + populacja[k].chromosom[i].cost;
+                    opoznienie = opoznienie + populacja[k].chromosom[i].delay;
+                }
+                populacja[k].przystosowanie = przystos;
+                populacja[k].delay = opoznienie;
+
+            }
 
         }
 
+        public void selekcja_ruletka(List<osobniki> populacja)
+        {
+            List<int> wylosowani = new List<int>();
+            double kolo = 0, udzial = 0, praw; 
+            int a, b, it, j;
+            
+            List<double> prawdop = new List<double>();
+            for (int i = 0; i < populacja.Count(); i++)
+            {
+                kolo = kolo + 1/populacja[i].przystosowanie;
+            }
+            for (int i = 0; i < populacja.Count(); i++)
+            {
+                prawdop.Add((( (1/populacja[i].przystosowanie) / kolo)*100));
+            }
+            j = 1;
+            for (int i = 0; i < prawdop.Count(); i++)
+            {
+                a = 0; b = 0;
+                do  ////zaczne rozkmine tu
+                {
+                    a = Multi.Form1.x.Next(0, 100);
+                    b = Multi.Form1.x.Next(0, 100);
+
+                    it = 0;
+                    praw = 0;
+                    do
+                    {
+
+                        praw = praw + prawdop[it];
+                        it++;
+                    } while (praw < a && it < prawdop.Count());
+                    wylosowani.Add(it - 1);  //???? czy dobry indeks
+
+                    it = 0;
+                    praw = 0;
+                    do
+                    {
+
+                        praw = praw + prawdop[it];
+                        it++;
+                    } while (praw < b && it < prawdop.Count());
+                    wylosowani.Add(it - 1);		//???? czy dobry indeks		//wylosowny - indeks chromosomu w tablicy populacja wylosowanego do krzyzowania
+                } while (wylosowani[i] == wylosowani[j]);
+                j++;
+            }
+
+            Debug.WriteLine("");
+        }
+        public void krzyrzowanie_jednop(List<osobniki> populacja) //F(x)=1/przyst*suma_wszyst
+        {
+
+
+        }
     }
     
 }
