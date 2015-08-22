@@ -9,13 +9,13 @@ using System.Globalization;
 
 namespace Multi
 {
-    class osobniki //klasa wykozystana do przechowywania osobników w liście populacja
+    class osobnik //klasa wykozystana do przechowywania osobników w liście populacja
     {
         public List<AG> chromosom;
         public double przystosowanie;
         public double delay;
 
-        public osobniki(List<AG> chromosom, double koszt, double opoznienie)
+        public osobnik(List<AG> chromosom, double koszt, double opoznienie)
         {
             this.chromosom = chromosom;
             this.przystosowanie = koszt;
@@ -89,12 +89,13 @@ namespace Multi
             
             List<List<AG>> l_tab_r = new List<List<AG>>();      //lista tablic routingu (baza genów)
             List<AG> drzewo ;                                //drzewo transmisji multicas    
-            List<osobniki> populacja = new List<osobniki>(); //populacja osobników
-            osobniki chromosom;                              //chromosom (drzewo transmisji)
-            List<int> wylosowani = new List<int>();          //lista wybranych do krzyżowania osobników                 
-
+            List<osobnik> populacja = new List<osobnik>(); //populacja osobników
+            osobnik chromosom;                              //chromosom (drzewo transmisji)
+            List<int> wylosowani = new List<int>();          //lista wybranych do krzyżowania osobników   
+              
+            /// Generowanie populacji poczatkowej
             #region
-            switch (m_generowania)/// Generowanie populacji poczatkowej
+            switch (m_generowania)
             {
                 
                 case 1://generuje tablice routingu przeszukując grf w szerz
@@ -117,7 +118,7 @@ namespace Multi
                             rand1 = Multi.Form1.x.Next(0, l_tab_r[i].Count());
                             drzewo.Add(l_tab_r[i][rand1]);
                         }
-                        chromosom = new osobniki(drzewo, -1, -1);
+                        chromosom = new osobnik(drzewo, -1, -1);
                         populacja.Add(chromosom);
                     }
                     
@@ -163,7 +164,7 @@ namespace Multi
                             rand2 = Multi.Form1.x.Next(0, l_tab_r[i].Count());
                             drzewo.Add(l_tab_r[i][rand2]);
                         }
-                        chromosom = new osobniki(drzewo, -1, -1);
+                        chromosom = new osobnik(drzewo, -1, -1);
                         populacja.Add(chromosom);
                     }
 
@@ -192,7 +193,8 @@ namespace Multi
    
 
             }//Gen_populacji
-            #endregion
+            #endregion//
+
             /////ocena
             ocena_przyst(populacja);
 
@@ -709,7 +711,7 @@ namespace Multi
                 return tab_r;
         }
     
-        public void ocena_przyst(List<osobniki> populacja) 
+        public void ocena_przyst(List<osobnik> populacja) 
         {
             double przystos, opoznienie;
 
@@ -729,7 +731,7 @@ namespace Multi
 
         }//oblicza przystosowanie i sume opóźnień ścieżek drzewa transmisii multicast
 
-        public List<int> selekcja_ruletka(List<osobniki> populacja)
+        public List<int> selekcja_ruletka(List<osobnik> populacja)
         {
             List<int> wylosowani;
             double kolo = 0, praw; 
@@ -780,7 +782,7 @@ namespace Multi
 
           return wylosowani;
         }//selekcja osobników metodą ruletki
-        public List<int> selekcja_turniej(List<osobniki> populacja)
+        public List<int> selekcja_turniej(List<osobnik> populacja)
         { 
             List<int> wylosowani = new List<int>(new int[populacja.Count()]);
             int a,b,c,j;
@@ -843,7 +845,7 @@ namespace Multi
 
             return wylosowani;
         }//selekcja osobników metodą turniejową
-        public List<int> selekcja_ranking(List<osobniki> populacja)
+        public List<int> selekcja_ranking(List<osobnik> populacja)
         {
             List<int> wylosowani = new List<int>(new int[populacja.Count()]);
 
@@ -871,10 +873,43 @@ namespace Multi
 
             return wylosowani;
         }//selekcja metodą rankingową
-        public void krzyrzowanie_jednop(List<osobniki> populacja) //F(x)=1/przyst*suma_wszyst
+        public List<osobnik> krzyrzowanie_jednop(List<osobnik> populacja, List<int> wylosowani ) 
         {
+            List <osobnik> dzieci = new List<osobnik>();
+            osobnik chrom;
+            AG gen;
+            int j, p_ciecia;
+
+            j=1;
+            for (int i = 0; i < wylosowani.Count(); i += 2) //tworzenie nowej populacji
+            {
+
+                p_ciecia = Multi.Form1.x.Next(0, populacja[i].chromosom.Count()-1);
+
+                for (int k = 0; k < populacja[i].chromosom.Count(); k++ )
+                {
+                    chrom = new osobnik();
+                    if(k<p_ciecia)
+                    {
+                        gen = new AG(populacja[i].chromosom[k].sciezka, populacja[i].chromosom[k].cost, populacja[i].chromosom[k].delay);
 
 
+                       
+
+                    }
+
+                    if(k>=p_ciecia)
+                    {
+
+                    }
+                }
+
+               j += 2;
+            }
+
+
+
+            return dzieci;
         }
     }
     
