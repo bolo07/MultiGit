@@ -90,7 +90,7 @@ namespace Multi
     class AG
 
     {    
-        public void algorytm_genetyczny(int p_pocz, Int16 m_generowania, Int16 m_selekcji, Int16 m_krzyzowania, double p_mutacji, siec[] graf, int[] odbiorcy, int ile_sciezek )
+        public void algorytm_genetyczny(int p_pocz, Int16 m_generowania, Int16 m_selekcji, Int16 m_krzyzowania, double p_mutacji, siec[] graf, int[] odbiorcy, int ile_sciezek, int ile_pokolen )
         {
             
             
@@ -207,151 +207,206 @@ namespace Multi
             ///////////////////////////////////2 ocena populacji ///////////////////////////////////////////////
             ocena_przyst(populacja);
 
-            for (int i = 0; i < populacja.Count(); i++) { Debug.WriteLine(populacja[i].przystosowanie); }
+           // for (int i = 0; i < populacja.Count(); i++) { Debug.WriteLine(populacja[i].przystosowanie); }
 
            ///////////////////////////////// 3 selekcja osobnikow///////////////////////////////////////////////
-
-            #region
+            for (int ile_pok = 0; ile_pok < ile_pokolen; ile_pok++)
+            {
+                #region
                 switch (m_selekcji)
                 {
                     case 1:
-                       
+
                         wylosowani = selekcja_ruletka(populacja);
                         break;
 
                     case 2:
 
-                        wylosowani = selekcja_turniej(populacja); 
+                        wylosowani = selekcja_turniej(populacja);
                         break;
 
                     case 3:
                         wylosowani = selekcja_ranking(populacja);
                         break;
                 }//selekcja
-#endregion
+                #endregion
 
-           /////////////////////////////////// 4 krzyżowanie ///////////////////////////////////////////////////
+                /////////////////////////////////// 4 krzyżowanie ///////////////////////////////////////////////////
 
-            #region
-            switch(m_krzyzowania)
-            {
-                case 1:
-                  dzieci.Clear();
-                  dzieci =  krzyzowanie_jednop(populacja, wylosowani, p_mutacji, l_tab_r);
-#region                   
-                    siec node;
-                    if (m_generowania == 1)
-                    {
-                        Debug.WriteLine("dzieci");
-                        Debug.WriteLine("");
-                        for (int k = 0; k < dzieci.Count(); k++)
+                #region
+                switch (m_krzyzowania)
+                {
+                    case 1:
+                        dzieci.Clear();
+                        dzieci = krzyzowanie_jednop(populacja, wylosowani, p_mutacji, l_tab_r);
+                        #region
+                        siec node;
+                        if (m_generowania == 1)
                         {
+                            Debug.WriteLine("dzieci");
                             Debug.WriteLine("");
-                            Debug.WriteLine("Osobnik (" + k + ")");
-                            for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
+                            for (int k = 0; k < dzieci.Count(); k++)
                             {
-                                for (node = dzieci[k].chromosom[i].sciezka; node != null; node = node.next)
-                                {
-                                    Debug.Write(node.from + " -> ");
-
-                                }
-                                Debug.Write(odbiorcy[0] + "  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
                                 Debug.WriteLine("");
+                                Debug.WriteLine("Osobnik (" + k + ")");
+                                for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
+                                {
+                                    for (node = dzieci[k].chromosom[i].sciezka; node != null; node = node.next)
+                                    {
+                                        Debug.Write(node.from + " -> ");
+
+                                    }
+                                    Debug.Write(odbiorcy[0] + "  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
+                                    Debug.WriteLine("");
+                                }
                             }
+                            Debug.WriteLine("dzieci");
                         }
-                        Debug.WriteLine("dzieci");
-                    }
-                    if (m_generowania == 2)
-                    {
-                        for (int k = 0; k < dzieci.Count(); k++)
+                        if (m_generowania == 2)
                         {
-                            Debug.WriteLine("");
-                            Debug.WriteLine("Osobnik (" + k + ")");
-                            for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
+                            for (int k = 0; k < dzieci.Count(); k++)
                             {
-                                for (node = dzieci[k].chromosom[i].sciezka; node != null; node = node.next)
-                                {
-                                    Debug.Write(node.to + " -> ");
-                                    if (node.next == null) { Debug.Write(node.from); }
-
-                                }
-                                Debug.Write("  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
                                 Debug.WriteLine("");
+                                Debug.WriteLine("Osobnik (" + k + ")");
+                                for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
+                                {
+                                    for (node = dzieci[k].chromosom[i].sciezka; node != null; node = node.next)
+                                    {
+                                        Debug.Write(node.to + " -> ");
+                                        if (node.next == null) { Debug.Write(node.from); }
+
+                                    }
+                                    Debug.Write("  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
+                                    Debug.WriteLine("");
+                                }
                             }
+                            Debug.WriteLine("Koniec_inicjacji");
                         }
-                        Debug.WriteLine("Koniec_inicjacji");
-                    }
-#endregion
-                    break;
+                        #endregion
+                        break;
 
-                case 2:
-                    dzieci.Clear();
-                    dzieci = krzyzowanie_dwup(populacja, wylosowani, p_mutacji, l_tab_r);
+                    case 2:
+                        dzieci.Clear();
+                        dzieci = krzyzowanie_dwup(populacja, wylosowani, p_mutacji, l_tab_r);
 
-                    break;
+                        break;
 
-                case 3:
-                    dzieci.Clear();
-                    dzieci = krzyzowanie_rownomierne(populacja, wylosowani, p_mutacji, l_tab_r);
+                    case 3:
+                        dzieci.Clear();
+                        dzieci = krzyzowanie_rownomierne(populacja, wylosowani, p_mutacji, l_tab_r);
 
-                    break;
-            }//krzyżowanie
+                        break;
+                }//krzyżowanie
 
 
-            //sukcesja
+                //sukcesja
 
-#endregion
+                #endregion
 
-            /////////////////////////////// 5 redukcja duplikatów //////////////////////////////////////////////
+                /////////////////////////////// 5 redukcja duplikatów //////////////////////////////////////////////
 
-            dzieci =redukcja_duplikatów(dzieci, l_tab_r);
-            /*siec node3;
-            if (m_generowania == 1)
-            {
+                dzieci = redukcja_duplikatów(dzieci, l_tab_r);
+                /* siec node3;
+                 if (m_generowania == 1)
+                 {
                 
 
-                Debug.WriteLine("dzieci");
-                Debug.WriteLine("");
-                for (int k = 0; k < dzieci.Count(); k++)
-                {
-                    Debug.WriteLine("");
-                    Debug.WriteLine("Osobnik (" + k + ")");
-                    for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
-                    {
-                        for (node3 = dzieci[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
-                        {
-                            Debug.Write(node3.from + " -> ");
+                     Debug.WriteLine("dzieci");
+                     Debug.WriteLine("");
+                     for (int k = 0; k < dzieci.Count(); k++)
+                     {
+                         Debug.WriteLine("");
+                         Debug.WriteLine("Osobnik (" + k + ")");
+                         for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
+                         {
+                             for (node3 = dzieci[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
+                             {
+                                 Debug.Write(node3.from + " -> ");
 
-                        }
-                        Debug.Write(odbiorcy[0] + "  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
-                        Debug.WriteLine("");
-                    }
-                }
-                Debug.WriteLine("dzieci");
+                             }
+                             Debug.Write(odbiorcy[0] + "  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
+                             Debug.WriteLine("");
+                         }
+                     }
+                     Debug.WriteLine("dzieci");
 
-            }
+                 }
 
-            if (m_generowania == 2)
-            {
-                for (int k = 0; k < dzieci.Count(); k++)
-                {
-                    Debug.WriteLine("");
-                    Debug.WriteLine("Osobnik (" + k + ")");
-                    for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
-                    {
-                        for (node3 = dzieci[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
-                        {
-                            Debug.Write(node3.to + " -> ");
-                            if (node3.next == null) { Debug.Write(node3.from); }
+                 if (m_generowania == 2)
+                 {
+                     for (int k = 0; k < dzieci.Count(); k++)
+                     {
+                         Debug.WriteLine("");
+                         Debug.WriteLine("Osobnik (" + k + ")");
+                         for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
+                         {
+                             for (node3 = dzieci[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
+                             {
+                                 Debug.Write(node3.to + " -> ");
+                                 if (node3.next == null) { Debug.Write(node3.from); }
 
-                        }
-                        Debug.Write("  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
-                        Debug.WriteLine("");
-                    }
-                }
-                Debug.WriteLine("Koniec_inicjacji");
-            }*/
+                             }
+                             Debug.Write("  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
+                             Debug.WriteLine("");
+                         }
+                     }
+                     Debug.WriteLine("Koniec_inicjacji");
+                 }*/
 
+                populacja = sukcesja(dzieci, populacja);
+                ocena_przyst(populacja);
+               // for (int i = 0; i < populacja.Count(); i++) { Debug.WriteLine(populacja[i].przystosowanie); }
+                /*
+            
+                            if (m_generowania == 1)
+                            {
+                
+
+                                Debug.WriteLine("dzieci");
+                                Debug.WriteLine("");
+                                for (int k = 0; k < populacja.Count(); k++)
+                                {
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("Osobnik (" + k + ")");
+                                    for (int i = 0; i < populacja[k].chromosom.Count(); i++)
+                                    {
+                                        for (node3 = populacja[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
+                                        {
+                                            Debug.Write(node3.from + " -> ");
+
+                                        }
+                                        Debug.Write(odbiorcy[0] + "  " + populacja[k].chromosom[i].cost + "  " + populacja[k].chromosom[i].delay);
+                                        Debug.WriteLine("");
+                                    }
+                                }
+                                Debug.WriteLine("dzieci");
+
+                            }
+
+                            if (m_generowania == 2)
+                            {
+                                for (int k = 0; k < populacja.Count(); k++)
+                                {
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("Osobnik (" + k + ")");
+                                    for (int i = 0; i < populacja[k].chromosom.Count(); i++)
+                                    {
+                                        for (node3 = populacja[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
+                                        {
+                                            Debug.Write(node3.to + " -> ");
+                                            if (node3.next == null) { Debug.Write(node3.from); }
+
+                                        }
+                                        Debug.Write("  " + populacja[k].chromosom[i].cost + "  " + populacja[k].chromosom[i].delay);
+                                        Debug.WriteLine("");
+                                    }
+                                }
+                                Debug.WriteLine("Koniec_inicjacji");
+                            }*/
+
+            }/////główna pętla iteracja pokoleń
+
+            populacja = populacja.OrderByDescending(o => o.przystosowanie).ToList();
 
 
         }//algorytm_genetyczny
@@ -845,9 +900,9 @@ namespace Multi
 
                 koszt = 1 / koszt;
                 opoznienie = 1 / opoznienie;
-                populacja[k].przystosowanie = (4 * koszt + opoznienie) * 100;
-                
+               // populacja[k].przystosowanie = (4 * koszt + opoznienie) * 100;
 
+                populacja[k].przystosowanie = koszt;
             }
 
         } //oblicza przystosowanie f(x)=(4*(1/koszt) + (1/opoznienie))*100
@@ -971,7 +1026,7 @@ namespace Multi
         {
             List<int> wylosowani = new List<int>(new int[populacja.Count()]);
 
-            populacja = populacja.OrderBy(o => o.przystosowanie).ToList(); //sortowanie populacji według przystosowania rosnaco
+            populacja = populacja.OrderByDescending(o => o.przystosowanie).ToList(); //sortowanie populacji według przystosowania malejąco
 
             int a,b,j;
             j=1;
@@ -1203,8 +1258,7 @@ namespace Multi
         public List<osobnik> redukcja_duplikatów(List<osobnik> populacja_do_spr, List<List<gen>> l_tab_r)
         {
             List<osobnik> dzieci_nowe = new List<osobnik>();
-            osobnik nowy;
-            //osobnik wzor, porownywany;
+            osobnik nowy;   
             siec gen1,gen2;
             int drzewo;
 
@@ -1270,7 +1324,7 @@ namespace Multi
 
                                
                                 dzieci_nowe[j] = nowy;
-                                Debug.WriteLine("redukcja_duplikatów " + i+ " " +j);
+                           //     Debug.WriteLine("redukcja_duplikatów " + i+ " " +j);
                             }
                             
                         }
@@ -1290,7 +1344,81 @@ namespace Multi
         public List<osobnik> sukcesja(List<osobnik> dzieci, List<osobnik>populacja)
         {
             List<osobnik> nowa_populacja = new List<osobnik>();
+            siec gen1, gen2;
+            int drzewo;
 
+            populacja = populacja.OrderByDescending(o => o.przystosowanie).ToList(); //sortowanie populacji rodziców malejąco
+   
+            //////////////////////////////////usuń z populacji pierwotnej osobniki podobne do potmnych////////////////////
+
+            for (int i = 0; i < dzieci.Count(); i++) //porównanie wszystkich dzieci
+            {
+                for (int j = 0; j < populacja.Count(); j++)//porównanie z rodzicami
+                {
+                    drzewo = 0;
+                    for (int k = 0; k < populacja[j].chromosom.Count(); k++) //porównywanie osobników
+                    {
+                        gen1 = dzieci[i].chromosom[k].sciezka;
+                        gen2 = populacja[j].chromosom[k].sciezka;
+
+                        if (gen1.from == gen2.from && gen1.to == gen2.to)
+                        {
+                            for (; gen1 != null; gen1 = gen1.next)
+                            {
+                                if (gen1.from == gen2.from && gen1.to == gen2.to)
+                                {
+                                    if (gen2 != null)
+                                    {
+                                        gen2 = gen2.next;
+                                    }
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                            drzewo++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    if (drzewo == populacja[j].chromosom.Count())
+                    {
+                        populacja.RemoveAt(j);
+                        Debug.WriteLine("redukcja_duplikatów " + i + " " + j);
+                    }
+                }
+            }/////////////////////usuń duplikaty//////////
+
+            nowa_populacja = siec.DeepCopy(dzieci); //dodaje dzieci do nowej populacji
+
+
+            ////////////////////////dodaje 0, 2 lub 4 rózniących się od dzieci rodziców do nowej populacji//////////////
+            int dodaj=0;
+            if (populacja.Count() >= 2)
+            {
+                if (populacja.Count() > 3)
+                {
+                    while (dodaj < 4 && dodaj < populacja.Count())
+                    {
+                        nowa_populacja.Add(siec.DeepCopy(populacja[0]));
+                        dodaj++;
+                    }
+                }
+                else
+                {
+                    while (dodaj < 2 && dodaj < populacja.Count())
+                    {
+
+                        nowa_populacja.Add(siec.DeepCopy(populacja[0]));
+                        dodaj++;
+                    }
+                }
+
+            }
 
             return nowa_populacja;
         }//tworzenie nowej pipulacji

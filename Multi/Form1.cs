@@ -681,7 +681,7 @@ namespace Multi
             
             AG chromosom = new AG();
            
-            chromosom.algorytm_genetyczny(Convert.ToInt16(numericUpDown2.Value), m_generowania, m_selekcji, m_krzyzowania, Convert.ToDouble(numericUpDown4.Value), graf, odbiorcy, Convert.ToInt16( numericUpDown5.Value));
+            chromosom.algorytm_genetyczny(Convert.ToInt16(numericUpDown2.Value), m_generowania, m_selekcji, m_krzyzowania, Convert.ToDouble(numericUpDown4.Value), graf, odbiorcy, Convert.ToInt16( numericUpDown5.Value),Convert.ToInt16(numericUpDown3.Value));
 
         }
 
