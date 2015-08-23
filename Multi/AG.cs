@@ -11,15 +11,20 @@ namespace Multi
 {
     class osobnik //klasa wykozystana do przechowywania osobników w liście populacja
     {
-        public List<AG> chromosom;
+        public List<gen> chromosom;
         public double przystosowanie;
-        public double delay;
+        
 
-        public osobnik(List<AG> chromosom, double koszt, double opoznienie)
+        public osobnik(List<gen> chromosom, double koszt)
         {
             this.chromosom = chromosom;
             this.przystosowanie = koszt;
-            this.delay = opoznienie;
+           
+        }
+
+        public osobnik()
+        {
+
         }
     }
     #region
@@ -68,39 +73,43 @@ namespace Multi
         }
     }*/
     #endregion
-    class AG 
-
+    class gen
     {
         public siec sciezka;    //sciezka od nadawcy do odbiorcy
         public double cost;     //koszt sciezki
         public double delay;    //opóźnienie
-        public AG() { }
-        public AG(siec sciezka, double koszt, double opoznienie )
+        public gen() { }
+        public gen(siec sciezka, double koszt, double opoznienie)
         {
             this.sciezka = sciezka;
             this.cost = koszt;
             this.delay = opoznienie;
         }
-        
-        
-        public void algorytm_genetyczny(int p_pocz, Int16 m_generowania, Int16 m_selekcji, Int16 m_krzyzowania, double wsp_mutacji, siec[] graf, int[] odbiorcy, int ile_sciezek )
+    }
+  
+    class AG
+
+    {    
+        public void algorytm_genetyczny(int p_pocz, Int16 m_generowania, Int16 m_selekcji, Int16 m_krzyzowania, double p_mutacji, siec[] graf, int[] odbiorcy, int ile_sciezek )
         {
             
             
-            List<List<AG>> l_tab_r = new List<List<AG>>();      //lista tablic routingu (baza genów)
-            List<AG> drzewo ;                                //drzewo transmisji multicas    
-            List<osobnik> populacja = new List<osobnik>(); //populacja osobników
-            osobnik chromosom;                              //chromosom (drzewo transmisji)
-            List<int> wylosowani = new List<int>();          //lista wybranych do krzyżowania osobników   
-              
-            /// Generowanie populacji poczatkowej
+            List<List<gen>> l_tab_r = new List<List<gen>>();     //lista tablic routingu (baza genów)
+            List<gen> drzewo ;                                  //drzewo transmisji multicas    
+            List<osobnik> populacja = new List<osobnik>();     //populacja osobników
+            osobnik chromosom;                                //chromosom (drzewo transmisji)
+            List<int> wylosowani = new List<int>();          //lista wybranych do krzyżowania osobników  
+            List<osobnik> dzieci = new List<osobnik>();     //lista dzieci
+            List<osobnik> dzieci_nowe = new List<osobnik>();
+            dzieci.Clear(); 
+            ////////////////////////////// 1 Generowanie populacji poczatkowej//////////////////////////////////
             #region
             switch (m_generowania)
             {
                 
                 case 1://generuje tablice routingu przeszukując grf w szerz
                     int rand1 = 0;
-                  
+                    populacja.Clear();
                     
                     for (int i = 1; i < odbiorcy.Count(); i++)
                     {
@@ -110,15 +119,15 @@ namespace Multi
                     }
                     for (int j = 0; j < p_pocz; j++)
                     {
-                        drzewo = new List<AG>(odbiorcy.Count()-1);
+                        drzewo = new List<gen>(odbiorcy.Count()-1);
 
                         for (int i = 0; i < odbiorcy.Count() - 1; i++)
                         {
 
                             rand1 = Multi.Form1.x.Next(0, l_tab_r[i].Count());
-                            drzewo.Add(l_tab_r[i][rand1]);
+                            drzewo.Add(siec.DeepCopy(l_tab_r[i][rand1]));
                         }
-                        chromosom = new osobnik(drzewo, -1, -1);
+                        chromosom = new osobnik(drzewo, -1);
                         populacja.Add(chromosom);
                     }
                     
@@ -146,7 +155,7 @@ namespace Multi
                 
                 case 2:
 
-
+                    populacja.Clear();
                     int rand2 = 0;
                
                     for (int i = 1; i < odbiorcy.Count(); i++)
@@ -157,14 +166,14 @@ namespace Multi
                     }
                     for (int j = 0; j < p_pocz; j++)
                     {
-                        drzewo = new List<AG>(odbiorcy.Count()-1);
+                        drzewo = new List<gen>(odbiorcy.Count()-1);
 
                         for (int i = 0; i < odbiorcy.Count() - 1; i++)
                         {
                             rand2 = Multi.Form1.x.Next(0, l_tab_r[i].Count());
-                            drzewo.Add(l_tab_r[i][rand2]);
+                            drzewo.Add(siec.DeepCopy(l_tab_r[i][rand2]));
                         }
-                        chromosom = new osobnik(drzewo, -1, -1);
+                        chromosom = new osobnik(drzewo, -1);
                         populacja.Add(chromosom);
                     }
 
@@ -195,13 +204,14 @@ namespace Multi
             }//Gen_populacji
             #endregion//
 
-            /////ocena
+            ///////////////////////////////////2 ocena populacji ///////////////////////////////////////////////
             ocena_przyst(populacja);
 
             for (int i = 0; i < populacja.Count(); i++) { Debug.WriteLine(populacja[i].przystosowanie); }
 
-                ////selekcja
-                #region
+           ///////////////////////////////// 3 selekcja osobnikow///////////////////////////////////////////////
+
+            #region
                 switch (m_selekcji)
                 {
                     case 1:
@@ -219,30 +229,138 @@ namespace Multi
                         break;
                 }//selekcja
 #endregion
-            //krzyżowanie
-#region
+
+           /////////////////////////////////// 4 krzyżowanie ///////////////////////////////////////////////////
+
+            #region
             switch(m_krzyzowania)
             {
                 case 1:
+                  dzieci.Clear();
+                  dzieci =  krzyzowanie_jednop(populacja, wylosowani, p_mutacji, l_tab_r);
+#region                   
+                    siec node;
+                    if (m_generowania == 1)
+                    {
+                        Debug.WriteLine("dzieci");
+                        Debug.WriteLine("");
+                        for (int k = 0; k < dzieci.Count(); k++)
+                        {
+                            Debug.WriteLine("");
+                            Debug.WriteLine("Osobnik (" + k + ")");
+                            for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
+                            {
+                                for (node = dzieci[k].chromosom[i].sciezka; node != null; node = node.next)
+                                {
+                                    Debug.Write(node.from + " -> ");
 
+                                }
+                                Debug.Write(odbiorcy[0] + "  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
+                                Debug.WriteLine("");
+                            }
+                        }
+                        Debug.WriteLine("dzieci");
+                    }
+                    if (m_generowania == 2)
+                    {
+                        for (int k = 0; k < dzieci.Count(); k++)
+                        {
+                            Debug.WriteLine("");
+                            Debug.WriteLine("Osobnik (" + k + ")");
+                            for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
+                            {
+                                for (node = dzieci[k].chromosom[i].sciezka; node != null; node = node.next)
+                                {
+                                    Debug.Write(node.to + " -> ");
+                                    if (node.next == null) { Debug.Write(node.from); }
+
+                                }
+                                Debug.Write("  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
+                                Debug.WriteLine("");
+                            }
+                        }
+                        Debug.WriteLine("Koniec_inicjacji");
+                    }
+#endregion
                     break;
 
                 case 2:
+                    dzieci.Clear();
+                    dzieci = krzyzowanie_dwup(populacja, wylosowani, p_mutacji, l_tab_r);
 
                     break;
 
                 case 3:
+                    dzieci.Clear();
+                    dzieci = krzyzowanie_rownomierne(populacja, wylosowani, p_mutacji, l_tab_r);
 
                     break;
             }//krzyżowanie
+
+
+            //sukcesja
+
 #endregion
+
+            /////////////////////////////// 5 redukcja duplikatów //////////////////////////////////////////////
+
+            dzieci =redukcja_duplikatów(dzieci, l_tab_r);
+            /*siec node3;
+            if (m_generowania == 1)
+            {
+                
+
+                Debug.WriteLine("dzieci");
+                Debug.WriteLine("");
+                for (int k = 0; k < dzieci.Count(); k++)
+                {
+                    Debug.WriteLine("");
+                    Debug.WriteLine("Osobnik (" + k + ")");
+                    for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
+                    {
+                        for (node3 = dzieci[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
+                        {
+                            Debug.Write(node3.from + " -> ");
+
+                        }
+                        Debug.Write(odbiorcy[0] + "  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
+                        Debug.WriteLine("");
+                    }
+                }
+                Debug.WriteLine("dzieci");
+
+            }
+
+            if (m_generowania == 2)
+            {
+                for (int k = 0; k < dzieci.Count(); k++)
+                {
+                    Debug.WriteLine("");
+                    Debug.WriteLine("Osobnik (" + k + ")");
+                    for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
+                    {
+                        for (node3 = dzieci[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
+                        {
+                            Debug.Write(node3.to + " -> ");
+                            if (node3.next == null) { Debug.Write(node3.from); }
+
+                        }
+                        Debug.Write("  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
+                        Debug.WriteLine("");
+                    }
+                }
+                Debug.WriteLine("Koniec_inicjacji");
+            }*/
+
+
+
         }//algorytm_genetyczny
 
         
-        public List<AG> Generowanie_BFS(siec[] graf, int ile_sciezek, int nadawca, int odbiorca)
+        public List<gen> Generowanie_BFS(siec[] graf, int ile_sciezek, int nadawca, int odbiorca)
         {
             List<siec> tab = new List<siec>();               
-            List<AG> tab_r = new List<AG>();               //tablica routingu
+            List<gen> tab_r = new List<gen>();               //tablica routingu
             bool[] vis = new bool[graf.Count()];              //kontrolka
             List<int> kolejka = new List<int>();             //kolejka
             List<int> gen = new List<int>();                //scieżka
@@ -402,7 +520,7 @@ namespace Multi
             double koszt, opoznienie ;
             
             siec pomoc;
-            AG sciezka;
+            gen sciezka;
 
             for (int k = 0; k < tab.Count();k++ )
             {
@@ -415,7 +533,7 @@ namespace Multi
                     opoznienie = opoznienie + pomoc.delay;
                 }
 
-                sciezka = new AG(kopia, koszt, opoznienie);
+                sciezka = new gen(kopia, koszt, opoznienie);
                 tab_r.Add(sciezka);
 
             }
@@ -423,12 +541,11 @@ namespace Multi
 
                 return tab_r;
 
-        }
-
-        public List<AG> Generowanie_YEN(siec[] graf, int ile_sciezek, int nadawca, int odbiorca) 
+        } //Generowanie tablic routingu metoda k losowych ściezek
+        public List<gen> Generowanie_YEN(siec[] graf, int ile_sciezek, int nadawca, int odbiorca) 
         {
-            List<AG> tab_r = new List<AG>();               //tablica routingu
-            List<AG> stos = new List<AG>();                  // stos z potencjalnymi najkrutszymi ściezkami
+            List<gen> tab_r = new List<gen>();               //tablica routingu
+            List<gen> stos = new List<gen>();                  // stos z potencjalnymi najkrutszymi ściezkami
             List<siec> removed_node = new List<siec>();       //usuniete krawędzie
             siec dijkastra = new siec();
             siec pomoc, pomoc2, pomoc3,pomoc4;
@@ -437,7 +554,7 @@ namespace Multi
             siec spur_node;
             int dlugosc_sciezki, usuwanie_nadawcy;
             double koszt, opoznienie;
-            AG sciezka;
+            gen sciezka;
             int sprawdzenie;
 
             siec[] kopia_graf = siec.DeepCopy(graf);
@@ -452,7 +569,7 @@ namespace Multi
                 opoznienie = opoznienie + pomoc3.delay;
             }
             
-            sciezka = new AG(pomoc4, koszt, opoznienie);
+            sciezka = new gen(pomoc4, koszt, opoznienie);
             tab_r.Add(sciezka);
 
             for (int k = 1; k < ile_sciezek; k++)//główny for ile sciezek trzeba wyznaczyć
@@ -591,7 +708,7 @@ namespace Multi
                         opoznienie = 0;
                         if (i == 0)
                         {
-                            sciezka = new AG(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"), 0, 0);
+                            sciezka = new gen(dijkastra.sciezka(spur_node.to, odbiorca, kopia_graf.Count(), kopia_graf, "cost"), 0, 0);
 
                             if (sciezka.sciezka != null)
                             {
@@ -633,7 +750,7 @@ namespace Multi
                                     koszt = koszt + pomoc3.cost;
                                     opoznienie = opoznienie + pomoc3.delay;
                                 }
-                                sciezka = new AG(total_path, koszt, opoznienie);
+                                sciezka = new gen(total_path, koszt, opoznienie);
                                 stos.Add(sciezka);
                             }
                                                         
@@ -709,44 +826,47 @@ namespace Multi
                 }//for główny
 
                 return tab_r;
-        }
-    
+        } //generowanie tablic routingu algorytmem k najkrutszych ścieżek YEN'A
         public void ocena_przyst(List<osobnik> populacja) 
         {
-            double przystos, opoznienie;
+            double koszt, opoznienie;
 
             for(int k=0; k<populacja.Count(); k++)
             {
-                przystos = 0;
+                koszt = 0;
                 opoznienie = 0;
                 for(int i=0; i<populacja[k].chromosom.Count();i++)
                 {
-                    przystos = przystos + populacja[k].chromosom[i].cost;
+                    koszt = koszt + populacja[k].chromosom[i].cost;
                     opoznienie = opoznienie + populacja[k].chromosom[i].delay;
+
+                    
                 }
-                populacja[k].przystosowanie = przystos;
-                populacja[k].delay = opoznienie;
+
+                koszt = 1 / koszt;
+                opoznienie = 1 / opoznienie;
+                populacja[k].przystosowanie = (4 * koszt + opoznienie) * 100;
+                
 
             }
 
-        }//oblicza przystosowanie i sume opóźnień ścieżek drzewa transmisii multicast
-
+        } //oblicza przystosowanie f(x)=(4*(1/koszt) + (1/opoznienie))*100
         public List<int> selekcja_ruletka(List<osobnik> populacja)
         {
             List<int> wylosowani;
-            double kolo = 0, praw; 
+            double kolo = 0, praw, spr=0; 
             int a, b, it, j;
             
             List<double> prawdop = new List<double>();
             for (int i = 0; i < populacja.Count(); i++)
             {
-                kolo = kolo + 1/populacja[i].przystosowanie;
+                kolo = kolo + populacja[i].przystosowanie;
             }
             for (int i = 0; i < populacja.Count(); i++)
             {
-                prawdop.Add((( (1/populacja[i].przystosowanie) / kolo)*100));
+                prawdop.Add((( (populacja[i].przystosowanie) / kolo)*100));
             }
-
+            
             wylosowani = new List<int>(new int [populacja.Count()]);
             j = 1;
             for (int i = 0; i < prawdop.Count(); i=i+2)
@@ -777,11 +897,13 @@ namespace Multi
 
                     wylosowani[j] = it - 1;		//wylosowny - indeks chromosomu 2 w tablicy populacja wylosowanego do krzyzowania
                 } while (wylosowani[i] == wylosowani[j]);
+                
+
                 j += 2;
             }
 
           return wylosowani;
-        }//selekcja osobników metodą ruletki
+        } //selekcja osobników metodą ruletki
         public List<int> selekcja_turniej(List<osobnik> populacja)
         { 
             List<int> wylosowani = new List<int>(new int[populacja.Count()]);
@@ -844,7 +966,7 @@ namespace Multi
 
 
             return wylosowani;
-        }//selekcja osobników metodą turniejową
+        } //selekcja osobników metodą turniejową
         public List<int> selekcja_ranking(List<osobnik> populacja)
         {
             List<int> wylosowani = new List<int>(new int[populacja.Count()]);
@@ -872,45 +994,307 @@ namespace Multi
 
 
             return wylosowani;
-        }//selekcja metodą rankingową
-        public List<osobnik> krzyrzowanie_jednop(List<osobnik> populacja, List<int> wylosowani ) 
+        } //selekcja metodą rankingową
+        public List<osobnik> krzyzowanie_jednop(List<osobnik> populacja, List<int> wylosowani, double p_mutacji, List<List<gen>>l_tab_r ) 
         {
             List <osobnik> dzieci = new List<osobnik>();
-            osobnik chrom;
-            AG gen;
+            osobnik drzewo;           
+            List<gen> dziecko1;
+            List<gen> dziecko2; 
             int j, p_ciecia;
 
+            dzieci.Clear();
+           
             j=1;
+
             for (int i = 0; i < wylosowani.Count(); i += 2) //tworzenie nowej populacji
             {
-
-                p_ciecia = Multi.Form1.x.Next(0, populacja[i].chromosom.Count()-1);
-
+                
+                p_ciecia = Multi.Form1.x.Next(1, populacja[i].chromosom.Count()); //losowanie punktu cięcia
+                dziecko1 = new List<gen>();
+                dziecko2 = new List<gen>();
+                Debug.WriteLine(p_ciecia);
                 for (int k = 0; k < populacja[i].chromosom.Count(); k++ )
                 {
-                    chrom = new osobnik();
+                   
                     if(k<p_ciecia)
                     {
-                        gen = new AG(populacja[i].chromosom[k].sciezka, populacja[i].chromosom[k].cost, populacja[i].chromosom[k].delay);
-
-
-                       
-
+                        
+                        dziecko1.Add(siec.DeepCopy(populacja[wylosowani[i]].chromosom[k]));                  
+                        dziecko2.Add(siec.DeepCopy(populacja[wylosowani[j]].chromosom[k]));
                     }
 
                     if(k>=p_ciecia)
                     {
-
+                       
+                        dziecko1.Add(siec.DeepCopy(populacja[wylosowani[j]].chromosom[k]));                       
+                        dziecko2.Add(siec.DeepCopy(populacja[wylosowani[i]].chromosom[k]));
                     }
-                }
+                    
+                } //reprodukcja
+
+                mutacja(p_mutacji, dziecko1, l_tab_r); //mutacja dziecko1
+                drzewo = new osobnik(dziecko1, -1);
+                dzieci.Add(drzewo);
+
+                mutacja(p_mutacji, dziecko2, l_tab_r); //mutacja dziecko2
+                drzewo = new osobnik(dziecko2, -1);
+                dzieci.Add(drzewo);
 
                j += 2;
+
             }
 
-
+           
 
             return dzieci;
-        }
+        } //krzyrzowanie jednopunktowe
+        public List<osobnik> krzyzowanie_dwup(List<osobnik> populacja, List<int> wylosowani, double p_mutacji, List<List<gen>> l_tab_r)
+        {
+            List <osobnik> dzieci = new List<osobnik>();
+            osobnik drzewo;
+           
+            List<gen> dziecko1 ;
+            List<gen> dziecko2 ;
+            int j, p_ciecia1, p_ciecia2;
+            dzieci.Clear();
+
+            j=1;
+            for (int i = 0; i < wylosowani.Count(); i += 2) //tworzenie nowej populacji
+            {
+                dziecko1 = new List<gen>();
+                dziecko2 = new List<gen>();
+                do
+                {
+                    p_ciecia1 = Multi.Form1.x.Next(1, populacja[i].chromosom.Count() );
+                    p_ciecia2 = Multi.Form1.x.Next(1, populacja[i].chromosom.Count() );
+                } while (p_ciecia1 == p_ciecia2 || p_ciecia1 > p_ciecia2);//losowanie punktów ciecia
+                
+
+                for (int k = 0; k < populacja[i].chromosom.Count(); k++)
+                {
+
+                    if (k < p_ciecia1)
+                    {
+                        dziecko1.Add(siec.DeepCopy(populacja[wylosowani[i]].chromosom[k]));
+                        dziecko2.Add(siec.DeepCopy(populacja[wylosowani[j]].chromosom[k]));
+                    }
+
+                    if (k >= p_ciecia1 && k < p_ciecia2)
+                    {
+                        dziecko1.Add(siec.DeepCopy(populacja[wylosowani[j]].chromosom[k]));
+                        dziecko2.Add(siec.DeepCopy(populacja[wylosowani[i]].chromosom[k]));
+                    }
+
+
+                    if (k >= p_ciecia2)
+                    {
+                        dziecko1.Add(siec.DeepCopy(populacja[wylosowani[i]].chromosom[k]));
+                        dziecko2.Add(siec.DeepCopy(populacja[wylosowani[j]].chromosom[k]));
+                    }
+                } //reprodukcja
+
+                mutacja(p_mutacji, dziecko1, l_tab_r); //mutacja dziecko1
+                drzewo = new osobnik(dziecko1, -1);
+                dzieci.Add(drzewo);
+
+                mutacja(p_mutacji, dziecko2, l_tab_r); //mutacja dziecko1
+                drzewo = new osobnik(dziecko2, -1);
+                dzieci.Add(drzewo);
+
+                j += 2;
+            }
+
+            return dzieci;
+        } //krzyżowanie dwupunktowe
+        public List<osobnik> krzyzowanie_rownomierne(List<osobnik> populacja, List<int> wylosowani, double p_mutacji, List<List<gen>> l_tab_r)
+        {
+            List <osobnik> dzieci = new List<osobnik>();
+            osobnik drzewo;
+            
+            List<gen> dziecko1;
+            List<gen> dziecko2;
+            int j;
+            List<int> wektor = new List<int>();
+            dzieci.Clear();
+                        
+            j=1;
+            for (int i = 0; i < wylosowani.Count(); i += 2) //tworzenie nowej populacji
+            {
+                dziecko1 = new List<gen>();
+                dziecko2 = new List<gen>();
+                wektor.Clear();
+
+                for (int c = 0; c < populacja[i].chromosom.Count(); c++)
+                {
+                    wektor.Add(Multi.Form1.x.Next(0,2));
+                }
+
+                for (int k = 0; k < populacja[i].chromosom.Count(); k++) //reprodukcja
+                {
+                    if(wektor[k] == 0)
+                    {
+                        dziecko1.Add(siec.DeepCopy(populacja[wylosowani[j]].chromosom[k]));
+                        dziecko2.Add(siec.DeepCopy(populacja[wylosowani[i]].chromosom[k]));
+
+                    }
+                    else if (wektor[k] == 1)
+                    {
+                        dziecko1.Add(siec.DeepCopy(populacja[wylosowani[i]].chromosom[k]));
+                        dziecko2.Add(siec.DeepCopy(populacja[wylosowani[j]].chromosom[k]));
+                    }
+
+
+                }//reprodukcja
+
+                mutacja(p_mutacji, dziecko1, l_tab_r); //mutacja dziecko1
+                drzewo = new osobnik(dziecko1, -1); //dodanie dziecka do populacji
+                dzieci.Add(drzewo);
+
+                mutacja(p_mutacji, dziecko1, l_tab_r); //mutacja dziecko1 
+                drzewo = new osobnik(dziecko2, -1);//dodanie dziecka do populacji
+                dzieci.Add(drzewo);
+
+                j += 2;
+            }
+
+            return dzieci;
+        } //krzyzowanie rownomierne
+        public void mutacja(double prawdop, List<gen> dzieco, List<List<gen>> tab_r)
+        {
+            prawdop =prawdop* 100;
+            int m,m2,p,p2,l;
+            m = Multi.Form1.x.Next(1, 101); //czy wystąpi mutacja
+            gen scie;
+            if(m<prawdop)
+            {
+                if (dzieco.Count() > 16) // losowanie ile mutacji wystąpi
+                {
+                    l = Multi.Form1.x.Next(1, 3);
+                }
+                else { l = 1; }
+
+                if (l == 1) //jeśli 1 mutacja to
+                {
+                    m = Multi.Form1.x.Next(0, dzieco.Count()); //który gen mutuje
+                    p = Multi.Form1.x.Next(0, tab_r[m].Count() );
+
+                    Debug.WriteLine("mutacja 1");
+                    scie = new gen(tab_r[m][p].sciezka, tab_r[m][p].cost, tab_r[m][p].delay);
+                    dzieco[m] = scie;
+                }
+
+                if (l == 2) //jeśli 1 mutacja to
+                {
+                    m = Multi.Form1.x.Next(0, dzieco.Count()); //który gen mutuje
+                    p = Multi.Form1.x.Next(0, tab_r[m].Count());
+
+                    m2 = Multi.Form1.x.Next(0, dzieco.Count()); //który gen mutuje
+                    p2 = Multi.Form1.x.Next(0, tab_r[m].Count());
+                    Debug.WriteLine("mutacja 2");
+                    scie = new gen(tab_r[m][p].sciezka, tab_r[m][p].cost, tab_r[m][p].delay);
+                    dzieco[m] = scie;
+                    scie = new gen(tab_r[m2][p2].sciezka, tab_r[m2][p2].cost, tab_r[m2][p2].delay);
+                    dzieco[m2] = scie;
+                }
+            }
+
+        } //mutacja 
+        public List<osobnik> redukcja_duplikatów(List<osobnik> populacja_do_spr, List<List<gen>> l_tab_r)
+        {
+            List<osobnik> dzieci_nowe = new List<osobnik>();
+            osobnik nowy;
+            //osobnik wzor, porownywany;
+            siec gen1,gen2;
+            int drzewo;
+
+            for (int c = 0; c < populacja_do_spr.Count(); c++ )
+            {
+                dzieci_nowe.Add(null);
+            }
+
+           
+
+                for (int i = 0; i < populacja_do_spr.Count(); i++) //porównanie wszystkich dzieci
+                {
+                    
+
+                    for (int j = i+1; j < populacja_do_spr.Count(); j++)//porównanie ze innymi dziećmi
+                    {
+                        if (i != j)//nie porównuje do samego siebie
+                        {
+                            drzewo = 0;
+                            for (int k = 0; k < populacja_do_spr[i].chromosom.Count(); k++) //porównywanie osobników
+                            {
+                                gen1 = populacja_do_spr[i].chromosom[k].sciezka;
+                                gen2 = populacja_do_spr[j].chromosom[k].sciezka;
+                                
+                                if (gen1.from == gen2.from && gen1.to == gen2.to)
+                                {
+                                    for (; gen1 != null; gen1 = gen1.next)
+                                    {
+                                        if (gen1.from == gen2.from && gen1.to == gen2.to)
+                                        {
+                                            if (gen2 != null)
+                                            {
+                                                gen2 = gen2.next;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            break; 
+                                        }
+                                    }
+
+                                  drzewo++;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                                
+                                
+                            }
+
+
+                            if (drzewo == populacja_do_spr[i].chromosom.Count())
+                            {
+                                List<gen> chromos = new List<gen>();
+                                nowy = new osobnik(chromos, -1);
+
+                                for (int z = 0; z < populacja_do_spr[i].chromosom.Count(); z++)
+                                {
+                                    
+                                    nowy.chromosom.Add(siec.DeepCopy(l_tab_r[z][Multi.Form1.x.Next(0, l_tab_r[z].Count())]));
+                                }
+
+                               
+                                dzieci_nowe[j] = nowy;
+                                Debug.WriteLine("redukcja_duplikatów " + i+ " " +j);
+                            }
+                            
+                        }
+                    }
+
+                }//for - porównanie wszystkich dzieci
+
+                for (int c = 0; c < populacja_do_spr.Count(); c++)
+                {
+                    if (dzieci_nowe[c] == null)
+                        dzieci_nowe[c] = siec.DeepCopy(populacja_do_spr[c]);
+                }
+
+               
+            return dzieci_nowe;
+        } //redukcja duplikatów
+        public List<osobnik> sukcesja(List<osobnik> dzieci, List<osobnik>populacja)
+        {
+            List<osobnik> nowa_populacja = new List<osobnik>();
+
+
+            return nowa_populacja;
+        }//tworzenie nowej pipulacji
+
     }
     
 }

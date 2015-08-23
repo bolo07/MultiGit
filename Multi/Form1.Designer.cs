@@ -122,6 +122,7 @@ namespace Multi
             this.label21 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -184,12 +185,12 @@ namespace Multi
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(517, 313);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Sieć";
+            this.tabPage1.Text = "Dane wejściowe";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.textBox21);
             this.panel1.Controls.Add(this.numericUpDown1);
@@ -264,6 +265,11 @@ namespace Multi
             this.numericUpDown1.Location = new System.Drawing.Point(3, 3);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             32,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            4,
             0,
             0,
             0});
@@ -713,7 +719,7 @@ namespace Multi
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(517, 313);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "AH";
+            this.tabPage2.Text = "Algorytmy Heurystyczne";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // label14
@@ -728,7 +734,7 @@ namespace Multi
             // 
             // panel3
             // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.label15);
             this.panel3.Controls.Add(this.textBox3);
             this.panel3.Controls.Add(this.button3);
@@ -777,7 +783,7 @@ namespace Multi
             // 
             // panel2
             // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Controls.Add(this.textBox2);
@@ -829,7 +835,7 @@ namespace Multi
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(517, 313);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "AG";
+            this.tabPage3.Text = "Algorytmy Genetyczne";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // label23
@@ -843,7 +849,7 @@ namespace Multi
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(340, 269);
+            this.button4.Location = new System.Drawing.Point(338, 269);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 26;
@@ -903,9 +909,9 @@ namespace Multi
             this.radioButton7.AutoSize = true;
             this.radioButton7.Location = new System.Drawing.Point(3, 52);
             this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(171, 17);
+            this.radioButton7.Size = new System.Drawing.Size(90, 17);
             this.radioButton7.TabIndex = 13;
-            this.radioButton7.Text = "Z częściowym odwzorowaniem";
+            this.radioButton7.Text = "Równomierne";
             this.radioButton7.UseVisualStyleBackColor = true;
             this.radioButton7.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged);
             // 
@@ -917,7 +923,7 @@ namespace Multi
             0,
             0,
             131072});
-            this.numericUpDown4.Location = new System.Drawing.Point(136, 112);
+            this.numericUpDown4.Location = new System.Drawing.Point(154, 113);
             this.numericUpDown4.Maximum = new decimal(new int[] {
             1,
             0,
@@ -927,7 +933,7 @@ namespace Multi
             this.numericUpDown4.Size = new System.Drawing.Size(54, 20);
             this.numericUpDown4.TabIndex = 20;
             this.numericUpDown4.Value = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
             65536});
@@ -935,11 +941,11 @@ namespace Multi
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(19, 114);
+            this.label22.Location = new System.Drawing.Point(3, 115);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(111, 13);
+            this.label22.Size = new System.Drawing.Size(145, 13);
             this.label22.TabIndex = 18;
-            this.label22.Text = "Wspułczynnik mutacji";
+            this.label22.Text = "Prawdopodobieństwo mutacji";
             // 
             // label20
             // 
@@ -1016,22 +1022,22 @@ namespace Multi
             // radioButton10
             // 
             this.radioButton10.AutoSize = true;
-            this.radioButton10.Location = new System.Drawing.Point(3, 49);
+            this.radioButton10.Location = new System.Drawing.Point(3, 52);
             this.radioButton10.Name = "radioButton10";
-            this.radioButton10.Size = new System.Drawing.Size(119, 17);
+            this.radioButton10.Size = new System.Drawing.Size(85, 17);
             this.radioButton10.TabIndex = 17;
-            this.radioButton10.Text = "Zasada rankingowa";
+            this.radioButton10.Text = "Rankingowa";
             this.radioButton10.UseVisualStyleBackColor = true;
             this.radioButton10.CheckedChanged += new System.EventHandler(this.radioButton10_CheckedChanged);
             // 
             // radioButton9
             // 
             this.radioButton9.AutoSize = true;
-            this.radioButton9.Location = new System.Drawing.Point(3, 26);
+            this.radioButton9.Location = new System.Drawing.Point(3, 29);
             this.radioButton9.Name = "radioButton9";
-            this.radioButton9.Size = new System.Drawing.Size(112, 17);
+            this.radioButton9.Size = new System.Drawing.Size(77, 17);
             this.radioButton9.TabIndex = 16;
-            this.radioButton9.Text = "Zasada turniejowa";
+            this.radioButton9.Text = "Turniejowa";
             this.radioButton9.UseVisualStyleBackColor = true;
             this.radioButton9.CheckedChanged += new System.EventHandler(this.radioButton9_CheckedChanged);
             // 
@@ -1041,10 +1047,10 @@ namespace Multi
             this.radioButton8.Checked = true;
             this.radioButton8.Location = new System.Drawing.Point(3, 6);
             this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Size = new System.Drawing.Size(92, 17);
+            this.radioButton8.Size = new System.Drawing.Size(58, 17);
             this.radioButton8.TabIndex = 15;
             this.radioButton8.TabStop = true;
-            this.radioButton8.Text = "Zasada ruletki";
+            this.radioButton8.Text = "Ruletki";
             this.radioButton8.UseVisualStyleBackColor = true;
             this.radioButton8.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
             // 
@@ -1089,6 +1095,7 @@ namespace Multi
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.label24);
             this.panel5.Controls.Add(this.numericUpDown5);
             this.panel5.Controls.Add(this.radioButton2);
             this.panel5.Controls.Add(this.radioButton1);
@@ -1099,8 +1106,7 @@ namespace Multi
             // 
             // numericUpDown5
             // 
-            this.numericUpDown5.Enabled = true;
-            this.numericUpDown5.Location = new System.Drawing.Point(64, 49);
+            this.numericUpDown5.Location = new System.Drawing.Point(71, 3);
             this.numericUpDown5.Minimum = new decimal(new int[] {
             1,
             0,
@@ -1118,12 +1124,12 @@ namespace Multi
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(4, 30);
+            this.radioButton2.Location = new System.Drawing.Point(4, 47);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(173, 17);
+            this.radioButton2.Size = new System.Drawing.Size(160, 17);
             this.radioButton2.TabIndex = 5;
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Dijkstra- k najkrutszych ścieżek";
+            this.radioButton2.Text = "YEN- k najkrutszych ścieżek";
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
@@ -1131,12 +1137,12 @@ namespace Multi
             // 
             this.radioButton1.AutoSize = true;
             this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(4, 7);
+            this.radioButton1.Location = new System.Drawing.Point(4, 24);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(161, 17);
+            this.radioButton1.Size = new System.Drawing.Size(146, 17);
             this.radioButton1.TabIndex = 4;
             this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "BFS - k najkrutszych ścieżek";
+            this.radioButton1.Text = "BFS - k losowych ścieżek";
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -1175,6 +1181,15 @@ namespace Multi
             this.label16.Size = new System.Drawing.Size(115, 13);
             this.label16.TabIndex = 1;
             this.label16.Text = "Populacja początkowa";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(52, 5);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(13, 13);
+            this.label24.TabIndex = 7;
+            this.label24.Text = "k";
             // 
             // Form1
             // 
@@ -1312,6 +1327,7 @@ namespace Multi
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.Label label24;
     }
 }
 
