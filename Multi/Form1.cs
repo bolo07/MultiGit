@@ -166,7 +166,7 @@ namespace Multi
         public void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             check = checkBox1.Checked;
-            if (checkBox1.Checked == false) { numericUpDown1.Value = 0; }
+            if (checkBox1.Checked == false) { numericUpDown1.Value = 4; }
            
                 label4.Visible = false;
                 label7.Visible = false;

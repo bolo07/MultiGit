@@ -28,50 +28,7 @@ namespace Multi
         }
     }
     #region
-    /*  class Rand
-    {
-        private static ulong m=16807;
-        private static ulong a=127773;
-        private static ulong c=2836;
-        public ulong x;
-        private static ulong w;
-        public Rand(ulong xi)
-        {
-            this.x = xi;
-        }
-      
-        private static ulong mult(ulong a, ulong x, ulong m)
-        {
-            ulong b, n, r;
-
-            r = 0;
-            n = 1;
-            b = 1;
-            while (n <= 64)
-            {
-                if ((a & b) != 0)
-                    r = (r + x) % m;
-                x = (x + x) % m;
-                b *= 2;
-                n++;
-            }
-
-            return r;
-        }
-
-        public ulong Rand_gen()
-        {
-            x = (mult(a, x, m) + c) % m;
-            return x;
-        }
-
-        public ulong Random(ulong low, ulong high)
-        {
-            w = (low + (Rand_gen() %(high - low +1)));
-
-            return w;
-        }
-    }*/
+    
     #endregion
     class gen
     {
@@ -101,13 +58,17 @@ namespace Multi
             List<int> wylosowani = new List<int>();          //lista wybranych do krzyżowania osobników  
             List<osobnik> dzieci = new List<osobnik>();     //lista dzieci
             List<osobnik> dzieci_nowe = new List<osobnik>();
-            dzieci.Clear(); 
+            dzieci.Clear();
+            l_tab_r.Clear();
+            dzieci_nowe.Clear();
+
             ////////////////////////////// 1 Generowanie populacji poczatkowej//////////////////////////////////
             #region
             switch (m_generowania)
             {
                 
                 case 1://generuje tablice routingu przeszukując grf w szerz
+                    Debug.WriteLine("generowanie");
                     int rand1 = 0;
                     populacja.Clear();
                     
@@ -131,7 +92,7 @@ namespace Multi
                         populacja.Add(chromosom);
                     }
                     
-                    
+                  /*  
                     siec node;
 
                     for (int k = 0; k < populacja.Count(); k++)
@@ -150,11 +111,11 @@ namespace Multi
                             Debug.WriteLine("");
                         }
                     }
-                    Debug.WriteLine("Koniec_inicjacji");
+                    Debug.WriteLine("Koniec_inicjacji");*/
                     break;
                 
                 case 2:
-
+                    Debug.WriteLine("generowanie");
                     populacja.Clear();
                     int rand2 = 0;
                
@@ -177,7 +138,7 @@ namespace Multi
                         populacja.Add(chromosom);
                     }
 
-                      siec node1;
+                  /*    siec node1;
 
                     for (int k = 0; k < populacja.Count(); k++)
                     {
@@ -197,7 +158,7 @@ namespace Multi
                         }
                     }  
                         Debug.WriteLine("Koniec_inicjacji");
-
+                    */
                     break;
    
 
@@ -206,12 +167,13 @@ namespace Multi
 
             ///////////////////////////////////2 ocena populacji ///////////////////////////////////////////////
             ocena_przyst(populacja);
-
+            Debug.WriteLine("ocena");
            // for (int i = 0; i < populacja.Count(); i++) { Debug.WriteLine(populacja[i].przystosowanie); }
 
            ///////////////////////////////// 3 selekcja osobnikow///////////////////////////////////////////////
             for (int ile_pok = 0; ile_pok < ile_pokolen; ile_pok++)
             {
+                Debug.WriteLine("Krzyżowanie");
                 #region
                 switch (m_selekcji)
                 {
@@ -232,57 +194,14 @@ namespace Multi
                 #endregion
 
                 /////////////////////////////////// 4 krzyżowanie ///////////////////////////////////////////////////
-
+                Debug.WriteLine("Redukcja duplikatów");
                 #region
                 switch (m_krzyzowania)
                 {
                     case 1:
                         dzieci.Clear();
                         dzieci = krzyzowanie_jednop(populacja, wylosowani, p_mutacji, l_tab_r);
-                        #region
-                        siec node;
-                        if (m_generowania == 1)
-                        {
-                            Debug.WriteLine("dzieci");
-                            Debug.WriteLine("");
-                            for (int k = 0; k < dzieci.Count(); k++)
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("Osobnik (" + k + ")");
-                                for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
-                                {
-                                    for (node = dzieci[k].chromosom[i].sciezka; node != null; node = node.next)
-                                    {
-                                        Debug.Write(node.from + " -> ");
-
-                                    }
-                                    Debug.Write(odbiorcy[0] + "  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
-                                    Debug.WriteLine("");
-                                }
-                            }
-                            Debug.WriteLine("dzieci");
-                        }
-                        if (m_generowania == 2)
-                        {
-                            for (int k = 0; k < dzieci.Count(); k++)
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("Osobnik (" + k + ")");
-                                for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
-                                {
-                                    for (node = dzieci[k].chromosom[i].sciezka; node != null; node = node.next)
-                                    {
-                                        Debug.Write(node.to + " -> ");
-                                        if (node.next == null) { Debug.Write(node.from); }
-
-                                    }
-                                    Debug.Write("  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
-                                    Debug.WriteLine("");
-                                }
-                            }
-                            Debug.WriteLine("Koniec_inicjacji");
-                        }
-                        #endregion
+                       
                         break;
 
                     case 2:
@@ -306,54 +225,9 @@ namespace Multi
                 /////////////////////////////// 5 redukcja duplikatów //////////////////////////////////////////////
 
                 dzieci = redukcja_duplikatów(dzieci, l_tab_r);
-                /* siec node3;
-                 if (m_generowania == 1)
-                 {
-                
-
-                     Debug.WriteLine("dzieci");
-                     Debug.WriteLine("");
-                     for (int k = 0; k < dzieci.Count(); k++)
-                     {
-                         Debug.WriteLine("");
-                         Debug.WriteLine("Osobnik (" + k + ")");
-                         for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
-                         {
-                             for (node3 = dzieci[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
-                             {
-                                 Debug.Write(node3.from + " -> ");
-
-                             }
-                             Debug.Write(odbiorcy[0] + "  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
-                             Debug.WriteLine("");
-                         }
-                     }
-                     Debug.WriteLine("dzieci");
-
-                 }
-
-                 if (m_generowania == 2)
-                 {
-                     for (int k = 0; k < dzieci.Count(); k++)
-                     {
-                         Debug.WriteLine("");
-                         Debug.WriteLine("Osobnik (" + k + ")");
-                         for (int i = 0; i < dzieci[k].chromosom.Count(); i++)
-                         {
-                             for (node3 = dzieci[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
-                             {
-                                 Debug.Write(node3.to + " -> ");
-                                 if (node3.next == null) { Debug.Write(node3.from); }
-
-                             }
-                             Debug.Write("  " + dzieci[k].chromosom[i].cost + "  " + dzieci[k].chromosom[i].delay);
-                             Debug.WriteLine("");
-                         }
-                     }
-                     Debug.WriteLine("Koniec_inicjacji");
-                 }*/
-
+                Debug.WriteLine("sukcesja");
                 populacja = sukcesja(dzieci, populacja);
+                Debug.WriteLine("ocena");
                 ocena_przyst(populacja);
                // for (int i = 0; i < populacja.Count(); i++) { Debug.WriteLine(populacja[i].przystosowanie); }
                 /*
@@ -408,7 +282,36 @@ namespace Multi
 
             populacja = populacja.OrderByDescending(o => o.przystosowanie).ToList();
 
+            double koszt=0, opoznienie=0;
+            List<object[]> kontrolka = new List<object[]>();
+            object[] rekord;
+            siec pomoc1;
+            bool flaga;
 
+            for (int i = 0; i < populacja[0].chromosom.Count(); i++)
+            {
+                for (pomoc1 = populacja[0].chromosom[i].sciezka; pomoc1 != null; pomoc1 = pomoc1.next)
+                {
+                    flaga = false;
+                    for (int c = 0; c < kontrolka.Count(); c++) //sprawdzam czy dany link był juz sumowany
+                    {
+                        rekord = kontrolka[c];
+                        if (Convert.ToInt16(rekord[0]) == pomoc1.from && Convert.ToInt16(rekord[1]) == pomoc1.to || Convert.ToInt16(rekord[1]) == pomoc1.from && Convert.ToInt16(rekord[0]) == pomoc1.to)
+                        {
+                            flaga = true; //jesli juz go sumowałem ustawiam flagę na true
+                        }
+                    }
+
+                    if (flaga == false) //jesli nie sumowany to dodaje wartość
+                    {
+                        koszt = koszt + pomoc1.cost;
+                        opoznienie = opoznienie + pomoc1.delay;
+                        kontrolka.Add(new object[] { pomoc1.from, pomoc1.to });
+                    }
+
+                }
+            }
+            Debug.WriteLine(koszt);
         }//algorytm_genetyczny
 
         
@@ -885,24 +788,44 @@ namespace Multi
         public void ocena_przyst(List<osobnik> populacja) 
         {
             double koszt, opoznienie;
+            List<object[]> kontrolka = new List<object[]>();
+            object[] rekord;
+            siec pomoc1;
+            bool flaga;
+           // kontrolka.Add(new object[] { 1, 2 }); dodawanie wartości
+            //rekord = kontrolka[0];  podstawienie żeby wyświetlić
 
             for(int k=0; k<populacja.Count(); k++)
             {
                 koszt = 0;
                 opoznienie = 0;
-                for(int i=0; i<populacja[k].chromosom.Count();i++)
+                kontrolka.Clear();
+
+                for (int i = 0; i < populacja[k].chromosom.Count(); i++ )
                 {
-                    koszt = koszt + populacja[k].chromosom[i].cost;
-                    opoznienie = opoznienie + populacja[k].chromosom[i].delay;
+                    for (pomoc1 = populacja[k].chromosom[i].sciezka; pomoc1 != null; pomoc1 = pomoc1.next)
+                    {
+                        flaga = false;
+                        for (int c = 0; c < kontrolka.Count(); c++) //sprawdzam czy dany link był juz sumowany
+                        {
+                            rekord = kontrolka[c];
+                            if (Convert.ToInt16(rekord[0]) == pomoc1.from && Convert.ToInt16(rekord[1]) == pomoc1.to || Convert.ToInt16(rekord[1]) == pomoc1.from && Convert.ToInt16(rekord[0]) == pomoc1.to)
+                            {
+                                flaga = true; //jesli juz go sumowałem ustawiam flagę na true
+                            }
+                        }
 
-                    
+                        if(flaga == false) //jesli nie sumowany to dodaje wartość
+                        {
+                            koszt = koszt + pomoc1.cost;
+                            opoznienie = opoznienie + pomoc1.delay;
+                            kontrolka.Add(new object[] { pomoc1.from, pomoc1.to });
+                        }
+                        
+                    }
                 }
-
-                koszt = 1 / koszt;
-                opoznienie = 1 / opoznienie;
-               // populacja[k].przystosowanie = (4 * koszt + opoznienie) * 100;
-
-                populacja[k].przystosowanie = koszt;
+               
+                populacja[k].przystosowanie =(1/koszt)+1/(opoznienie*100);
             }
 
         } //oblicza przystosowanie f(x)=(4*(1/koszt) + (1/opoznienie))*100
@@ -1068,7 +991,7 @@ namespace Multi
                 p_ciecia = Multi.Form1.x.Next(1, populacja[i].chromosom.Count()); //losowanie punktu cięcia
                 dziecko1 = new List<gen>();
                 dziecko2 = new List<gen>();
-                Debug.WriteLine(p_ciecia);
+              
                 for (int k = 0; k < populacja[i].chromosom.Count(); k++ )
                 {
                    
@@ -1234,7 +1157,7 @@ namespace Multi
                     m = Multi.Form1.x.Next(0, dzieco.Count()); //który gen mutuje
                     p = Multi.Form1.x.Next(0, tab_r[m].Count() );
 
-                    Debug.WriteLine("mutacja 1");
+                    
                     scie = new gen(tab_r[m][p].sciezka, tab_r[m][p].cost, tab_r[m][p].delay);
                     dzieco[m] = scie;
                 }
@@ -1246,7 +1169,7 @@ namespace Multi
 
                     m2 = Multi.Form1.x.Next(0, dzieco.Count()); //który gen mutuje
                     p2 = Multi.Form1.x.Next(0, tab_r[m].Count());
-                    Debug.WriteLine("mutacja 2");
+                    
                     scie = new gen(tab_r[m][p].sciezka, tab_r[m][p].cost, tab_r[m][p].delay);
                     dzieco[m] = scie;
                     scie = new gen(tab_r[m2][p2].sciezka, tab_r[m2][p2].cost, tab_r[m2][p2].delay);
@@ -1388,7 +1311,7 @@ namespace Multi
                     if (drzewo == populacja[j].chromosom.Count())
                     {
                         populacja.RemoveAt(j);
-                        Debug.WriteLine("redukcja_duplikatów " + i + " " + j);
+                      
                     }
                 }
             }/////////////////////usuń duplikaty//////////
@@ -1406,6 +1329,7 @@ namespace Multi
                     {
                         nowa_populacja.Add(siec.DeepCopy(populacja[0]));
                         dodaj++;
+                       
                     }
                 }
                 else
@@ -1415,6 +1339,7 @@ namespace Multi
 
                         nowa_populacja.Add(siec.DeepCopy(populacja[0]));
                         dodaj++;
+                       
                     }
                 }
 

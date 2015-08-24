@@ -39,7 +39,6 @@ namespace Multi
             throw new ArgumentNullException("Object cannot be null");
         return (T)Process(obj, new Dictionary<object, object>() { });
     }
-
     static object Process(object obj, Dictionary<object, object> circular)
     {
         if (obj == null)
@@ -88,7 +87,6 @@ namespace Multi
         else
             throw new ArgumentException("Unknown type");
     }
-    
 	public siec(siec obiekt)
     {
         this.ja=this;
@@ -102,7 +100,6 @@ namespace Multi
 	    this.length = obiekt.length;
 	    this.delay = obiekt.delay;
     }
-
     public siec(double cost_c, double delay_c, int to_c, int from_c, int id_c, siec next_c)
     {
         this.ja = this;
@@ -116,9 +113,6 @@ namespace Multi
         this.delay = delay_c;
 
     }
-
-
-
     public siec[] wczytaj(string plik)  //metoda wczytuje sieć z pliku
     {
         
@@ -186,7 +180,6 @@ namespace Multi
 
        
     }
-
     public  siec sciezka(int start, int koniec, int n, siec[] graf, string metryka)
         {
             const int MAXINT = 2147483647;
