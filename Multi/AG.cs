@@ -47,7 +47,7 @@ namespace Multi
     class AG
 
     {    
-        public void algorytm_genetyczny(int p_pocz, Int16 m_generowania, Int16 m_selekcji, Int16 m_krzyzowania, double p_mutacji, siec[] graf, int[] odbiorcy, int ile_sciezek, int ile_pokolen )
+        public void algorytm_genetyczny(int p_pocz, Int16 m_generowania, Int16 m_selekcji, Int16 m_krzyzowania, double p_mutacji, siec[] graf, int[] odbiorcy, int ile_sciezek, int ile_pokolen, int delta )
         {
             
             
@@ -166,7 +166,7 @@ namespace Multi
             #endregion//
 
             ///////////////////////////////////2 ocena populacji ///////////////////////////////////////////////
-            ocena_przyst(populacja);
+            ocena_przyst(populacja, delta);
             Debug.WriteLine("ocena");
            // for (int i = 0; i < populacja.Count(); i++) { Debug.WriteLine(populacja[i].przystosowanie); }
 
@@ -228,90 +228,190 @@ namespace Multi
                 Debug.WriteLine("sukcesja");
                 populacja = sukcesja(dzieci, populacja);
                 Debug.WriteLine("ocena");
-                ocena_przyst(populacja);
-               // for (int i = 0; i < populacja.Count(); i++) { Debug.WriteLine(populacja[i].przystosowanie); }
-                /*
-            
-                            if (m_generowania == 1)
-                            {
-                
-
-                                Debug.WriteLine("dzieci");
-                                Debug.WriteLine("");
-                                for (int k = 0; k < populacja.Count(); k++)
-                                {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("Osobnik (" + k + ")");
-                                    for (int i = 0; i < populacja[k].chromosom.Count(); i++)
-                                    {
-                                        for (node3 = populacja[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
-                                        {
-                                            Debug.Write(node3.from + " -> ");
-
-                                        }
-                                        Debug.Write(odbiorcy[0] + "  " + populacja[k].chromosom[i].cost + "  " + populacja[k].chromosom[i].delay);
-                                        Debug.WriteLine("");
-                                    }
-                                }
-                                Debug.WriteLine("dzieci");
-
-                            }
-
-                            if (m_generowania == 2)
-                            {
-                                for (int k = 0; k < populacja.Count(); k++)
-                                {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("Osobnik (" + k + ")");
-                                    for (int i = 0; i < populacja[k].chromosom.Count(); i++)
-                                    {
-                                        for (node3 = populacja[k].chromosom[i].sciezka; node3 != null; node3 = node3.next)
-                                        {
-                                            Debug.Write(node3.to + " -> ");
-                                            if (node3.next == null) { Debug.Write(node3.from); }
-
-                                        }
-                                        Debug.Write("  " + populacja[k].chromosom[i].cost + "  " + populacja[k].chromosom[i].delay);
-                                        Debug.WriteLine("");
-                                    }
-                                }
-                                Debug.WriteLine("Koniec_inicjacji");
-                            }*/
+                ocena_przyst(populacja, delta);
+               
 
             }/////główna pętla iteracja pokoleń
 
             populacja = populacja.OrderByDescending(o => o.przystosowanie).ToList();
 
-            double koszt=0, opoznienie=0;
-            List<object[]> kontrolka = new List<object[]>();
-            object[] rekord;
-            siec pomoc1;
-            bool flaga;
-
-            for (int i = 0; i < populacja[0].chromosom.Count(); i++)
+            /////////////////////////////////////6 zapis wyniku /////////////////////////////////////////////////
+            #region
+            double koszt = 0, opoznienie = 0; ;
+            siec pomoc = new siec();
+            siec pomoc2 = new siec();
+            int n = Convert.ToInt16(graf.Count());
+            siec[] lista_sciezek = new siec[odbiorcy.Count()-1]; 
+            bool[][] kontrolka1 = new bool[n][];
+            for (int i = 0; i < n; i++)
             {
-                for (pomoc1 = populacja[0].chromosom[i].sciezka; pomoc1 != null; pomoc1 = pomoc1.next)
+                kontrolka1[i] = new bool[n];
+                
+                
+            }
+
+            //zerowanie kontrolki
+            for (int f = 0; f < n; f++)
+            {
+                for (int h = 0; h < n; h++)
                 {
-                    flaga = false;
-                    for (int c = 0; c < kontrolka.Count(); c++) //sprawdzam czy dany link był juz sumowany
-                    {
-                        rekord = kontrolka[c];
-                        if (Convert.ToInt16(rekord[0]) == pomoc1.from && Convert.ToInt16(rekord[1]) == pomoc1.to || Convert.ToInt16(rekord[1]) == pomoc1.from && Convert.ToInt16(rekord[0]) == pomoc1.to)
-                        {
-                            flaga = true; //jesli juz go sumowałem ustawiam flagę na true
-                        }
-                    }
-
-                    if (flaga == false) //jesli nie sumowany to dodaje wartość
-                    {
-                        koszt = koszt + pomoc1.cost;
-                        opoznienie = opoznienie + pomoc1.delay;
-                        kontrolka.Add(new object[] { pomoc1.from, pomoc1.to });
-                    }
-
+                    kontrolka1[f][h] = false;
                 }
             }
+
+            siec[] mst = new siec[n];
+            siec nowy2;
+
+            for (int i = 0; i < n; i++)
+            {
+                mst[i] = null;
+            }
+
+            for (int i = 0; i < odbiorcy.Count() - 1; i++)
+            {
+                for (pomoc2 = populacja[0].chromosom[i].sciezka; pomoc2 != null; pomoc2 = pomoc2.next)
+                {
+                    if (kontrolka1[pomoc2.from][pomoc2.to] != true && kontrolka1[pomoc2.to][pomoc2.from] != true)
+                    {
+
+                        nowy2 = new siec(pomoc2.cost, pomoc2.delay, pomoc2.from, pomoc2.to, pomoc2.id, mst[pomoc2.to]); //tworzenie nowej krawedzi
+                        mst[pomoc2.to] = nowy2;
+                        nowy2 = new siec(pomoc2.cost, pomoc2.delay, pomoc2.to, pomoc2.from, pomoc2.id, mst[pomoc2.from]);
+                        mst[pomoc2.from] = nowy2;
+                        kontrolka1[pomoc2.to][pomoc2.from] = true;
+                        kontrolka1[pomoc2.from][pomoc2.to] = true;
+
+                    }
+                }
+            }
+
+
+
+
+
+            int sc=0;
+            for (int j = 1; j < odbiorcy.Count(); j++)
+            {
+                pomoc = pomoc.sciezka(odbiorcy[0], odbiorcy[j], n, mst, "cost");
+                lista_sciezek[sc] = pomoc;		//obliczam sciezk              
+                sc++;  
+            }
+
+
+
+            for (int i = 0; i < n; i++)
+            {
+                kontrolka1[i] = new bool[n];
+
+
+            }
+
+
+
+            siec[] mst2 = new siec[n];
+            for (int i = 0; i < n; i++)
+            {
+                mst2[i] = null;
+            }
+
+            for (int i = 0; i < lista_sciezek.Count(); i++)
+            {
+                for (pomoc2 = lista_sciezek[i]; pomoc2 != null; pomoc2 = pomoc2.next)
+                {
+                    if (kontrolka1[pomoc2.from][pomoc2.to] != true && kontrolka1[pomoc2.to][pomoc2.from] != true)
+                    {
+
+                        nowy2 = new siec(pomoc2.cost, pomoc2.delay, pomoc2.from, pomoc2.to, pomoc2.id, mst2[pomoc2.to]); //tworzenie nowej krawedzi
+                        mst2[pomoc2.to] = nowy2;
+                        nowy2 = new siec(pomoc2.cost, pomoc2.delay, pomoc2.to, pomoc2.from, pomoc2.id, mst2[pomoc2.from]);
+                        mst2[pomoc2.from] = nowy2;
+                        kontrolka1[pomoc2.to][pomoc2.from] = true;
+                        kontrolka1[pomoc2.from][pomoc2.to] = true;
+
+                    }
+                }
+            }
+
+            
+            System.IO.StreamWriter plik = new System.IO.StreamWriter(@"AG.txt");
+           
+            for (int f = 0; f < n; f++)
+            { //zerowanie kontrolki
+                for (int h = 0; h < n; h++)
+                {
+                    kontrolka1[f][h] = false;
+                }
+            }
+
+            for (int i = 0; i < n; i++) //oblicza calkowity koszt drzewa multicast
+            {
+                pomoc = mst2[i];
+                if (pomoc != null)
+                {
+                    while (pomoc != null)
+                    {
+                        if (kontrolka1[pomoc.from][pomoc.to] != true && kontrolka1[pomoc.to][pomoc.from] != true)
+                        {
+                            koszt = koszt + pomoc.cost;
+                            opoznienie = opoznienie + pomoc.delay;
+                            kontrolka1[pomoc.to][pomoc.from] = true;
+                            kontrolka1[pomoc.from][pomoc.to] = true;
+                        }
+                        pomoc = pomoc.next;
+                    }
+                }
+            }
+
+
+            Debug.Write("\n");
+            Debug.Write("Koszt drzewa multicast wynosi = ");
+            Debug.Write(koszt);
+            Debug.Write("\n");
+            Debug.Write("\n");
+
+            Debug.Write("\n");
+            Debug.Write("DRZEWO MULTICAST ");
+            Debug.Write("\n");
+            Debug.Write("\n");
+
+            plik.WriteLine("\n" + "Koszt drzewa multicast wynosi = " + koszt + "\n");
+            plik.WriteLine("\n" + "DRZEWO MULTICAST " + "\n");
+
+
+
+
+            for (int i = 0; i < n; i++) //wyswietla Lsonsiadow graf_kpp
+            {
+                pomoc = mst2[i];
+                if (pomoc != null)
+                {
+                    Debug.Write("graf_mst2[");
+                    Debug.Write(i);
+                    Debug.Write("] =");
+
+                    plik.Write("graf_mst2[" + i + "] =");
+
+                    while (pomoc != null)
+                    {
+                        Debug.Write(" " + pomoc.to + " ");
+                        plik.Write(" " + pomoc.to + " ");
+
+                        pomoc = pomoc.next;
+                    }
+
+                    Debug.Write("\n");
+                    plik.WriteLine("");
+                }
+            }
+
+            Debug.Write("\n");
+
+            plik.Close();
+            #endregion
+
+
             Debug.WriteLine(koszt);
+            MessageBox.Show("Koszt drzewa transmisji grupowej wynosi:  " + Convert.ToString(koszt) + "  \n " + Convert.ToString(opoznienie));
         }//algorytm_genetyczny
 
         
@@ -341,13 +441,7 @@ namespace Multi
                 gen.Add(nadawca);
                 
                 for (int i = 0; i < graf.Count(); i++) { vis[i] = false; } //zerowanie kontrolki
-
                 vis[nadawca] = true; //odwiedzony
-
-                
-
-
-
 
                 for (node = graf[nadawca]; node != null; node = node.next) //dodanie sasiadow startu
                 {
@@ -376,11 +470,11 @@ namespace Multi
 
                     }
 
-                    random = Multi.Form1.x.Next(0, kolejka.Count); //wylosowanie kolejnego genu
+                    random = Multi.Form1.x.Next(0, kolejka.Count); //wylosowanie kolejnego allelu
                     node = graf[kolejka[random]];
                     koniec = kolejka[random];
 
-                    gen.Add(kolejka[random]); //dodaj wylosowany wierzcholek do chromosomu       
+                    gen.Add(kolejka[random]); //dodaj wylosowany wierzcholek do genu      
 
                     vis[kolejka[random]] = true;
                     kolejka.Clear();
@@ -785,7 +879,7 @@ namespace Multi
 
                 return tab_r;
         } //generowanie tablic routingu algorytmem k najkrutszych ścieżek YEN'A
-        public void ocena_przyst(List<osobnik> populacja) 
+        public void ocena_przyst(List<osobnik> populacja, int delta) 
         {
             double koszt, opoznienie;
             List<object[]> kontrolka = new List<object[]>();
@@ -818,15 +912,21 @@ namespace Multi
                         if(flaga == false) //jesli nie sumowany to dodaje wartość
                         {
                             koszt = koszt + pomoc1.cost;
-                            opoznienie = opoznienie + pomoc1.delay;
+                            
                             kontrolka.Add(new object[] { pomoc1.from, pomoc1.to });
                         }
-                        
+
+                        if (populacja[k].chromosom[i].delay <delta)
+                            opoznienie = opoznienie + populacja[k].chromosom[i].delay;
+                        else
+                            opoznienie = opoznienie + populacja[k].chromosom[i].delay*1000;
                     }
+                    
                 }
-               
-                populacja[k].przystosowanie =(1/koszt)+1/(opoznienie*100);
-            }
+                                
+                    populacja[k].przystosowanie = (1 / koszt) + (1 / opoznienie);
+                
+                }
 
         } //oblicza przystosowanie f(x)=(4*(1/koszt) + (1/opoznienie))*100
         public List<int> selekcja_ruletka(List<osobnik> populacja)

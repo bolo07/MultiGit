@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Multi
 {
@@ -228,7 +229,7 @@ namespace Multi
 
             ///////////////////////////////////Zapis wyniku do pliku////////////////////////////////////////
             #region
-            
+            double delay_mst = 0;
             System.IO.StreamWriter plik = new System.IO.StreamWriter(@"KPP.txt");
 
 	        for (int f = 0; f < n; f++)
@@ -249,6 +250,7 @@ namespace Multi
 			                    if (kontrolka[pomoc.from][pomoc.to] != true && kontrolka[pomoc.to][pomoc.from] != true)
 			                        {
 			                        waga_mst = waga_mst + pomoc.cost;
+                                    delay_mst = delay_mst + pomoc.delay;
 			                        kontrolka[pomoc.to][pomoc.from] = true;
 			                        kontrolka[pomoc.from][pomoc.to] = true;
 			                        }
@@ -302,7 +304,7 @@ namespace Multi
 
 	        plik.Close();
             #endregion
-
+            MessageBox.Show("Koszt drzewa transmisji grupowej wynosi:  " + Convert.ToString(waga_mst) + "  \n " + Convert.ToString(delay_mst));
 
 
         }//kpp koniec
@@ -391,7 +393,7 @@ namespace Multi
 
             ////////////////////////// KROK 3 /////////////////////////////////////////////////
             //Scalanie drzew z Kroku 1 i kroku 2
-            #region
+                #region
             for (int i = 0; i < ile_PC - 1; i++)
             {
                 if (lista_sciezek[i] != null)
@@ -449,7 +451,7 @@ namespace Multi
             ////////////////////////////////////////////////// Zapis wyniku do pliku/////////////////////////////////////////
             #region
             System.IO.StreamWriter plik = new System.IO.StreamWriter(@"CSPT.txt");
-            double waga_cspt = 0;
+            double waga_cspt = 0, delay_cspt=0;
 
             for (int f = 0; f < n; f++)
             { //zerowanie kontrolki
@@ -469,6 +471,7 @@ namespace Multi
                         if (kontrolka[pomoc.from][pomoc.to] != true && kontrolka[pomoc.to][pomoc.from] != true)
                         {
                             waga_cspt = waga_cspt + pomoc.cost;
+                            delay_cspt = delay_cspt + pomoc.delay;
                             kontrolka[pomoc.to][pomoc.from] = true;
                             kontrolka[pomoc.from][pomoc.to] = true;
                         }
@@ -523,6 +526,8 @@ namespace Multi
 
             plik.Close();
             #endregion
+
+            MessageBox.Show("Koszt drzewa transmisji grupowej wynosi:  " + Convert.ToString(waga_cspt) + "  \n " + Convert.ToString(delay_cspt));
         }
 
     }//heurystyki

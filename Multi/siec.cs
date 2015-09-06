@@ -172,7 +172,7 @@ namespace Multi
             }
 
 
-           // MessageBox.Show("Wczytano graf z " + Convert.ToString(ile_node) + " wierzchołków i " + counter + " krawędzi");
+            MessageBox.Show("Wczytano graf z " + Convert.ToString(ile_node) + " wierzchołków i " + counter + " krawędzi");
             file.Close();
           
         

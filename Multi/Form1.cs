@@ -656,11 +656,7 @@ namespace Multi
             cspt.CSPT(Convert.ToInt16(textBox4.Text), odbiorcy, odbiorcy.Length, graf, ile_node, Convert.ToInt16(textBox3.Text));
         }
 
-        private void radioButton4_CheckedChanged(object sender, EventArgs e)
-        {
-            if (this.radioButton3.Checked == false) { this.numericUpDown3.Enabled = false; } else { this.numericUpDown3.Enabled = true; }
-
-        }
+       
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -680,8 +676,8 @@ namespace Multi
             odbiorcy[0] = Convert.ToInt16(textBox4.Text);
             
             AG chromosom = new AG();
-           
-            chromosom.algorytm_genetyczny(Convert.ToInt16(numericUpDown2.Value), m_generowania, m_selekcji, m_krzyzowania, Convert.ToDouble(numericUpDown4.Value), graf, odbiorcy, Convert.ToInt16( numericUpDown5.Value),Convert.ToInt16(numericUpDown3.Value));
+
+            chromosom.algorytm_genetyczny(Convert.ToInt16(numericUpDown2.Value), m_generowania, m_selekcji, m_krzyzowania, Convert.ToDouble(numericUpDown4.Value), graf, odbiorcy, Convert.ToInt16(numericUpDown5.Value), Convert.ToInt16(numericUpDown3.Value), Convert.ToInt16(numericUpDown6.Value));
 
         }
 
