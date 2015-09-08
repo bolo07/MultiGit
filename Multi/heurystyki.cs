@@ -269,9 +269,17 @@ namespace Multi
 	        Debug.Write("DRZEWO MULTICAST ");
 	        Debug.Write("\n");
 	        Debug.Write("\n");
-
+            plik.WriteLine("\n" + "delta = " + delta+ "\n");
             plik.WriteLine( "\n" + "Koszt drzewa multicast wynosi = "+waga_mst + "\n");
-	        plik.WriteLine("\n" + "DRZEWO MULTICAST " +"\n");
+            plik.WriteLine("\n" + "Nadawca = " + odbiorcy[0] + "\n");
+            plik.Write("Odbiorcy = ");
+            for (int i = 1; i < odbiorcy.Count(); i++)
+            {
+                plik.Write(odbiorcy[i] + ", ");
+            }
+            plik.WriteLine("");
+            plik.WriteLine("");
+            plik.WriteLine("\n" + "DRZEWO MULTICAST " + "\n");
 
 
 	
@@ -281,11 +289,11 @@ namespace Multi
 		            pomoc = mst2[i];
 		            if (pomoc!=null)
 		                {
-		                Debug.Write("graf_mst2[");
+		                Debug.Write("DTM[");
 		                Debug.Write(i);
 		                Debug.Write("] =");
 
-                        plik.Write("graf_mst2[" + i + "] =");
+                        plik.Write("DTM[" + i + "] ->");
 		
 		                while (pomoc!=null)
 		                    {
@@ -491,8 +499,15 @@ namespace Multi
             Debug.Write("DRZEWO MULTICAST ");
             Debug.Write("\n");
             Debug.Write("\n");
-
-            plik.WriteLine("\n" + "Koszt drzewa multicast wynosi = " + waga_cspt + "\n");
+            plik.WriteLine("\n" + "delta = " + delta+ "\n");
+            plik.WriteLine("\n" + "Nadawca = " + odbiorcy[0] + "\n");
+            plik.Write("Odbiorcy = ");
+            for (int i = 1; i < odbiorcy.Count(); i++)
+            {
+                plik.Write(odbiorcy[i] + ", ");
+            }
+            plik.WriteLine("");
+            plik.WriteLine("");
             plik.WriteLine("\n" + "DRZEWO MULTICAST " + "\n");
 
 
@@ -503,11 +518,11 @@ namespace Multi
                 pomoc = mst[i];
                 if (pomoc != null)
                 {
-                    Debug.Write("graf_mst2[");
+                    Debug.Write("DTM[");
                     Debug.Write(i);
                     Debug.Write("] =");
 
-                    plik.Write("graf_mst2[" + i + "] =");
+                    plik.Write("DMT[" + i + "] ->");
 
                     while (pomoc != null)
                     {

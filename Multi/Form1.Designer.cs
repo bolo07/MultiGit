@@ -30,6 +30,7 @@ namespace Multi
         /// </summary>
         public void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -124,6 +125,8 @@ namespace Multi
             this.label21 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -143,6 +146,7 @@ namespace Multi
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -760,7 +764,7 @@ namespace Multi
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(75, 20);
             this.textBox3.TabIndex = 1;
-            this.textBox3.Text = "3";
+            this.textBox3.Text = "10";
             this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // button3
@@ -823,6 +827,8 @@ namespace Multi
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.numericUpDown7);
+            this.tabPage3.Controls.Add(this.label27);
             this.tabPage3.Controls.Add(this.label23);
             this.tabPage3.Controls.Add(this.button4);
             this.tabPage3.Controls.Add(this.panel8);
@@ -843,7 +849,7 @@ namespace Multi
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(270, 95);
+            this.label23.Location = new System.Drawing.Point(271, 69);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(66, 13);
             this.label23.TabIndex = 27;
@@ -851,7 +857,7 @@ namespace Multi
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(338, 269);
+            this.button4.Location = new System.Drawing.Point(412, 269);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 26;
@@ -866,7 +872,7 @@ namespace Multi
             this.panel8.Controls.Add(this.numericUpDown4);
             this.panel8.Controls.Add(this.label22);
             this.panel8.Controls.Add(this.label20);
-            this.panel8.Location = new System.Drawing.Point(273, 111);
+            this.panel8.Location = new System.Drawing.Point(274, 85);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(213, 143);
             this.panel8.TabIndex = 25;
@@ -1205,14 +1211,41 @@ namespace Multi
             this.label16.TabIndex = 1;
             this.label16.Text = "Populacja początkowa";
             // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(270, 250);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(84, 13);
+            this.label27.TabIndex = 28;
+            this.label27.Text = "Liczba wykonań";
+            // 
+            // numericUpDown7
+            // 
+            this.numericUpDown7.Location = new System.Drawing.Point(273, 272);
+            this.numericUpDown7.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown7.Name = "numericUpDown7";
+            this.numericUpDown7.Size = new System.Drawing.Size(81, 20);
+            this.numericUpDown7.TabIndex = 29;
+            this.numericUpDown7.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(521, 338);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "MultiTree";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -1244,6 +1277,7 @@ namespace Multi
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1344,6 +1378,8 @@ namespace Multi
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label26;
         public System.Windows.Forms.NumericUpDown numericUpDown6;
+        private System.Windows.Forms.Label label27;
+        public System.Windows.Forms.NumericUpDown numericUpDown7;
     }
 }
 

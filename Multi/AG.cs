@@ -332,9 +332,10 @@ namespace Multi
                 }
             }
 
-            
-            System.IO.StreamWriter plik = new System.IO.StreamWriter(@"AG.txt");
-           
+
+            System.IO.StreamWriter plik = System.IO.File.AppendText(@"AG.txt");
+                
+                                   
             for (int f = 0; f < n; f++)
             { //zerowanie kontrolki
                 for (int h = 0; h < n; h++)
@@ -373,23 +374,29 @@ namespace Multi
             Debug.Write("DRZEWO MULTICAST ");
             Debug.Write("\n");
             Debug.Write("\n");
-
+            plik.WriteLine("\n" + "delta = " + delta + "\n");
             plik.WriteLine("\n" + "Koszt drzewa multicast wynosi = " + koszt + "\n");
+           
+            plik.WriteLine("\n" + "Nadawca = " + odbiorcy[0] + "\n");
+            plik.Write("Odbiorcy = ");
+            for (int i = 1; i < odbiorcy.Count(); i++)
+            {
+                plik.Write(odbiorcy[i] + ", ");
+            }
+            plik.WriteLine("");
+            plik.WriteLine("");
             plik.WriteLine("\n" + "DRZEWO MULTICAST " + "\n");
-
-
-
 
             for (int i = 0; i < n; i++) //wyswietla Lsonsiadow graf_kpp
             {
                 pomoc = mst2[i];
                 if (pomoc != null)
                 {
-                    Debug.Write("graf_mst2[");
+                    Debug.Write("DMT[");
                     Debug.Write(i);
                     Debug.Write("] =");
 
-                    plik.Write("graf_mst2[" + i + "] =");
+                    plik.Write("DMT[" + i + "] ->");
 
                     while (pomoc != null)
                     {
@@ -411,7 +418,7 @@ namespace Multi
 
 
             Debug.WriteLine(koszt);
-            MessageBox.Show("Koszt drzewa transmisji grupowej wynosi:  " + Convert.ToString(koszt) + "  \n " + Convert.ToString(opoznienie));
+           // MessageBox.Show("Koszt drzewa transmisji grupowej wynosi:  " + Convert.ToString(koszt) + "  \n " + Convert.ToString(opoznienie));
         }//algorytm_genetyczny
 
         
@@ -917,9 +924,9 @@ namespace Multi
                         }
 
                         if (populacja[k].chromosom[i].delay <delta)
-                            opoznienie = opoznienie + populacja[k].chromosom[i].delay;
-                        else
                             opoznienie = opoznienie + populacja[k].chromosom[i].delay*1000;
+                        else
+                            opoznienie = opoznienie + populacja[k].chromosom[i].delay*10000000;
                     }
                     
                 }
