@@ -296,7 +296,8 @@ namespace Multi
 
 
   siec kopia;
-  poczatek=null;
+  poczatek=new siec();
+  poczatek = null;
 
   for(j = koniec; j > -1; j = p[j]) 
     {
@@ -319,32 +320,7 @@ namespace Multi
 	  }
   }
 
-/*
-    Debug.WriteLine("");
-    i=koniec;
-    Debug.Write(start+"->"+i+" ");
-    
 
-    // Ścieżkę przechodzimy od końca ku początkowi,
-    // Zapisując na stosie kolejne wierzchołki
-	
-	for(j = i; j > -1; j = p[j]) S[sptr++] = j;
-
-    // Wyświetlamy ścieżkę, pobierając wierzchołki ze stosu
-
-    while(sptr >0) Debug.Write(S[--sptr]+" ");
-
-    // Na końcu ścieżki wypisujemy jej koszt
-    if (poczatek == null)
-    {
-        Debug.Write("Nie można odnaleść scieżki");
-    }
-    else
-    {
-        Debug.Write(" $" + d[i] + "," + op[i]);
-    }
-   
-	*/
 
 
 return (poczatek);

@@ -127,6 +127,7 @@ namespace Multi
             this.label16 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -174,7 +175,7 @@ namespace Multi
             this.tabControl1.Location = new System.Drawing.Point(0, 1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(525, 339);
+            this.tabControl1.Size = new System.Drawing.Size(525, 360);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -827,6 +828,7 @@ namespace Multi
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.progressBar1);
             this.tabPage3.Controls.Add(this.numericUpDown7);
             this.tabPage3.Controls.Add(this.label27);
             this.tabPage3.Controls.Add(this.label23);
@@ -841,7 +843,7 @@ namespace Multi
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(517, 313);
+            this.tabPage3.Size = new System.Drawing.Size(517, 334);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Algorytmy Genetyczne";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1237,11 +1239,18 @@ namespace Multi
             0,
             0});
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(16, 308);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(471, 23);
+            this.progressBar1.TabIndex = 30;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(521, 338);
+            this.ClientSize = new System.Drawing.Size(521, 360);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -1380,6 +1389,7 @@ namespace Multi
         public System.Windows.Forms.NumericUpDown numericUpDown6;
         private System.Windows.Forms.Label label27;
         public System.Windows.Forms.NumericUpDown numericUpDown7;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

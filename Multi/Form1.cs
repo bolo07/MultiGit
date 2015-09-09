@@ -674,12 +674,30 @@ namespace Multi
                 odbiorcy[i] = Convert.ToInt16(txtBox[0].Text);
             }
             odbiorcy[0] = Convert.ToInt16(textBox4.Text);
+
+            progressBar1.Minimum = 0;
+            progressBar1.Maximum = Convert.ToInt16(numericUpDown7.Value);
+            progressBar1.Step = 1;
+
             for (int k = 0; k < Convert.ToInt16(numericUpDown7.Value); k++)
             {
+
+                
+                progressBar1.PerformStep();
                 AG chromosom = new AG();
 
                 chromosom.algorytm_genetyczny(Convert.ToInt16(numericUpDown2.Value), m_generowania, m_selekcji, m_krzyzowania, Convert.ToDouble(numericUpDown4.Value), graf, odbiorcy, Convert.ToInt16(numericUpDown5.Value), Convert.ToInt16(numericUpDown3.Value), Convert.ToInt16(numericUpDown6.Value));
+            
             }
+
+             if (progressBar1.Value == Convert.ToInt16(numericUpDown7.Value))
+             {
+                
+                MessageBox.Show("Zakończono obliczenia");
+                progressBar1.Value = 0;
+             }
+       
+            
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
